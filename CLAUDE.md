@@ -34,7 +34,7 @@ v1 is Streamlit only. There's no FastAPI layer; add one later only if something 
 ```
 
 ## Structure
-- `app/core/`      profiling.py, cleaning.py, task_detection.py
+- `app/core/`      profiling.py, cleaning.py, preprocessing.py, task_detection.py
 - `app/ml/`        models.py, tuning.py, evaluation.py
 - `frontend/`      Streamlit app and pages (the only entry point)
 - `tests/`         pytest, mirrors app/
@@ -42,7 +42,8 @@ v1 is Streamlit only. There's no FastAPI layer; add one later only if something 
 
 ## Pipeline contract
 1. `profile(df) -> DatasetProfile` : column types (numeric, categorical, boolean, datetime, text, id, constant), missing %, cardinality, outliers. Constant means 1 distinct value and under 5% missing; 1 value plus more blanks is categorical (present vs missing is the signal)
-2. `clean(df, profile) -> (clean_df, CleaningLog)` : every step logged with column, action, reason. User can override any step
+2. `clean(df, profile, disabled=None) -> (clean_df, CleaningLog)` : every step logged with column, action, reason. User can override any step by passing its step_id in `disabled`. Dropped id columns go to `CleaningLog.row_ids` (same index as clean_df), never to the features
+   `build_preprocessor(profile, target, df) -> ColumnTransformer` (app/core/preprocessing.py) : unfitted. Phase 4 calls it with `profile(X_train)` and `df=X_train` after the split. Median vs mean is picked at fit time on train only
 3. `detect_task(df, profile) -> TaskSuggestion` : ranked target candidates with reasons, task type (classification / regression / clustering)
 4. `train_and_tune(df, target, task) -> Leaderboard` : CV on train, Optuna with a total time budget (default about 120 seconds, configurable), final score on held-out test. Each candidate is ONE sklearn Pipeline (ColumnTransformer + model), so preprocessing and model always travel together. Every training run is tracked in MLflow (dataset metadata, model names, params, scores)
 5. Best Pipeline saved as a single .joblib to `artifacts/` (GCS bucket in prod)
@@ -62,7 +63,7 @@ v1 is Streamlit only. There's no FastAPI layer; add one later only if something 
 
 ## Phases (tick off as done)
 - [x] 1. Profiling
-- [ ] 2. Contextual cleaning + cleaning log
+- [x] 2. Contextual cleaning + cleaning log
 - [ ] 3. Task detection + target suggestion
 - [ ] 4. Models + Optuna tuning + evaluation + MLflow tracking
 - [ ] 5. Dashboard (correlations, leaderboard, feature importance, best model card)
