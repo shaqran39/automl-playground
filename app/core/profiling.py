@@ -37,8 +37,19 @@ _NUMBER_RE = re.compile(r"^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$")
 _THOUSANDS_RE = r"^[+-]?\d{1,3}(,\d{3})+(\.\d*)?$"
 _ISO_DATE_RE = r"^\d{4}-\d{1,2}-\d{1,2}$"
 _ISO_DATETIME_RE = r"^\d{4}-\d{2}-\d{2}[ T]\d{1,2}:\d{2}"
-_YMD_SLASH_RE = r"^\d{4}/\d{1,2}/\d{1,2}$"
-_DMY_RE = r"^(\d{1,2})([/.-])(\d{1,2})\2(\d{4})$"
+_TIME = r"(?:([ T])(\d{1,2}:\d{2}(?::\d{2})?))?"
+_YMD_SLASH_RE = r"^\d{4}/\d{1,2}/\d{1,2}" + _TIME + "$"
+_DMY_RE = r"^(\d{1,2})([/.-])(\d{1,2})\2(\d{4}|\d{2})" + _TIME + "$"
+_MONTH_NAME_RE = (
+    r"(?i)\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?"
+    r"|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\b"
+)
+_YEAR_RE = r"\b\d{4}\b"
+_INT_RE = r"[+-]?\d+(\.0+)?"
+_ID_NAME_RE = re.compile(r"(^|[_\s.-])(id|key|uuid|guid)$|^(id|key|uuid|guid)[_\s.-]", re.I)
+_CAMEL_ID_RE = re.compile(r"[a-z0-9](Id|ID|Key|Uuid)$")
+YEAR_RANGE = (1900, 2100)
+SEQ_ID_MIN_VALUES = 50
 
 
 @dataclass
@@ -155,23 +166,49 @@ class _DateParse:
     dayfirst: bool | None
     ambiguous: bool
     formats: list[str]
+    conflict: bool = False
 
 
-def _dmy_order(parts: pd.DataFrame) -> tuple[bool, bool]:
-    """Decide (dayfirst, ambiguous) from the first and second numeric parts."""
-    first = parts[0].astype(int)
-    second = parts[2].astype(int)
-    if bool((first > 12).any()):
-        return True, False
-    if bool((second > 12).any()):
-        return False, False
-    return True, True
+def _dmy_order(parts: pd.DataFrame) -> tuple[bool, bool, bool]:
+    """Decide (dayfirst, ambiguous, conflict) from the first and second numeric parts.
+
+    When some dates only work day first and others only month first, the bigger
+    group wins and the column is flagged as ambiguous.
+    """
+    first_big = int((parts[0].astype(int) > 12).sum())
+    second_big = int((parts[2].astype(int) > 12).sum())
+    if first_big and second_big:
+        return first_big >= second_big, True, True
+    if first_big:
+        return True, False, False
+    if second_big:
+        return False, False, False
+    return True, True, False
+
+
+def _time_formats(tsep: pd.Series, time: pd.Series) -> pd.Series:
+    """Time format per row, like ' %H:%M'. Empty when there is no time part."""
+    clock = time.str.count(":").map({1: "%H:%M", 2: "%H:%M:%S"})
+    return (tsep + clock).fillna("")
+
+
+def _dmy_formats(parts: pd.DataFrame, dayfirst: bool) -> pd.Series:
+    """Format string per row for D/M/Y (or M/D/Y) parts from _DMY_RE."""
+    sep = parts[1]
+    day_month = ("%d" + sep + "%m") if dayfirst else ("%m" + sep + "%d")
+    year = parts[3].str.len().map({4: "%Y", 2: "%y"})
+    return day_month + sep + year + _time_formats(parts[4], parts[5])
 
 
 def _to_datetime(values: pd.Series, fmt: str) -> pd.Series:
     """Parse with one format. Dates outside the ns range (like 9999-12-31) become NaT."""
     try:
-        parsed = pd.to_datetime(values, format=fmt, errors="coerce", utc=True)
+        if fmt == "month name":
+            parsed = pd.to_datetime(
+                values, format="mixed", dayfirst=True, errors="coerce", utc=True
+            )
+        else:
+            parsed = pd.to_datetime(values, format=fmt, errors="coerce", utc=True)
         parsed = parsed.dt.tz_localize(None)
         in_range = (parsed >= pd.Timestamp.min) & (parsed <= pd.Timestamp.max)
         return parsed.where(in_range).astype("datetime64[ns]")
@@ -179,32 +216,64 @@ def _to_datetime(values: pd.Series, fmt: str) -> pd.Series:
         return pd.Series(pd.NaT, index=values.index, dtype="datetime64[ns]")
 
 
+def _fill(out: pd.Series, text: pd.Series, mask: pd.Series, fmt: str) -> tuple[pd.Series, bool]:
+    """Fill still-empty slots of out with text[mask] parsed by fmt. Returns (out, any parsed)."""
+    if not bool(mask.any()):
+        return out, False
+    got = _to_datetime(text[mask], fmt)
+    return out.fillna(got), bool(got.notna().any())
+
+
+def _fill_by_format(
+    out: pd.Series, text: pd.Series, fmts: pd.Series, formats: list[str]
+) -> pd.Series:
+    """Parse each group of rows sharing a format string. fmts is indexed like a subset of text."""
+    for fmt in fmts.unique():
+        mask = (fmts == fmt).reindex(text.index, fill_value=False)
+        out, ok = _fill(out, text, mask, fmt)
+        if ok and fmt not in formats:
+            formats.append(fmt)
+    return out
+
+
+def _parse_dmy(out: pd.Series, text: pd.Series, formats: list[str]) -> _DateParse:
+    parts = text.str.extract(_DMY_RE)
+    # 2-digit years with dots look too much like version numbers ("1.2.30")
+    dmy = parts[0].notna() & ~((parts[1] == ".") & (parts[3].str.len() == 2))
+    if not bool(dmy.any()):
+        return _DateParse(out, None, False, formats)
+    parts = parts[dmy]
+    dayfirst, ambiguous, conflict = _dmy_order(parts)
+    out = _fill_by_format(out, text, _dmy_formats(parts, dayfirst), formats)
+    if conflict:
+        out = _fill_by_format(out, text, _dmy_formats(parts, not dayfirst), formats)
+    return _DateParse(out, dayfirst, ambiguous, formats, conflict)
+
+
 def _parse_dates_detail(values: pd.Series) -> _DateParse:
     text = values.astype(object).where(values.notna(), "").map(str).str.strip()
-    out = pd.Series(pd.NaT, index=values.index, dtype="datetime64[ns]")
+    text = text.reset_index(drop=True)
+    out = pd.Series(pd.NaT, index=text.index, dtype="datetime64[ns]")
     formats: list[str] = []
 
-    def fill(mask: pd.Series, fmt: str) -> None:
-        if bool(mask.any()):
-            got = _to_datetime(text[mask], fmt)
-            out.loc[mask] = got.astype("datetime64[ns]")
-            if bool(got.notna().any()):
-                formats.append(fmt)
+    for mask, fmt in [
+        (text.str.match(_ISO_DATE_RE), "%Y-%m-%d"),
+        (text.str.match(_ISO_DATETIME_RE), "ISO8601"),
+    ]:
+        out, ok = _fill(out, text, mask, fmt)
+        if ok:
+            formats.append(fmt)
+    ymd = text.str.extract(_YMD_SLASH_RE)
+    ymd = ymd[text.str.match(_YMD_SLASH_RE)]
+    out = _fill_by_format(out, text, "%Y/%m/%d" + _time_formats(ymd[0], ymd[1]), formats)
 
-    fill(text.str.match(_ISO_DATE_RE), "%Y-%m-%d")
-    fill(text.str.match(_ISO_DATETIME_RE), "ISO8601")
-    fill(text.str.match(_YMD_SLASH_RE), "%Y/%m/%d")
-
-    parts = text.str.extract(_DMY_RE)
-    dmy = parts[0].notna()
-    dayfirst: bool | None = None
-    ambiguous = False
-    if bool(dmy.any()):
-        dayfirst, ambiguous = _dmy_order(parts[dmy])
-        for sep in parts.loc[dmy, 1].unique():
-            order = f"%d{sep}%m{sep}%Y" if dayfirst else f"%m{sep}%d{sep}%Y"
-            fill(dmy & (parts[1] == sep), order)
-    return _DateParse(out, dayfirst, ambiguous, formats)
+    result = _parse_dmy(out, text, formats)
+    named = result.parsed.isna() & text.str.contains(_MONTH_NAME_RE) & text.str.contains(_YEAR_RE)
+    out, ok = _fill(result.parsed, text, named, "month name")
+    if ok:
+        result.formats.append("month name")
+    result.parsed = out.set_axis(values.index)
+    return result
 
 
 def parse_dates(values: pd.Series) -> tuple[pd.Series, bool | None, bool]:
@@ -305,6 +374,31 @@ def _is_sequential_ints(nums: pd.Series) -> bool:
     return span <= 1.1 * n_unique
 
 
+def _has_id_name(name: str) -> bool:
+    return bool(_ID_NAME_RE.search(name) or _CAMEL_ID_RE.search(name))
+
+
+def _all_unique_ints(present: pd.Series, n_unique: int) -> bool:
+    if len(present) < ID_MIN_VALUES or n_unique / len(present) < ID_UNIQUE_RATIO:
+        return False
+    return bool(present.str.fullmatch(_INT_RE).all())
+
+
+def _looks_like_years(nums: pd.Series) -> bool:
+    return bool(nums.between(*YEAR_RANGE).all())
+
+
+def _int_id_reason(name: str, present: pd.Series, nums: pd.Series, n_unique: int) -> str | None:
+    """Reason to call an all-integer column an ID, or None. Year-like columns never are."""
+    if not _all_unique_ints(present, n_unique) or _looks_like_years(nums):
+        return None
+    if _has_id_name(name):
+        return f"The name '{name}' plus all-unique whole numbers says this is an ID."
+    if _is_sequential_ints(nums) and (nums.min() in (0, 1) or n_unique >= SEQ_ID_MIN_VALUES):
+        return "Values are unique whole numbers counting up, so this looks like a row number or ID."
+    return None
+
+
 def _disguise_phrase(disguise: list[str]) -> str:
     parts = {
         "currency": "currency symbols",
@@ -383,7 +477,14 @@ def _datetime(base: ColumnProfile, dates: _DateParse, rate: float) -> ColumnProf
     base.reasons = [f"{_fmt_pct(100 * rate)} of values parse as dates."]
     if base.date_format == "mixed":
         base.reasons.append("Dates are written in more than one format.")
-    if dates.ambiguous:
+    if dates.conflict:
+        order = "day first" if dates.dayfirst else "month first"
+        base.reasons.append(
+            "Some dates only make sense day first and others only month first, so both "
+            f"styles are mixed in here. Went with {order} where it was unclear. "
+            "Worth double checking."
+        )
+    elif dates.ambiguous:
         base.reasons.append(
             "No part of any date goes above 12, so day/month order is a guess "
             "(went with day first). Worth double checking."
@@ -454,13 +555,13 @@ def _detect(base: ColumnProfile, present: pd.Series, n_rows: int) -> ColumnProfi
     num_rate = float(nums.notna().mean())
     if num_rate >= PARSE_THRESHOLD:
         valid = nums.dropna()
-        if _is_sequential_ints(valid):
-            return _id(
-                base,
-                "Values are unique whole numbers counting up, "
-                "so this looks like a row number or ID.",
-            )
-        return _numeric(base, valid, num_rate, disguise)
+        id_reason = _int_id_reason(base.name, present, valid, base.n_unique)
+        if id_reason:
+            return _id(base, id_reason)
+        col = _numeric(base, valid, num_rate, disguise)
+        if _all_unique_ints(present, base.n_unique) and not _looks_like_years(valid):
+            col.reasons.append("Every value is a different whole number, so it could be an ID.")
+        return col
 
     dates = _parse_dates_detail(present)
     date_rate = float(dates.parsed.notna().mean())
