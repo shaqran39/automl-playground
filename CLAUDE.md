@@ -17,7 +17,7 @@ Streamlit (frontend), pytest, ruff, Docker. Deploy target: GCP Cloud Run.
 - `sample_data/`   iris.csv, breast_cancer.csv, diabetes.csv, messy.csv
 
 ## Pipeline contract
-1. `profile(df) -> DatasetProfile` : column types (numeric, categorical, datetime, text, id, constant), missing %, cardinality, outliers
+1. `profile(df) -> DatasetProfile` : column types (numeric, categorical, boolean, datetime, text, id, constant), missing %, cardinality, outliers. Constant means 1 distinct value and under 5% missing; 1 value plus more blanks is categorical (present vs missing is the signal)
 2. `clean(df, profile) -> (clean_df, CleaningLog)` : every step logged with column, action, reason. User can override any step
 3. `detect_task(df, profile) -> TaskSuggestion` : ranked target candidates with reasons, task type (classification / regression / clustering)
 4. `train_and_tune(df, target, task) -> Leaderboard` : CV on train, Optuna with a time budget, final score on held-out test
@@ -34,7 +34,7 @@ Streamlit (frontend), pytest, ruff, Docker. Deploy target: GCP Cloud Run.
 - Writing style for UI text and docs: plain, casual English. No em dashes.
 
 ## Phases (tick off as done)
-- [ ] 1. Profiling
+- [x] 1. Profiling
 - [ ] 2. Contextual cleaning + cleaning log
 - [ ] 3. Task detection + target suggestion
 - [ ] 4. Models + Optuna tuning + evaluation
