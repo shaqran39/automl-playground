@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.pytest_cache/
+.ruff_cache/
+artifacts/
+uploads/
+*.joblib
+.DS_Store
+.claude/settings.local.json

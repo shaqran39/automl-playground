@@ -1,0 +1,301 @@
+customer_id,signup_date,monthly_spend,state,age,notes,country,plan,churned
+C1000,2023-02-23,$79.03,,,,Australia,pro,no
+C1001,09/04/2024,$81.72,nsw,28.0,,Australia,pro,no
+C1002,2024-01-28,$262.77,nsw,46.0,,Australia,basic,yes
+C1003,21/09/2023,$82.75,QLD,37.0,,Australia,pro,no
+C1004,17/09/2023,$124.72,VIC,28.0,called support,Australia,premium,no
+C1005,2024-05-30,$16.31,NSW,23.0,called support,Australia,premium,no
+C1006,2023-02-21,$302.35,WA,47.0,called support,Australia,premium,no
+C1007,23/02/2024,$182.95,,71.0,,Australia,pro,yes
+C1008,2023-05-01,$95.32,WA,29.0,,Australia,premium,no
+C1009,2023-02-26,$76.27,QLD,41.0,,Australia,pro,no
+C1010,12/11/2023,$152.26,VIC,30.0,,Australia,pro,no
+C1011,08/08/2024,$221.74,QLD,64.0,,Australia,pro,no
+C1012,2024-03-17,$305.04,QLD,41.0,,Australia,premium,no
+C1013,2024-04-01,$178.82,NSW,73.0,,Australia,premium,no
+C1014,2024-03-06,$105.24,NSW,31.0,,Australia,basic,no
+C1015,16/04/2024,$197.91,nsw,22.0,called support,Australia,basic,yes
+C1016,04/11/2023,$173.67,VIC,51.0,,Australia,pro,no
+C1017,18/03/2023,$105.55,NSW,55.0,,Australia,pro,yes
+C1018,18/05/2024,$170.17,NSW,74.0,called support,Australia,premium,no
+C1019,28/09/2023,$167.96,,67.0,called support,Australia,pro,no
+C1020,2023-10-28,$94.90,VIC,68.0,called support,Australia,pro,no
+C1021,2023-08-11,$64.99,QLD,54.0,,Australia,premium,no
+C1022,20/04/2023,$157.96,QLD,38.0,called support,Australia,pro,no
+C1023,10/07/2024,$40.24,WA,42.0,,Australia,pro,no
+C1024,13/04/2024,$32.27,WA,25.0,,Australia,pro,no
+C1025,2024-01-22,$126.17,nsw,42.0,,Australia,pro,no
+C1026,2023-08-30,$154.95,,38.0,,Australia,premium,no
+C1027,2024-05-08,$125.48,VIC,20.0,,Australia,premium,yes
+C1028,2023-11-24,$135.61,,29.0,,Australia,pro,no
+C1029,24/09/2023,$153.11,VIC,48.0,called support,Australia,pro,yes
+C1030,28/09/2023,$263.43,NSW,39.0,,Australia,pro,yes
+C1031,2023-05-17,$180.95,WA,74.0,,Australia,basic,yes
+C1032,2023-02-25,$177.21,NSW,,,Australia,pro,no
+C1033,29/11/2023,$119.15,WA,72.0,,Australia,basic,yes
+C1034,2024-06-16,$122.44,NSW,55.0,,Australia,basic,no
+C1035,08/02/2023,$89.00,nsw,20.0,,Australia,basic,no
+C1036,29/05/2024,$132.73,QLD,,,Australia,pro,no
+C1037,2024-05-11,$38.37,,58.0,called support,Australia,basic,no
+C1038,2023-06-16,$264.24,VIC,,called support,Australia,pro,no
+C1039,14/01/2024,$48.87,NSW,35.0,,Australia,pro,no
+C1040,10/04/2023,$180.70,nsw,47.0,,Australia,pro,no
+C1041,2024-03-30,$242.30,,69.0,called support,Australia,premium,no
+C1042,25/02/2024,$180.41,WA,40.0,called support,Australia,pro,no
+C1043,01/08/2023,$410.37,NSW,20.0,,Australia,premium,yes
+C1044,10/02/2023,$11.25,VIC,35.0,called support,Australia,premium,no
+C1045,2024-08-05,$68.57,nsw,71.0,called support,Australia,basic,yes
+C1046,25/09/2023,$239.60,nsw,61.0,called support,Australia,basic,yes
+C1047,19/06/2024,$31.00,,,,Australia,pro,no
+C1048,2024-02-11,$50.24,QLD,,,Australia,premium,no
+C1049,2024-04-12,$146.35,nsw,24.0,,Australia,basic,yes
+C1050,31/03/2024,$104.27,QLD,34.0,,Australia,basic,no
+C1051,2023-04-27,$139.97,VIC,21.0,,Australia,premium,no
+C1052,2023-08-07,$111.09,NSW,18.0,,Australia,premium,yes
+C1053,2023-10-08,$118.83,VIC,,,Australia,basic,yes
+C1054,26/10/2023,$54.75,nsw,71.0,,Australia,pro,no
+C1055,27/01/2023,$116.03,nsw,26.0,called support,Australia,pro,yes
+C1056,2023-11-24,$72.50,,59.0,,Australia,basic,yes
+C1057,03/04/2023,$80.79,WA,48.0,,Australia,basic,yes
+C1058,2024-03-22,$179.00,NSW,21.0,called support,Australia,pro,no
+C1059,14/02/2024,$29.44,,70.0,called support,Australia,pro,no
+C1060,07/07/2024,$6.28,QLD,67.0,called support,Australia,basic,yes
+C1061,22/03/2024,$170.01,,50.0,called support,Australia,pro,no
+C1062,2023-08-08,$116.12,WA,58.0,called support,Australia,basic,yes
+C1063,03/08/2024,$242.13,VIC,40.0,,Australia,premium,no
+C1064,2023-09-04,$51.46,QLD,,,Australia,basic,yes
+C1065,15/07/2023,$92.59,QLD,43.0,,Australia,basic,yes
+C1066,2024-06-27,$107.31,WA,74.0,,Australia,basic,yes
+C1067,2023-08-11,$60.66,nsw,21.0,called support,Australia,premium,no
+C1068,2023-02-15,$45.78,nsw,27.0,,Australia,premium,no
+C1069,09/10/2023,$176.05,nsw,73.0,,Australia,pro,no
+C1070,2024-04-22,$26.60,nsw,,,Australia,basic,no
+C1071,24/04/2023,$39.12,NSW,35.0,,Australia,premium,yes
+C1072,2023-10-05,$90.19,NSW,63.0,,Australia,pro,no
+C1073,2023-03-19,$190.52,,28.0,,Australia,premium,yes
+C1074,16/02/2024,$64.08,NSW,47.0,called support,Australia,pro,no
+C1075,2023-10-13,$57.40,,34.0,,Australia,premium,no
+C1076,18/07/2023,$86.05,NSW,29.0,called support,Australia,premium,no
+C1077,17/05/2023,$130.74,WA,72.0,called support,Australia,basic,yes
+C1078,2023-12-05,$75.73,nsw,29.0,,Australia,premium,no
+C1079,2024-02-06,$207.54,QLD,23.0,,Australia,basic,yes
+C1080,2024-07-18,$213.57,nsw,56.0,called support,Australia,pro,yes
+C1081,20/09/2023,$90.18,VIC,67.0,,Australia,basic,yes
+C1082,07/04/2023,$340.04,VIC,,called support,Australia,premium,yes
+C1083,2024-05-14,$105.47,QLD,58.0,,Australia,basic,yes
+C1084,2024-01-13,$208.68,VIC,,called support,Australia,pro,no
+C1085,2024-02-25,$128.08,QLD,65.0,called support,Australia,pro,no
+C1086,2023-02-28,$126.34,WA,25.0,,Australia,premium,no
+C1087,07/07/2023,$20.49,VIC,,,Australia,premium,no
+C1088,05/04/2024,$36.02,VIC,,called support,Australia,basic,no
+C1089,2024-05-14,$78.97,NSW,,,Australia,premium,no
+C1090,19/09/2023,$212.46,VIC,38.0,,Australia,basic,yes
+C1091,2024-04-27,$129.42,NSW,71.0,,Australia,pro,no
+C1092,2024-05-20,$79.55,nsw,,,Australia,pro,no
+C1093,21/08/2023,$156.04,,25.0,called support,Australia,pro,yes
+C1094,22/06/2024,$207.11,NSW,70.0,called support,Australia,premium,no
+C1095,22/06/2023,$100.49,VIC,63.0,,Australia,premium,no
+C1096,2023-05-24,$118.29,,,called support,Australia,pro,no
+C1097,2024-02-14,$107.26,,49.0,,Australia,premium,no
+C1098,2024-01-18,$95.67,NSW,40.0,,Australia,basic,yes
+C1099,2023-03-25,$50.96,NSW,48.0,,Australia,basic,no
+C1100,14/05/2024,$47.48,VIC,73.0,called support,Australia,pro,no
+C1101,30/04/2023,$155.34,QLD,,,Australia,pro,no
+C1102,2024-04-27,$209.82,,30.0,,Australia,premium,no
+C1103,05/01/2023,$79.43,nsw,73.0,,Australia,premium,no
+C1104,2024-04-23,$77.95,NSW,42.0,called support,Australia,basic,yes
+C1105,17/04/2024,$14.65,nsw,58.0,,Australia,basic,no
+C1106,2024-04-13,$11.48,,61.0,,Australia,premium,no
+C1107,2024-02-03,$247.21,NSW,45.0,called support,Australia,pro,yes
+C1108,10/10/2023,$53.98,VIC,44.0,,Australia,basic,no
+C1109,2024-02-28,$429.06,NSW,44.0,,Australia,premium,no
+C1110,2023-06-16,$62.62,NSW,67.0,,Australia,pro,yes
+C1111,2024-04-13,$21.27,,40.0,,Australia,premium,no
+C1112,2023-11-30,$107.91,NSW,33.0,,Australia,premium,no
+C1113,2023-10-03,$174.61,nsw,,called support,Australia,premium,no
+C1114,2023-10-31,$161.22,,,,Australia,pro,no
+C1115,08/12/2023,$186.91,QLD,40.0,called support,Australia,premium,yes
+C1116,23/01/2023,$42.10,NSW,24.0,called support,Australia,premium,yes
+C1117,2023-03-25,$243.26,VIC,23.0,,Australia,basic,yes
+C1118,2023-05-28,$252.92,,59.0,,Australia,basic,yes
+C1119,10/03/2023,$260.35,VIC,22.0,called support,Australia,basic,yes
+C1120,21/09/2023,$121.37,QLD,,,Australia,pro,no
+C1121,06/02/2024,$74.51,QLD,62.0,called support,Australia,pro,yes
+C1122,28/01/2024,$69.12,QLD,59.0,called support,Australia,basic,yes
+C1123,10/10/2023,$21.14,nsw,43.0,,Australia,pro,no
+C1124,2024-05-28,$63.80,,29.0,,Australia,basic,yes
+C1125,2023-12-06,$5.57,,71.0,,Australia,pro,yes
+C1126,17/02/2023,$17.99,NSW,65.0,,Australia,pro,no
+C1127,03/04/2024,$120.44,WA,52.0,,Australia,pro,no
+C1128,2023-12-11,$81.63,WA,22.0,,Australia,pro,no
+C1129,16/01/2024,$116.60,WA,20.0,called support,Australia,pro,no
+C1130,2023-12-06,$165.35,VIC,35.0,called support,Australia,premium,yes
+C1131,29/11/2023,$132.89,VIC,26.0,called support,Australia,premium,no
+C1132,24/02/2023,$124.76,,67.0,,Australia,premium,no
+C1133,2023-12-02,$93.40,NSW,29.0,,Australia,pro,no
+C1134,2024-04-21,$52.25,WA,34.0,,Australia,pro,no
+C1135,2023-07-02,$31.26,,73.0,,Australia,basic,no
+C1136,28/12/2023,$65.25,WA,,called support,Australia,pro,no
+C1137,19/01/2023,$94.62,VIC,,,Australia,basic,no
+C1138,2023-07-28,$104.01,QLD,39.0,,Australia,pro,no
+C1139,2023-09-20,$187.19,NSW,47.0,called support,Australia,basic,no
+C1140,12/08/2024,$88.14,,55.0,,Australia,pro,no
+C1141,2023-05-09,$148.78,VIC,71.0,,Australia,premium,no
+C1142,2023-06-15,$24.54,NSW,67.0,,Australia,premium,no
+C1143,2023-09-03,$121.70,WA,73.0,,Australia,pro,no
+C1144,18/08/2024,$115.44,QLD,20.0,called support,Australia,basic,yes
+C1145,27/05/2024,$243.31,QLD,31.0,,Australia,basic,no
+C1146,2023-01-21,$81.69,NSW,50.0,called support,Australia,basic,yes
+C1147,21/05/2023,$78.93,WA,20.0,called support,Australia,premium,yes
+C1148,08/05/2024,$166.17,QLD,38.0,called support,Australia,premium,no
+C1149,2023-02-04,$33.74,WA,26.0,,Australia,pro,no
+C1150,28/05/2024,$119.37,WA,71.0,,Australia,basic,yes
+C1151,18/06/2023,$32.06,nsw,,called support,Australia,basic,yes
+C1152,2024-07-04,$317.82,nsw,,,Australia,premium,yes
+C1153,2023-06-26,$70.63,,29.0,,Australia,basic,yes
+C1154,18/09/2023,$29.97,QLD,26.0,called support,Australia,basic,yes
+C1155,02/02/2024,$64.85,VIC,50.0,,Australia,basic,yes
+C1156,2023-03-17,$119.91,nsw,38.0,called support,Australia,basic,yes
+C1157,01/12/2023,$145.47,QLD,70.0,called support,Australia,pro,no
+C1158,31/10/2023,$234.77,WA,32.0,called support,Australia,premium,yes
+C1159,2024-04-15,$58.35,NSW,48.0,,Australia,basic,yes
+C1160,20/08/2024,$171.50,QLD,55.0,called support,Australia,premium,no
+C1161,2024-02-03,$18.02,,,,Australia,basic,yes
+C1162,03/09/2023,$39.37,nsw,63.0,called support,Australia,basic,yes
+C1163,2023-09-01,$25.29,nsw,29.0,called support,Australia,basic,no
+C1164,2023-09-08,$49.63,,46.0,called support,Australia,premium,no
+C1165,03/05/2024,$166.11,NSW,63.0,,Australia,pro,no
+C1166,2023-07-12,$59.58,VIC,67.0,,Australia,premium,no
+C1167,11/04/2023,$69.60,VIC,,,Australia,basic,yes
+C1168,2023-07-20,$122.31,WA,55.0,,Australia,basic,yes
+C1169,14/01/2023,$141.11,NSW,67.0,,Australia,premium,no
+C1170,05/03/2023,$71.38,VIC,53.0,,Australia,basic,no
+C1171,24/02/2023,$39.11,NSW,,,Australia,basic,no
+C1172,2024-04-07,$283.88,WA,25.0,called support,Australia,pro,no
+C1173,2024-03-09,$71.78,QLD,37.0,called support,Australia,pro,no
+C1174,23/02/2024,$77.83,VIC,24.0,,Australia,basic,no
+C1175,05/10/2023,$86.00,VIC,,called support,Australia,pro,no
+C1176,06/03/2024,$151.95,NSW,44.0,called support,Australia,premium,no
+C1177,2023-04-07,$23.16,,30.0,,Australia,pro,no
+C1178,24/06/2024,$358.16,QLD,41.0,,Australia,pro,yes
+C1179,2023-10-28,$76.08,nsw,42.0,called support,Australia,basic,no
+C1180,2024-07-16,$155.63,VIC,53.0,called support,Australia,pro,no
+C1181,02/04/2023,$30.33,WA,71.0,called support,Australia,premium,no
+C1182,2023-10-26,$113.28,WA,,called support,Australia,pro,no
+C1183,22/02/2024,$322.28,VIC,,called support,Australia,premium,no
+C1184,2023-10-25,$292.82,nsw,,,Australia,basic,no
+C1185,2023-09-25,$152.73,QLD,61.0,,Australia,basic,no
+C1186,2023-04-10,$46.66,QLD,,,Australia,pro,no
+C1187,17/08/2023,$226.39,QLD,48.0,called support,Australia,basic,no
+C1188,24/05/2023,$17.86,NSW,42.0,,Australia,pro,no
+C1189,30/06/2023,$45.12,VIC,28.0,,Australia,premium,yes
+C1190,15/02/2024,$93.81,QLD,53.0,called support,Australia,pro,no
+C1191,14/01/2024,$19.80,,36.0,,Australia,pro,no
+C1192,31/12/2023,$64.73,QLD,,called support,Australia,premium,no
+C1193,06/08/2023,$173.95,VIC,55.0,,Australia,basic,yes
+C1194,2024-07-29,$54.27,QLD,27.0,called support,Australia,premium,yes
+C1195,2023-02-22,$179.72,nsw,56.0,called support,Australia,basic,yes
+C1196,2023-07-25,$421.37,NSW,27.0,,Australia,premium,no
+C1197,2023-03-12,$133.14,WA,42.0,called support,Australia,pro,no
+C1198,23/07/2023,$177.55,,64.0,,Australia,basic,no
+C1199,2024-07-31,$231.67,,31.0,,Australia,premium,no
+C1200,2023-08-08,$69.92,QLD,61.0,called support,Australia,basic,yes
+C1201,29/06/2024,$174.61,NSW,59.0,called support,Australia,pro,no
+C1202,25/10/2023,$68.50,,69.0,,Australia,premium,no
+C1203,24/02/2024,$126.35,VIC,27.0,,Australia,premium,no
+C1204,2023-10-02,$193.36,nsw,58.0,called support,Australia,premium,no
+C1205,2023-06-09,$48.66,,71.0,,Australia,pro,no
+C1206,03/04/2024,$6.44,WA,,,Australia,pro,no
+C1207,2024-08-04,$44.54,WA,28.0,,Australia,basic,yes
+C1208,2023-06-08,$213.36,nsw,64.0,,Australia,premium,yes
+C1209,2024-04-12,$39.52,,,called support,Australia,pro,no
+C1210,06/06/2023,$205.27,VIC,51.0,,Australia,premium,no
+C1211,06/03/2024,$44.75,QLD,46.0,,Australia,pro,no
+C1212,18/04/2024,$83.80,WA,48.0,called support,Australia,premium,no
+C1213,27/09/2023,$98.95,QLD,47.0,,Australia,basic,no
+C1214,18/03/2024,$39.34,nsw,19.0,called support,Australia,premium,yes
+C1215,2023-06-13,$84.55,nsw,46.0,,Australia,basic,yes
+C1216,17/02/2023,$21.20,VIC,71.0,called support,Australia,basic,yes
+C1217,2023-02-27,$75.20,,42.0,called support,Australia,pro,no
+C1218,2023-09-26,$92.73,WA,33.0,called support,Australia,pro,no
+C1219,25/06/2024,$6.95,VIC,74.0,,Australia,premium,no
+C1220,2023-03-18,$44.19,WA,23.0,,Australia,pro,yes
+C1221,2023-10-01,$123.53,WA,45.0,called support,Australia,basic,no
+C1222,2024-02-27,$35.13,VIC,47.0,,Australia,basic,yes
+C1223,02/05/2023,$138.85,VIC,45.0,,Australia,pro,no
+C1224,2024-03-08,$148.81,,70.0,,Australia,pro,yes
+C1225,2023-07-03,$123.13,QLD,42.0,called support,Australia,pro,no
+C1226,30/04/2024,$173.15,NSW,73.0,called support,Australia,basic,yes
+C1227,2023-12-14,$19.69,WA,21.0,,Australia,pro,no
+C1228,25/11/2023,$199.40,QLD,,called support,Australia,pro,no
+C1229,17/04/2023,$39.95,QLD,51.0,,Australia,premium,no
+C1230,05/10/2023,$107.87,WA,31.0,,Australia,pro,no
+C1231,2024-05-28,$313.87,,30.0,,Australia,premium,no
+C1232,2023-01-12,$73.88,nsw,59.0,,Australia,basic,yes
+C1233,2024-03-31,$100.89,VIC,54.0,,Australia,premium,no
+C1234,23/10/2023,$40.18,nsw,52.0,called support,Australia,basic,no
+C1235,2024-03-07,$311.81,QLD,20.0,called support,Australia,basic,yes
+C1236,2024-02-02,$44.29,VIC,52.0,,Australia,premium,no
+C1237,2023-09-17,$158.18,VIC,73.0,,Australia,pro,yes
+C1238,05/07/2023,$231.39,WA,18.0,,Australia,pro,no
+C1239,2024-01-12,$168.97,VIC,44.0,called support,Australia,pro,no
+C1240,26/03/2023,$128.79,VIC,,called support,Australia,premium,no
+C1241,2023-12-17,$106.62,VIC,69.0,called support,Australia,basic,yes
+C1242,2023-02-26,$30.02,nsw,34.0,,Australia,basic,no
+C1243,2024-01-25,$302.61,NSW,45.0,,Australia,basic,yes
+C1244,13/01/2024,$121.10,WA,58.0,,Australia,premium,yes
+C1245,2023-02-20,$100.94,NSW,,,Australia,basic,yes
+C1246,2024-03-30,$36.96,nsw,,,Australia,pro,no
+C1247,07/09/2023,$104.75,WA,64.0,,Australia,pro,no
+C1248,17/04/2024,$96.09,NSW,59.0,called support,Australia,basic,yes
+C1249,25/01/2023,$313.86,QLD,,,Australia,pro,no
+C1250,18/04/2023,$100.89,WA,60.0,,Australia,basic,no
+C1251,2023-10-24,$103.46,QLD,62.0,called support,Australia,basic,yes
+C1252,23/04/2023,$37.41,nsw,69.0,,Australia,basic,yes
+C1253,2023-07-17,$52.63,NSW,42.0,called support,Australia,premium,no
+C1254,01/02/2024,$145.06,,,,Australia,pro,no
+C1255,28/03/2023,$15.63,nsw,54.0,called support,Australia,premium,no
+C1256,11/02/2024,$198.65,WA,29.0,,Australia,pro,no
+C1257,04/03/2023,$202.37,nsw,66.0,,Australia,basic,yes
+C1258,16/04/2023,$47.79,NSW,61.0,called support,Australia,pro,no
+C1259,19/12/2023,$129.14,WA,53.0,,Australia,premium,no
+C1260,21/04/2024,$236.53,,35.0,,Australia,pro,no
+C1261,2023-04-13,$90.10,,37.0,,Australia,basic,no
+C1262,2023-06-29,$77.26,WA,42.0,,Australia,basic,yes
+C1263,2024-07-09,$85.15,nsw,55.0,called support,Australia,premium,no
+C1264,16/08/2024,$120.90,,62.0,,Australia,pro,no
+C1265,2023-12-15,$58.81,WA,56.0,,Australia,premium,yes
+C1266,2023-09-26,$71.98,nsw,71.0,,Australia,pro,no
+C1267,2023-07-28,$122.69,NSW,72.0,called support,Australia,basic,no
+C1268,03/01/2024,$67.16,,58.0,,Australia,premium,no
+C1269,21/12/2023,$34.29,nsw,39.0,called support,Australia,premium,no
+C1270,26/06/2023,$14.00,WA,52.0,called support,Australia,premium,yes
+C1271,2023-01-14,$102.41,NSW,42.0,,Australia,premium,no
+C1272,2023-04-01,$226.62,nsw,,called support,Australia,basic,yes
+C1273,2024-07-29,$133.91,nsw,64.0,,Australia,premium,no
+C1274,2023-09-08,$35.61,nsw,39.0,,Australia,basic,yes
+C1275,2023-10-17,$52.28,WA,46.0,called support,Australia,premium,no
+C1276,08/10/2023,$76.80,,20.0,called support,Australia,basic,yes
+C1277,14/04/2024,$320.52,,59.0,,Australia,pro,no
+C1278,08/02/2023,$332.05,WA,45.0,,Australia,premium,no
+C1279,2023-02-19,$306.63,nsw,44.0,,Australia,basic,no
+C1280,2023-06-15,$110.50,,48.0,,Australia,basic,yes
+C1281,19/10/2023,$603.63,QLD,,,Australia,premium,no
+C1282,2024-02-07,$54.61,QLD,52.0,,Australia,basic,yes
+C1283,2023-10-22,$74.51,WA,60.0,,Australia,pro,no
+C1284,2023-09-22,$188.18,WA,37.0,,Australia,premium,no
+C1285,16/07/2024,$123.17,,25.0,called support,Australia,pro,no
+C1286,07/04/2023,$128.40,QLD,40.0,called support,Australia,pro,no
+C1287,2023-12-10,$41.59,QLD,,called support,Australia,pro,no
+C1288,22/11/2023,$95.54,WA,39.0,,Australia,pro,yes
+C1289,12/10/2023,$55.33,nsw,53.0,,Australia,pro,no
+C1290,29/04/2024,$27.90,nsw,24.0,,Australia,pro,no
+C1291,10/06/2023,$61.19,QLD,60.0,,Australia,basic,yes
+C1292,2024-07-26,$123.19,NSW,30.0,,Australia,pro,no
+C1293,18/07/2023,$167.25,nsw,68.0,,Australia,premium,no
+C1294,2023-11-24,$13.38,WA,59.0,called support,Australia,premium,no
+C1295,09/11/2023,$99.05,,,,Australia,basic,yes
+C1296,24/05/2024,$92.20,QLD,50.0,called support,Australia,premium,no
+C1297,21/09/2023,$118.51,VIC,24.0,,Australia,premium,no
+C1298,20/06/2023,$36.26,VIC,23.0,called support,Australia,basic,yes
+C1299,13/01/2023,$36.97,WA,,,Australia,premium,yes
