@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Literal
+from typing import IO, Any, Literal
 
 import numpy as np
 import pandas as pd
@@ -46,6 +46,8 @@ _MONTH_NAME_RE = (
 )
 _YEAR_RE = r"\b\d{4}\b"
 _INT_RE = r"[+-]?\d+(\.0+)?"
+_LEADING_ZERO_RE = r"0\d{2,}"  # 3+ chars, so padded hours/months like "05" stay numeric
+LEADING_ZERO_MIN_COUNT = 2
 _ID_NAME_RE = re.compile(r"(^|[_\s.-])(id|key|uuid|guid)$|^(id|key|uuid|guid)[_\s.-]", re.I)
 _CAMEL_ID_RE = re.compile(r"[a-z0-9](Id|ID|Key|Uuid)$")
 YEAR_RANGE = (1900, 2100)
@@ -93,7 +95,7 @@ class DatasetProfile:
 # ---------------------------------------------------------------- reading
 
 
-def read_csv_raw(path: str | Path) -> pd.DataFrame:
+def read_csv_raw(path: str | Path | IO[str] | IO[bytes]) -> pd.DataFrame:
     """Read a CSV with every cell kept as a raw string (blanks stay "")."""
     return pd.read_csv(path, dtype=str, keep_default_na=False)
 
@@ -522,6 +524,38 @@ def _categorical(base: ColumnProfile, present: pd.Series, num_rate: float) -> Co
     return base
 
 
+def _has_leading_zero_codes(present: pd.Series) -> bool:
+    """True for digit codes like '0800' or '02000'.
+
+    Nearly every value must be a plain digit string, and at least two must start
+    with 0, so one stray "007" in a price column doesn't flip it.
+    """
+    digits = present.str.fullmatch(r"\d+")
+    leading_zero = present.str.fullmatch(_LEADING_ZERO_RE)
+    return (
+        float(digits.mean()) >= PARSE_THRESHOLD
+        and int(leading_zero.sum()) >= LEADING_ZERO_MIN_COUNT
+    )
+
+
+def _code(base: ColumnProfile, present: pd.Series, n_present: int) -> ColumnProfile:
+    """Digit codes with leading zeros (postcodes, phone numbers). Never numeric."""
+    unique_ratio = base.n_unique / n_present
+    if _has_id_name(base.name) and n_present >= ID_MIN_VALUES and unique_ratio >= ID_UNIQUE_RATIO:
+        return _id(base, f"The name '{base.name}' plus all-unique codes says this is an ID.")
+    id_reason = _string_id_reason(present, unique_ratio, _avg_words(present))
+    if id_reason:
+        return _id(base, id_reason)
+    col = _categorical(base, present, 0.0)
+    example = present[present.str.fullmatch(_LEADING_ZERO_RE)].iloc[0]
+    col.reasons.insert(
+        0,
+        f"Some values start with 0 (like '{example}'), so these are codes, not amounts. "
+        "Treating them as numbers would drop the zero.",
+    )
+    return col
+
+
 def _add_case_reason(col: ColumnProfile) -> None:
     for spellings in col.case_variants.values():
         col.reasons.append(
@@ -550,6 +584,8 @@ def _detect(base: ColumnProfile, present: pd.Series, n_rows: int) -> ColumnProfi
         return _constant_or_presence(base, present, n_rows)
     if _is_boolean(present):
         return _boolean(base, present)
+    if _has_leading_zero_codes(present):
+        return _code(base, present, n_present)
 
     nums, disguise = parse_numeric(present)
     num_rate = float(nums.notna().mean())

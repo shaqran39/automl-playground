@@ -194,3 +194,92 @@ def test_sequential_ints_from_1000_are_id() -> None:
 def test_id_named_floats_stay_numeric() -> None:
     rng = np.random.default_rng(1)
     assert _col(rng.normal(0, 1, 100).tolist(), "score_id").dtype == "numeric"
+
+
+# ---------------------------------------------------------------- leading-zero codes
+
+
+@pytest.mark.parametrize(
+    "values",
+    [
+        ["0800", "0870", "2000", "3000", "4000", "6000"] * 5,
+        ["02000", "02134", "10001", "90210"] * 5,
+        ["0800"] * 10 + ["2000"] * 10,
+    ],
+)
+def test_leading_zero_codes_are_categorical(values: list[str]) -> None:
+    col = _col(values, "postcode")
+    assert col.dtype == "categorical"
+    assert col.stats is None
+    assert any("start with 0" in r for r in col.reasons)
+
+
+def test_many_distinct_leading_zero_codes_are_categorical_not_text() -> None:
+    codes = [f"{i:05d}" for i in range(0, 1200, 10)]  # 120 codes like 00010
+    values = (codes * 2)[:200]
+    assert _col(values, "zip").dtype == "categorical"
+
+
+def test_unique_leading_zero_codes_with_id_name_are_id() -> None:
+    assert _col([f"{i:06d}" for i in range(100)], "account_id").dtype == "id"
+
+
+@pytest.mark.parametrize(
+    "values",
+    [
+        ["0", "10", "20", "30"] * 10,
+        ["0.5", "0.25", "1.5", "0"] * 10,
+        ["-0.5", "0.0", "1", "2"] * 10,
+    ],
+)
+def test_plain_zero_and_decimals_stay_numeric(values: list[str]) -> None:
+    assert _col(values).dtype == "numeric"
+
+
+def test_one_stray_leading_zero_does_not_flip_numeric_column() -> None:
+    rng = np.random.default_rng(2)
+    prices = [f"{v:.2f}" for v in rng.uniform(10, 200, 999)] + ["00"]
+    assert _col(prices, "price").dtype == "numeric"
+    amounts = ["007"] + [str(v) for v in rng.integers(1, 500, 199)]
+    assert _col(amounts, "amount").dtype == "numeric"
+
+
+def test_one_leading_zero_value_does_not_flip_text_column() -> None:
+    comments = [f"customer number {i} said the app was slow and buggy today" for i in range(99)]
+    assert _col(comments + ["01"], "comment").dtype == "text"
+
+
+@pytest.mark.parametrize(
+    ("values", "name"),
+    [
+        ([f"{h:02d}" for h in range(24)] * 3, "hour"),
+        ([f"{m:02d}" for m in range(1, 13)] * 5, "month"),
+    ],
+)
+def test_zero_padded_time_parts_stay_numeric(values: list[str], name: str) -> None:
+    assert _col(values, name).dtype == "numeric"
+
+
+def test_unique_leading_zero_codes_without_id_name_are_id() -> None:
+    assert _col([f"0{i:05d}" for i in range(100)], "ref").dtype == "id"
+
+
+def test_leading_zero_codes_with_missing_values() -> None:
+    col = _col(["0800", "0870", "2000", "", None, "3000"] * 5, "postcode")
+    assert col.dtype == "categorical"
+    assert col.missing_pct == pytest.approx(100 * 2 / 6)
+
+
+def test_zero_one_and_padded_one_is_boolean() -> None:
+    assert _col(["0", "1", "01"] * 10).dtype == "boolean"
+
+
+def test_postcodes_through_plain_read_csv_lose_zero_and_go_numeric(tmp_path) -> None:
+    path = tmp_path / "pc.csv"
+    path.write_text("postcode\n" + "\n".join(["0800", "0870", "2000", "3000"] * 5))
+    assert P.profile(pd.read_csv(path)).column("postcode").dtype == "numeric"
+    assert P.profile(P.read_csv_raw(path)).column("postcode").dtype == "categorical"
+
+
+def test_id_name_needs_enough_rows() -> None:
+    assert _col(["01", "02", "03"], "id").dtype != "id"
