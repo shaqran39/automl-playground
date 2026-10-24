@@ -13,7 +13,7 @@ Upload a CSV and the app does the rest: profiles your data, cleans it with a dec
 - Playground: "Beat the Model" and "What-If" sliders
 
 ## Stack
-Python, pandas, scikit-learn, XGBoost, LightGBM, Optuna, FastAPI, Streamlit, Plotly, Docker, GCP Cloud Run
+Python, pandas, scikit-learn, XGBoost, LightGBM, Optuna, Streamlit, Plotly, Docker, GCP Cloud Run
 
 ## Run locally
 ```bash

@@ -1,11 +1,5 @@
-from fastapi.testclient import TestClient
-
-from app.api.main import app
+import pandas as pd
 
 
-def test_health():
-    assert TestClient(app).get("/health").json() == {"status": "ok"}
-
-
-def test_samples_load(sample_df):
+def test_samples_load(sample_df: pd.DataFrame) -> None:
     assert len(sample_df) > 0
