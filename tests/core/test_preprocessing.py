@@ -13,7 +13,7 @@ import pytest
 from sklearn.base import clone
 from sklearn.compose import ColumnTransformer
 from sklearn.exceptions import NotFittedError
-from sklearn.impute import MissingIndicator, SimpleImputer
+from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -30,6 +30,7 @@ SAMPLE_TARGETS: dict[str, str] = {
     "diabetes.csv": "disease_progression",
     "iris.csv": "species",
     "messy.csv": "churned",
+    "messy_clinic.csv": "outcome",
 }
 
 
@@ -120,14 +121,15 @@ def test_returns_unfitted_column_transformer() -> None:
 
 def test_column_assignment_per_type() -> None:
     g = groups(PP.build_preprocessor(FULL_PROFILE, target="y"))
-    assert set(g) == {"numeric", "missing_flags", "boolean", "onehot", "frequency"}
+    assert set(g) == {"numeric", "dates", "was_missing", "boolean", "onehot", "frequency"}
     assert g["numeric"][1] == ["num_a", "num_b"]
-    assert g["missing_flags"][1] == ["num_a"]
+    assert g["dates"][1] == ["when"]  # datetime is used now
+    assert g["was_missing"][1] == ["num_a"]  # flag is only 2.5% missing, under 5%
     assert g["boolean"][1] == ["flag"]
     assert g["onehot"][1] == ["small_cat"]
     assert g["frequency"][1] == ["big_cat"]
     used = {c for _, cols in g.values() for c in cols}
-    assert not used & {"y", "cid", "notes", "when", "k"}
+    assert not used & {"y", "cid", "notes", "k"}
 
 
 def test_transformer_types() -> None:
@@ -135,10 +137,17 @@ def test_transformer_types() -> None:
 
     numeric = g["numeric"][0]
     assert isinstance(numeric, Pipeline)
+    assert [name for name, _ in numeric.steps] == ["outliers", "scale", "impute"]
     kinds = [type(step) for _, step in numeric.steps]
-    assert kinds == [PP.SkewAwareImputer, StandardScaler]
+    assert kinds == [PP.OutlierHandler, StandardScaler, PP.SkewAwareImputer]
 
-    assert isinstance(g["missing_flags"][0], MissingIndicator)
+    dates = g["dates"][0]
+    assert isinstance(dates, Pipeline)
+    assert [name for name, _ in dates.steps] == ["features", "scale", "impute"]
+    kinds = [type(step) for _, step in dates.steps]
+    assert kinds == [PP.DateFeatures, StandardScaler, PP.SkewAwareImputer]
+
+    assert g["was_missing"][0] is not None
 
     boolean = g["boolean"][0]
     assert isinstance(boolean, SimpleImputer)
@@ -146,9 +155,12 @@ def test_transformer_types() -> None:
 
     onehot = g["onehot"][0]
     assert isinstance(onehot, Pipeline)
-    imp = onehot.steps[0][1]
+    # numbers become text labels first, so the "Missing" fill never meets floats
+    assert [name for name, _ in onehot.steps] == ["labels", "impute", "encode"]
+    assert isinstance(onehot.steps[0][1], PP.ToLabels)
+    imp = onehot.named_steps["impute"]
     assert isinstance(imp, SimpleImputer)
-    assert imp.strategy == "constant" and imp.fill_value == "missing"
+    assert imp.strategy == "constant" and imp.fill_value == "Missing"
     enc = last_step(onehot)
     assert isinstance(enc, OneHotEncoder)
     assert enc.handle_unknown == "ignore"
@@ -156,9 +168,10 @@ def test_transformer_types() -> None:
 
     freq = g["frequency"][0]
     assert isinstance(freq, Pipeline)
-    imp = freq.steps[0][1]
+    assert [name for name, _ in freq.steps] == ["labels", "impute", "encode"]
+    imp = freq.named_steps["impute"]
     assert isinstance(imp, SimpleImputer)
-    assert imp.strategy == "constant" and imp.fill_value == "missing"
+    assert imp.strategy == "constant" and imp.fill_value == "Missing"
     assert isinstance(last_step(freq), PP.FrequencyEncoder)
 
 
@@ -168,7 +181,7 @@ def test_target_excluded_from_every_group() -> None:
         used = {c for _, cols in g.values() for c in cols}
         assert target not in used, target
     g = groups(PP.build_preprocessor(FULL_PROFILE, target="num_a"))
-    assert "missing_flags" not in g  # num_a was the only numeric column with missing values
+    assert "was_missing" not in g  # num_a was the only column over 5% missing
 
 
 def test_no_target_uses_every_usable_column() -> None:
@@ -176,10 +189,11 @@ def test_no_target_uses_every_usable_column() -> None:
     assert g["numeric"][1] == ["num_a", "num_b", "y"]
 
 
-def test_missing_flags_only_when_numeric_missing() -> None:
+def test_was_missing_skips_categories_and_full_columns() -> None:
+    # categories get a "Missing" category instead of a was_missing flag
     prof = dprof(col("a", "numeric"), col("b", "categorical", missing_pct=30.0, n_unique=3))
     g = groups(PP.build_preprocessor(prof))
-    assert "missing_flags" not in g
+    assert "was_missing" not in g
     assert set(g) == {"numeric", "onehot"}
 
 
@@ -207,7 +221,6 @@ def test_no_usable_columns_raises() -> None:
     prof = dprof(
         col("cid", "id"),
         col("notes", "text"),
-        col("when", "datetime"),
         col("k", "constant", n_unique=1),
         col("y", "numeric"),
     )
@@ -394,7 +407,8 @@ def test_messy_end_to_end(messy_raw: pd.DataFrame) -> None:
     clean_df, prof = _clean_messy(messy_raw)
     pre = PP.build_preprocessor(prof, target="churned")
     g = groups(pre)
-    assert "age" in g["missing_flags"][1]
+    assert "age" in g["was_missing"][1]  # 15% missing
+    assert g["dates"][1] == ["signup_date"]
     assert {"monthly_spend", "age"} <= set(g["numeric"][1])
     assert {"state", "plan"} <= set(g["onehot"][1])
     assert "notes_present" in g["boolean"][1]
@@ -411,12 +425,11 @@ def test_messy_end_to_end(messy_raw: pd.DataFrame) -> None:
     assert out_train.shape[0] == len(X_train)
     assert out_test.shape[0] == len(X_test)
 
-    # no leakage: the age fill value comes from the train rows only
+    # no leakage: the scaler means come from the (outlier-handled) train rows only
     numeric_cols = g["numeric"][1]
-    imp = pre.named_transformers_["numeric"].steps[0][1]
-    age_train = X_train["age"].dropna()
-    expected = age_train.median() if abs(age_train.skew()) > PP.SKEW_THRESHOLD else age_train.mean()
-    assert imp.statistics_[numeric_cols.index("age")] == pytest.approx(expected)
+    numeric = pre.named_transformers_["numeric"]
+    handled = numeric.named_steps["outliers"].transform(X_train[numeric_cols])
+    np.testing.assert_allclose(numeric.named_steps["scale"].mean_, np.nanmean(handled, axis=0))
 
 
 def test_messy_pipeline_with_logistic_regression(messy_raw: pd.DataFrame) -> None:
@@ -460,9 +473,8 @@ def test_sample_csvs_preprocess(sample_name: str) -> None:
 # ---------------------------------------------------------------- review fixes
 
 
-@pytest.mark.parametrize(
-    "step_id", ["to_numeric:monthly_spend", "to_numeric:age", "to_bool:churned"]
-)
+# age is a plain number now, so it has no to_numeric step to switch off
+@pytest.mark.parametrize("step_id", ["to_numeric:monthly_spend", "to_bool:churned"])
 def test_disabled_conversion_still_fits(messy_raw: pd.DataFrame, step_id: str) -> None:
     """Switching off a type fix keeps strings, so they must go to the category encoders."""
     clean_df, _ = C.clean(messy_raw, P.profile(messy_raw), {step_id})
@@ -507,7 +519,7 @@ def test_custom_transformers_reject_reordered_columns() -> None:
 def test_custom_transformers_pass_sklearn_checks() -> None:
     from sklearn.utils.estimator_checks import check_estimator
 
-    for est in (PP.SkewAwareImputer(), PP.FrequencyEncoder()):
+    for est in (PP.SkewAwareImputer(), PP.FrequencyEncoder(), PP.OutlierHandler()):
         results = check_estimator(est, on_fail=None)
         failed = [r["check_name"] for r in results if r["status"] == "failed"]
         assert failed == [], f"{type(est).__name__} failed {failed}"

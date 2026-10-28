@@ -12,7 +12,11 @@ if str(ROOT) not in sys.path:  # streamlit only adds frontend/ to the path
     sys.path.insert(0, str(ROOT))
 
 from app.core.cleaning import CleaningLog, clean  # noqa: E402
-from app.core.preprocessing import build_preprocessor  # noqa: E402
+from app.core.preprocessing import (  # noqa: E402
+    NoUsableFeaturesError,
+    PreprocessOptions,
+    build_preprocessor,
+)
 from app.core.profiling import DatasetProfile, profile, read_csv_raw  # noqa: E402
 
 SAMPLE_DIR = ROOT / "sample_data"
@@ -27,11 +31,27 @@ DATASET_KEYS = (
     "editor_version",
     "clean_df",
     "cleaning_log",
+    "outlier_choices",
+    "numeric_imputer",
 )
+OUTLIER_LABELS: dict[str, str] = {
+    "auto": "auto",
+    "keep": "keep",
+    "cap": "cap",
+    "log": "log",
+    "missing": "set to missing",
+}
+OUTLIER_VALUES = {label: value for value, label in OUTLIER_LABELS.items()}
+IMPUTER_LABELS: dict[str, str] = {
+    "auto": "Auto (median or mean, whichever fits the column)",
+    "knn": "KNN (copy from the most similar rows)",
+    "iterative": "Iterative (predict each blank from the other columns)",
+}
 
 GROUP_LABELS: dict[str, str] = {
-    "numeric": "Numbers: fill blanks (median or mean), then put on the same scale",
-    "missing_flags": "Was it blank? Extra yes/no columns for numbers that had gaps",
+    "numeric": "Numbers: handle outliers, put on the same scale, then fill blanks",
+    "dates": "Dates and times: split into year, month, weekday, hour and gaps between dates",
+    "was_missing": "Was it blank? Extra yes/no columns for columns with over 5% gaps",
     "boolean": "Yes/no columns: fill blanks with the most common answer",
     "onehot": "Categories with few options: one 0/1 column per option",
     "frequency": "Categories with lots of options: replaced by how common each value is",
@@ -58,10 +78,23 @@ def set_dataset(name: str, df: pd.DataFrame) -> None:
     st.session_state["raw_profile"] = profile(df)
     st.session_state["disabled_steps"] = set()
     st.session_state["editor_version"] = 0
+    st.session_state["outlier_choices"] = {}
+    st.session_state["numeric_imputer"] = "auto"
 
 
 def disabled_steps() -> set[str]:
     return set(st.session_state.get("disabled_steps", set()))
+
+
+def outlier_choices() -> dict[str, str]:
+    return dict(st.session_state.get("outlier_choices", {}))
+
+
+def preprocess_options(numeric_cols: list[str]) -> PreprocessOptions:
+    """Current outlier and imputer picks, limited to columns that are still numeric."""
+    choices = {c: v for c, v in outlier_choices().items() if c in numeric_cols}
+    imputer = st.session_state.get("numeric_imputer", "auto")
+    return PreprocessOptions(outliers=choices, numeric_imputer=imputer)
 
 
 # ---------- data source ----------
@@ -188,6 +221,101 @@ def render_cleaning(log: CleaningLog) -> None:
     render_flags(log)
 
 
+# ---------- outliers ----------
+
+
+def numeric_columns(clean_prof: DatasetProfile) -> list[str]:
+    return [c.name for c in clean_prof.columns if c.dtype == "numeric"]
+
+
+def values_removed(log: CleaningLog, column: str) -> int:
+    """Impossible or placeholder values the cleaning step turned into blanks."""
+    wanted = {f"impossible:{column}", f"placeholder:{column}"}
+    return sum(s.rows_affected for s in log.steps if s.step_id in wanted and s.enabled)
+
+
+def outlier_frame(clean_prof: DatasetProfile, log: CleaningLog) -> pd.DataFrame:
+    choices = outlier_choices()
+    rows = [
+        {
+            "column": c.name,
+            "outliers": c.n_outliers,
+            "removed": values_removed(log, c.name),
+            "choice": OUTLIER_LABELS.get(choices.get(c.name, "auto"), "auto"),
+        }
+        for c in clean_prof.columns
+        if c.dtype == "numeric"
+    ]
+    return pd.DataFrame(rows, columns=["column", "outliers", "removed", "choice"])
+
+
+def render_outlier_editor(clean_prof: DatasetProfile, log: CleaningLog) -> None:
+    frame = outlier_frame(clean_prof, log)
+    if frame.empty:
+        st.info("No number columns here, so there's nothing to tweak.")
+        return
+    st.caption(
+        "Auto leaves a column alone if it has no outliers, uses log for skewed positive "
+        "numbers, and caps the rest. Cap squeezes extreme values to the 1st and 99th "
+        "percentile. Log shrinks long tails. Set to missing blanks them out."
+    )
+    st.caption(
+        "Cap and log only apply to linear, SVM and KNN models. "
+        "Tree models get the raw values, since big numbers don't throw them off."
+    )
+    edited = st.data_editor(
+        frame,
+        key=f"outlier_editor|{st.session_state['dataset_key']}",
+        hide_index=True,
+        width="stretch",
+        disabled=["column", "outliers", "removed"],
+        column_config={
+            "outliers": st.column_config.NumberColumn(
+                help="Values far outside the middle half of the data (the IQR rule). "
+                "Just a count, nothing is removed."
+            ),
+            "removed": st.column_config.NumberColumn(
+                "impossible or placeholder",
+                help="Values that can't be real (like age 150) or filler codes (like 999). "
+                "Cleaning already turned these into blanks.",
+            ),
+            "choice": st.column_config.SelectboxColumn(
+                "what to do",
+                options=list(OUTLIER_LABELS.values()),
+                required=True,
+                help="How the model handles outliers. Learned from the training rows only.",
+            ),
+        },
+    )
+    new = {
+        col: OUTLIER_VALUES[label]
+        for col, label in zip(edited["column"], edited["choice"], strict=True)
+        if OUTLIER_VALUES.get(label, "auto") != "auto"
+    }
+    numeric = set(frame["column"])
+    old = {c: v for c, v in outlier_choices().items() if c in numeric and v != "auto"}
+    if new != old:
+        st.session_state["outlier_choices"] = new
+        st.rerun()
+
+
+def render_imputer_choice() -> None:
+    st.radio(
+        "How should we fill blanks in number columns?",
+        list(IMPUTER_LABELS),
+        format_func=IMPUTER_LABELS.get,
+        key="numeric_imputer",
+        help="Whatever you pick only learns from the training rows, so nothing leaks.",
+    )
+
+
+def render_outliers(clean_prof: DatasetProfile, log: CleaningLog) -> None:
+    st.header("4. Outliers and blanks")
+    st.write("Pick how the model should treat extreme numbers and gaps.")
+    render_outlier_editor(clean_prof, log)
+    render_imputer_choice()
+
+
 # ---------- result ----------
 
 
@@ -200,7 +328,7 @@ def render_row_ids(log: CleaningLog) -> None:
 
 
 def render_result(raw_df: pd.DataFrame, clean_df: pd.DataFrame, log: CleaningLog) -> None:
-    st.header("4. The cleaned data")
+    st.header("5. The cleaned data")
     st.write(
         f"{raw_df.shape[0]:,} rows x {raw_df.shape[1]} columns "
         f"-> {clean_df.shape[0]:,} rows x {clean_df.shape[1]} columns"
@@ -212,22 +340,28 @@ def render_result(raw_df: pd.DataFrame, clean_df: pd.DataFrame, log: CleaningLog
 # ---------- preprocessor preview ----------
 
 
-def preprocessor_groups(clean_df: pd.DataFrame) -> list[tuple[str, list[str]]]:
+def preprocessor_groups(
+    clean_df: pd.DataFrame, clean_prof: DatasetProfile
+) -> list[tuple[str, list[str]]]:
     """(group name, columns) for each part of the unfitted ColumnTransformer."""
-    ct = build_preprocessor(profile(clean_df), target=None, df=clean_df)
+    options = preprocess_options(numeric_columns(clean_prof))
+    ct = build_preprocessor(clean_prof, target=None, df=clean_df, options=options)
     return [(name, list(cols)) for name, _, cols in ct.transformers]
 
 
-def render_model_view(clean_df: pd.DataFrame) -> None:
+def render_model_view(clean_df: pd.DataFrame, clean_prof: DatasetProfile) -> None:
     with st.expander("What the model will see"):
         st.caption(
             "This is the plan, not fitted yet. It only learns from the training split "
             "in a later step, so nothing leaks from the test rows."
         )
         try:
-            groups = preprocessor_groups(clean_df)
-        except ValueError:
+            groups = preprocessor_groups(clean_df, clean_prof)
+        except NoUsableFeaturesError:
             st.warning("No usable columns left for a model. Try turning some fixes back on.")
+            return
+        except ValueError as e:
+            st.error(str(e))
             return
         for name, cols in groups:
             st.markdown(f"**{GROUP_LABELS.get(name, name)}**")
@@ -252,8 +386,10 @@ def main() -> None:
     st.session_state["clean_df"] = clean_df
     st.session_state["cleaning_log"] = log
     render_cleaning(log)
+    clean_prof = profile(clean_df)
+    render_outliers(clean_prof, log)
     render_result(raw_df, clean_df, log)
-    render_model_view(clean_df)
+    render_model_view(clean_df, clean_prof)
 
 
 main()

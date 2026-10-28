@@ -10,7 +10,16 @@ import pytest
 from app.core import profiling as P
 from tests.conftest import DATA, MESSY
 
-ALLOWED_TYPES = {"numeric", "categorical", "boolean", "datetime", "text", "id", "constant"}
+ALLOWED_TYPES = {
+    "numeric",
+    "categorical",
+    "boolean",
+    "datetime",
+    "time",
+    "text",
+    "id",
+    "constant",
+}
 STAT_KEYS = {"min", "max", "mean", "median", "std", "skew"}
 DISGUISES = {"currency", "percent", "thousands_sep", "parens_negative"}
 
@@ -196,12 +205,23 @@ def _breast_cancer(t: dict[str, str]) -> None:
 
 
 def _diabetes(t: dict[str, str]) -> None:
-    # sex holds 1.0 / 2.0: two values but not a boolean pair, so numeric.
-    assert all(v == "numeric" for v in t.values()), t
+    # sex holds 1.0 / 2.0: two values but not a boolean pair, so they're labels.
+    assert t["sex"] == "categorical"
+    assert all(v == "numeric" for k, v in t.items() if k != "sex"), t
 
 
 def _messy(t: dict[str, str]) -> None:
     assert t == MESSY_TYPES
+
+
+def _messy_clinic(t: dict[str, str]) -> None:
+    assert t["patient_id"] == "id"
+    assert t["sex"] == "categorical"
+    assert t["visit_date"] == t["discharge_datetime"] == "datetime"
+    assert t["checkin_time"] == "time"
+    assert t["smoker"] == t["outcome"] == "boolean"
+    numeric = ["age", "bmi", "blood_pressure", "glucose", "discount_pct", "price", "quantity"]
+    assert all(t[c] == "numeric" for c in [*numeric, "income"]), t
 
 
 SAMPLE_EXPECTATIONS: dict[str, Callable[[dict[str, str]], None]] = {
@@ -209,6 +229,7 @@ SAMPLE_EXPECTATIONS: dict[str, Callable[[dict[str, str]], None]] = {
     "breast_cancer.csv": _breast_cancer,
     "diabetes.csv": _diabetes,
     "messy.csv": _messy,
+    "messy_clinic.csv": _messy_clinic,
 }
 
 
@@ -444,7 +465,7 @@ def test_boolean_case_variants() -> None:
 @pytest.mark.parametrize(
     ("values", "expected"),
     [
-        (["1.0", "2.0", "1.0", "2.0"], "numeric"),  # two values, not a boolean pair
+        (["1.0", "2.0", "1.0", "2.0"], "categorical"),  # two values, not a boolean pair
         (["a", "b", "a", "b"], "categorical"),
         (["yes", "maybe", "no", "yes"], "categorical"),
     ],

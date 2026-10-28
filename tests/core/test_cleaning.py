@@ -24,11 +24,17 @@ STEP_ORDER = [
     "to_bool",
     "merge_case",
     "presence_flag",
-    "date_parts",
+    "placeholder",
+    "impossible",
+    "impossible_skipped",
+    "invalid_dates",
+    "unparseable_dates",
+    "invalid_times",
     "drop_id",
     "drop_constant",
     "high_missing",
 ]
+FLAG_ACTIONS = {"high_missing", "impossible_skipped", "unparseable_dates"}
 LOG_COLUMNS = ["step_id", "column", "action", "reason", "kind", "enabled", "rows_affected"]
 
 # every step that applies to the kitchen_sink_raw fixture
@@ -38,13 +44,10 @@ SINK_FIX_STEPS = [
     "normalize:age",
     "normalize:notes",
     "normalize:sparse",
-    "to_numeric:monthly_spend",
-    "to_numeric:age",
-    "to_numeric:sparse",
+    "to_numeric:monthly_spend",  # plain numbers (age, sparse) parse silently now
     "to_bool:churned",
     "merge_case:state",
     "presence_flag:notes",
-    "date_parts:signup_date",
     "drop_id:customer_id",
     "drop_constant:country",
 ]
@@ -66,10 +69,13 @@ def with_row(cols: dict[str, list[str]]) -> pd.DataFrame:
 
 
 def run(
-    df: pd.DataFrame, disabled: set[str] | None = None
+    df: pd.DataFrame, disabled: set[str] | None = None, reference_date: str | None = None
 ) -> tuple[pd.DataFrame, C.CleaningLog, P.DatasetProfile]:
     prof = P.profile(df)
-    clean_df, log = C.clean(df, prof, disabled)
+    if reference_date is None:
+        clean_df, log = C.clean(df, prof, disabled)
+    else:
+        clean_df, log = C.clean(df, prof, disabled, reference_date=reference_date)
     return clean_df, log, prof
 
 
@@ -105,7 +111,7 @@ def assert_log_invariants(log: C.CleaningLog) -> None:
         assert s.rows_affected >= 0
         if s.action == "dedupe":
             assert s.column == "*"
-        if s.action == "high_missing":
+        if s.action in FLAG_ACTIONS:
             assert s.kind == "flag"
         else:
             assert s.kind == "fix"
@@ -184,6 +190,7 @@ def test_to_numeric_strips_disguises() -> None:
     clean_df, log, prof = run(df)
     expect_type(prof, "m", "numeric")
     assert "to_numeric:m" in ids(log)
+    assert log.step("to_numeric:m").rows_affected == 3  # "7" was already a plain number
     assert is_float64(clean_df["m"])
     assert floats(clean_df["m"]) == [1200.0, -5.0, 12.0, 7.0]
 
@@ -195,6 +202,7 @@ def test_to_numeric_leftover_values_become_missing() -> None:
     expect_type(prof, "m", "numeric")
     step = log.step("to_numeric:m")
     assert step.reason.strip()
+    assert step.rows_affected == 1  # only "oops" changed
     assert is_float64(clean_df["m"])
     assert pd.isna(clean_df["m"].iloc[19])
     assert clean_df["m"].iloc[:19].notna().all()
@@ -211,21 +219,23 @@ def test_to_numeric_not_logged_for_numeric_dtype() -> None:
 
 
 @pytest.mark.parametrize(
-    ("values", "expected"),
+    ("values", "expected", "logged"),
     [
-        (["yes", "no", "YES", "No"], [1.0, 0.0, 1.0, 0.0]),
-        (["Y", "N", "y", ""], [1.0, 0.0, 1.0, None]),
-        (["1.0", "0", "1", "0"], [1.0, 0.0, 1.0, 0.0]),
-        (["true", "False", "TRUE", "false"], [1.0, 0.0, 1.0, 0.0]),
-        (["off", "on", "on", "off"], [0.0, 1.0, 1.0, 0.0]),
-        (["F", "T", "t", "f"], [0.0, 1.0, 1.0, 0.0]),
+        (["yes", "no", "YES", "No"], [1.0, 0.0, 1.0, 0.0], True),
+        (["Y", "N", "y", ""], [1.0, 0.0, 1.0, None], True),
+        (["1.0", "0", "1", "0"], [1.0, 0.0, 1.0, 0.0], None),  # numeric-looking: not pinned
+        (["1", "0", "1", "0"], [1.0, 0.0, 1.0, 0.0], False),  # already 0/1: silent parse
+        (["true", "False", "TRUE", "false"], [1.0, 0.0, 1.0, 0.0], True),
+        (["off", "on", "on", "off"], [0.0, 1.0, 1.0, 0.0], True),
+        (["F", "T", "t", "f"], [0.0, 1.0, 1.0, 0.0], True),
     ],
 )
-def test_to_bool(values: list[str], expected: list[float | None]) -> None:
+def test_to_bool(values: list[str], expected: list[float | None], logged: bool | None) -> None:
     df = with_row({"b": values})
     clean_df, log, prof = run(df)
     expect_type(prof, "b", "boolean")
-    assert "to_bool:b" in ids(log)
+    if logged is not None:
+        assert ("to_bool:b" in ids(log)) is logged
     assert is_float64(clean_df["b"])
     assert floats(clean_df["b"]) == expected
 
@@ -293,36 +303,44 @@ def test_presence_flag_replaces_column_in_place() -> None:
     assert "high_missing:notes_present" not in ids(log)
 
 
-# ---------------------------------------------------------------- date_parts
+# ---------------------------------------------------------------- dates (no more date_parts)
+#
+# Date features now come from the Pipeline (DateFeatures), so clean() just parses
+# dates and keeps them in place as datetime64[ns].
 
 
-def test_date_parts_iso() -> None:
+def test_dates_stay_in_place_iso() -> None:
     df = raw({"a": ["1", "2", "3", "4"], "d": ["2024-01-15", "2024-03-04", "2023-12-31", ""]})
-    clean_df, log, prof = run(df)
+    clean_df, log, prof = run(df, reference_date="2025-01-01")
     expect_type(prof, "d", "datetime")
-    assert "date_parts:d" in ids(log)
-    assert list(clean_df.columns) == ["a", "d_year", "d_month", "d_dayofweek"]
-    for c in ("d_year", "d_month", "d_dayofweek"):
-        assert is_float64(clean_df[c]), c
-    assert floats(clean_df["d_year"]) == [2024.0, 2024.0, 2023.0, None]
-    assert floats(clean_df["d_month"]) == [1.0, 3.0, 12.0, None]
-    assert floats(clean_df["d_dayofweek"]) == [0.0, 0.0, 6.0, None]  # Mon=0, Sun=6
+    assert not [s for s in log.steps if s.action == "date_parts"]
+    assert list(clean_df.columns) == ["a", "d"]
+    assert str(clean_df["d"].dtype) == "datetime64[ns]"
+    assert clean_df["d"].iloc[:3].tolist() == [
+        pd.Timestamp("2024-01-15"),
+        pd.Timestamp("2024-03-04"),
+        pd.Timestamp("2023-12-31"),
+    ]
+    assert pd.isna(clean_df["d"].iloc[3])
 
 
-def test_date_parts_day_first_and_position() -> None:
+def test_dates_day_first_and_position() -> None:
     df = raw(
         {
             "d": ["15/01/2024", "16/02/2024", "03/03/2024"],
             "z": ["p", "q", "p"],
         }
     )
-    clean_df, _, prof = run(df)
+    clean_df, _, prof = run(df, reference_date="2025-01-01")
     expect_type(prof, "d", "datetime")
     assert prof.column("d").dayfirst is True
-    assert list(clean_df.columns) == ["d_year", "d_month", "d_dayofweek", "z"]
-    assert floats(clean_df["d_year"]) == [2024.0, 2024.0, 2024.0]
-    assert floats(clean_df["d_month"]) == [1.0, 2.0, 3.0]
-    assert floats(clean_df["d_dayofweek"]) == [0.0, 4.0, 6.0]
+    assert list(clean_df.columns) == ["d", "z"]
+    assert str(clean_df["d"].dtype) == "datetime64[ns]"
+    assert clean_df["d"].dt.strftime("%Y-%m-%d").tolist() == [
+        "2024-01-15",
+        "2024-02-16",
+        "2024-03-03",
+    ]
 
 
 # ---------------------------------------------------------------- drop_id / row_ids
@@ -427,9 +445,7 @@ def messy_clean(messy_raw: pd.DataFrame) -> tuple[pd.DataFrame, C.CleaningLog]:
 def test_messy_columns_and_order(messy_clean: tuple[pd.DataFrame, C.CleaningLog]) -> None:
     clean_df, _ = messy_clean
     assert list(clean_df.columns) == [
-        "signup_date_year",
-        "signup_date_month",
-        "signup_date_dayofweek",
+        "signup_date",
         "monthly_spend",
         "state",
         "age",
@@ -502,17 +518,14 @@ def test_messy_state_merges_to_uppercase_nsw(
     assert "NSW" in set(clean_df["state"].dropna())
 
 
-def test_messy_signup_date_parts(messy_clean: tuple[pd.DataFrame, C.CleaningLog]) -> None:
+def test_messy_signup_date_parsed(messy_clean: tuple[pd.DataFrame, C.CleaningLog]) -> None:
     clean_df, log = messy_clean
-    assert "signup_date" not in clean_df.columns
-    assert "date_parts:signup_date" in ids(log)
-    first, second = clean_df.iloc[0], clean_df.iloc[1]
-    # 2023-02-23 is a Thursday
-    assert (first["signup_date_year"], first["signup_date_month"]) == (2023.0, 2.0)
-    assert first["signup_date_dayofweek"] == 3.0
-    # 09/04/2024 is day first: 9 April 2024, a Tuesday
-    assert (second["signup_date_year"], second["signup_date_month"]) == (2024.0, 4.0)
-    assert second["signup_date_dayofweek"] == 1.0
+    assert str(clean_df["signup_date"].dtype) == "datetime64[ns]"
+    assert not [s for s in log.steps if s.column == "signup_date"]  # plain parse, not logged
+    assert clean_df["signup_date"].iloc[0] == pd.Timestamp("2023-02-23")
+    # 09/04/2024 is day first: 9 April 2024
+    assert clean_df["signup_date"].iloc[1] == pd.Timestamp("2024-04-09")
+    assert clean_df["signup_date"].notna().all()
 
 
 def test_messy_no_imputation(
@@ -568,7 +581,6 @@ def _applied(step: C.CleaningStep, clean_df: pd.DataFrame, n_raw: int) -> bool:
             clean_df[col].dropna().str.lower().nunique() == clean_df[col].dropna().nunique()
         ),
         "presence_flag": lambda: f"{col}_present" in clean_df and col not in clean_df,
-        "date_parts": lambda: f"{col}_year" in clean_df and col not in clean_df,
         "drop_id": lambda: col not in clean_df.columns,
         "drop_constant": lambda: col not in clean_df.columns,
     }
@@ -591,7 +603,6 @@ def _not_applied(step: C.CleaningStep, clean_df: pd.DataFrame, n_raw: int) -> bo
             clean_df[col].dropna().str.lower().nunique() < clean_df[col].dropna().nunique()
         ),
         "presence_flag": lambda: col in clean_df and f"{col}_present" not in clean_df,
-        "date_parts": lambda: col in clean_df and f"{col}_year" not in clean_df,
         "drop_id": lambda: col in clean_df.columns,
         "drop_constant": lambda: col in clean_df.columns,
     }

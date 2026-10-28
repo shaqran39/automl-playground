@@ -6,6 +6,9 @@ import pytest
 DATA = Path(__file__).parent.parent / "sample_data"
 SAMPLE_NAMES: list[str] = sorted(p.name for p in DATA.glob("*.csv"))
 MESSY = DATA / "messy.csv"
+MESSY_CLINIC = DATA / "messy_clinic.csv"
+# fixed "today" for invalid-date checks, so tests never depend on the clock
+REFERENCE_DATE = "2025-01-01"
 
 
 @pytest.fixture(params=SAMPLE_NAMES)
@@ -44,3 +47,15 @@ def messy_df(request: pytest.FixtureRequest) -> pd.DataFrame:
 
         return profiling.read_csv_raw(MESSY)
     return pd.read_csv(MESSY)
+
+
+@pytest.fixture
+def clinic_raw() -> pd.DataFrame:
+    """messy_clinic.csv as raw strings, via the app's reader.
+
+    Every Phase 2 rework rule fires on it at least once (placeholders, impossible
+    values, invalid dates and times, 2-value codes, skewed income, blanks).
+    """
+    from app.core import profiling
+
+    return profiling.read_csv_raw(MESSY_CLINIC)

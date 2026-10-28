@@ -17,10 +17,11 @@ def test_real_datetime_dtype_column() -> None:
     assert col.date_range == ("2024-01-01", "2024-01-20")
 
 
-def test_tz_aware_datetimes_keep_local_dates() -> None:
+def test_tz_aware_datetimes_become_utc() -> None:
+    # Sydney midnight is 13:00 the day before in UTC
     col = _col(pd.date_range("2024-01-01", periods=20, tz="Australia/Sydney"))
     assert col.dtype == "datetime"
-    assert col.date_range == ("2024-01-01", "2024-01-20")
+    assert col.date_range == ("2023-12-31", "2024-01-19")
 
 
 def test_month_first_dates() -> None:

@@ -14,7 +14,9 @@ from typing import IO, Any, Literal
 import numpy as np
 import pandas as pd
 
-ColumnType = Literal["numeric", "categorical", "boolean", "datetime", "text", "id", "constant"]
+ColumnType = Literal[
+    "numeric", "categorical", "boolean", "datetime", "time", "text", "id", "constant"
+]
 
 MISSING_TOKENS: frozenset[str] = frozenset({"", "na", "n/a", "nan", "null", "none", "-", "?"})
 BOOLEAN_PAIRS: frozenset[frozenset[str]] = frozenset(
@@ -50,6 +52,7 @@ _LEADING_ZERO_RE = r"0\d{2,}"  # 3+ chars, so padded hours/months like "05" stay
 LEADING_ZERO_MIN_COUNT = 2
 _ID_NAME_RE = re.compile(r"(^|[_\s.-])(id|key|uuid|guid)$|^(id|key|uuid|guid)[_\s.-]", re.I)
 _CAMEL_ID_RE = re.compile(r"[a-z0-9](Id|ID|Key|Uuid)$")
+_TIME_RE = r"^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([AaPp][Mm])?$"
 YEAR_RANGE = (1900, 2100)
 SEQ_ID_MIN_VALUES = 50
 
@@ -74,6 +77,7 @@ class ColumnProfile:
     dayfirst: bool | None = None
     date_ambiguous: bool = False
     date_range: tuple[str, str] | None = None
+    has_time: bool = False
     all_missing: bool = False
 
 
@@ -288,6 +292,47 @@ def parse_dates(values: pd.Series) -> tuple[pd.Series, bool | None, bool]:
     return result.parsed, result.dayfirst, result.ambiguous
 
 
+# ---------------------------------------------------------------- time parsing
+
+
+def _clock(hour: int, minute: int, second: int, ampm: str) -> str | None:
+    """ "HH:MM:SS" in 24h time, or None if the parts aren't a real time of day."""
+    if minute > 59 or second > 59:
+        return None
+    if ampm:
+        if not 1 <= hour <= 12:
+            return None
+        hour = hour % 12 + (12 if ampm == "pm" else 0)
+    elif hour > 23:
+        return None
+    return f"{hour:02d}:{minute:02d}:{second:02d}"
+
+
+def _parse_time(value: Any) -> str | None:
+    if value is None or _is_missing_scalar(value):
+        return None
+    match = re.match(_TIME_RE, str(value).strip())
+    if not match:
+        return None
+    hour, minute, second, ampm = match.groups()
+    return _clock(int(hour), int(minute), int(second or 0), (ampm or "").lower())
+
+
+def parse_times(values: pd.Series) -> pd.Series:
+    """Times of day like "14:30", "9:05:10" or "2:30 PM" as "HH:MM:SS" (24h).
+
+    None where the value is missing or isn't a real time. Never mutates the input.
+    """
+    return pd.Series([_parse_time(v) for v in values], index=values.index, dtype=object)
+
+
+def to_utc_naive(values: pd.Series) -> pd.Series:
+    """Timezone-aware datetimes moved to UTC with the zone dropped. Others pass through."""
+    if isinstance(values.dtype, pd.DatetimeTZDtype):
+        return values.dt.tz_convert("UTC").dt.tz_localize(None)
+    return values
+
+
 # ---------------------------------------------------------------- small helpers
 
 
@@ -468,6 +513,21 @@ def _numeric(
     return base
 
 
+def _two_values(base: ColumnProfile, present: pd.Series, nums: pd.Series) -> ColumnProfile:
+    """Numbers with exactly two values that aren't 0/1, like sex coded 1 / 2."""
+    col = _categorical(base, present, 1.0)
+    pair = " / ".join(f"{v:g}" for v in sorted(nums.unique()))
+    col.reasons = [f"Only two values ({pair}), so these are labels, not amounts."]
+    return col
+
+
+def _time(base: ColumnProfile, rate: float) -> ColumnProfile:
+    base.dtype = "time"
+    base.parse_rate = rate
+    base.reasons = [f"{_fmt_pct(100 * rate)} of values parse as times of day (like '14:30')."]
+    return base
+
+
 def _datetime(base: ColumnProfile, dates: _DateParse, rate: float) -> ColumnProfile:
     base.dtype = "datetime"
     base.parse_rate = rate
@@ -476,6 +536,7 @@ def _datetime(base: ColumnProfile, dates: _DateParse, rate: float) -> ColumnProf
     base.date_format = "mixed" if len(dates.formats) > 1 else dates.formats[0]
     valid = dates.parsed.dropna()
     base.date_range = (valid.min().date().isoformat(), valid.max().date().isoformat())
+    base.has_time = bool((valid != valid.dt.normalize()).any())
     base.reasons = [f"{_fmt_pct(100 * rate)} of values parse as dates."]
     if base.date_format == "mixed":
         base.reasons.append("Dates are written in more than one format.")
@@ -591,6 +652,8 @@ def _detect(base: ColumnProfile, present: pd.Series, n_rows: int) -> ColumnProfi
     num_rate = float(nums.notna().mean())
     if num_rate >= PARSE_THRESHOLD:
         valid = nums.dropna()
+        if valid.nunique() == 2:
+            return _two_values(base, present, valid)
         id_reason = _int_id_reason(base.name, present, valid, base.n_unique)
         if id_reason:
             return _id(base, id_reason)
@@ -598,6 +661,10 @@ def _detect(base: ColumnProfile, present: pd.Series, n_rows: int) -> ColumnProfi
         if _all_unique_ints(present, base.n_unique) and not _looks_like_years(valid):
             col.reasons.append("Every value is a different whole number, so it could be an ID.")
         return col
+
+    time_rate = float(parse_times(present).notna().mean())
+    if time_rate >= PARSE_THRESHOLD:
+        return _time(base, time_rate)
 
     dates = _parse_dates_detail(present)
     date_rate = float(dates.parsed.notna().mean())
@@ -623,8 +690,7 @@ def _detect(base: ColumnProfile, present: pd.Series, n_rows: int) -> ColumnProfi
 def profile_column(name: str, values: pd.Series) -> ColumnProfile:
     """Profile one column. Read-only on the input."""
     n_rows = len(values)
-    if isinstance(values.dtype, pd.DatetimeTZDtype):
-        values = values.dt.tz_localize(None)  # keep local wall time; returns a new series
+    values = to_utc_naive(values)  # returns a new series, the input is untouched
     clean = to_clean_strings(values)
     present = clean.dropna().astype(object)
     base = ColumnProfile(
