@@ -125,7 +125,7 @@ def test_ugly_inline_csv_end_to_end() -> None:
     clean_df, log = C.clean(raw, prof, reference_date=REFERENCE_DATE)
     assert "id" not in clean_df.columns
     # -1 shows up twice in both columns and nothing else is negative, so it's a code
-    assert log.step("placeholder:Age ").rows_affected == 2
+    assert log.step("placeholder:Age").rows_affected == 2
     assert log.step("placeholder:qty").rows_affected == 2
     assert log.step("invalid_times:clock").rows_affected == 1
     assert clean_df["clock"].iloc[:3].tolist() == ["09:05:00", "14:30:00", "14:30:00"]

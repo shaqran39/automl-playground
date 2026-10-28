@@ -1,7 +1,9 @@
 """Streamlit frontend. Run: streamlit run frontend/streamlit_app.py"""
 
 import hashlib
+import logging
 import sys
+import traceback
 from pathlib import Path
 
 import pandas as pd
@@ -12,13 +14,15 @@ if str(ROOT) not in sys.path:  # streamlit only adds frontend/ to the path
     sys.path.insert(0, str(ROOT))
 
 from app.core.cleaning import CleaningLog, clean  # noqa: E402
+from app.core.loading import CsvLoadError, CsvReport, Source, read_csv_report  # noqa: E402
 from app.core.preprocessing import (  # noqa: E402
     NoUsableFeaturesError,
     PreprocessOptions,
     build_preprocessor,
 )
-from app.core.profiling import DatasetProfile, profile, read_csv_raw  # noqa: E402
+from app.core.profiling import DatasetProfile, profile  # noqa: E402
 
+logger = logging.getLogger(__name__)
 SAMPLE_DIR = ROOT / "sample_data"
 NO_SAMPLE = "(none)"
 EDITOR_COLUMNS = ["on", "column", "action", "reason", "rows_affected"]
@@ -33,6 +37,8 @@ DATASET_KEYS = (
     "cleaning_log",
     "outlier_choices",
     "numeric_imputer",
+    "source_id",
+    "csv_report",
 )
 OUTLIER_LABELS: dict[str, str] = {
     "auto": "auto",
@@ -104,6 +110,35 @@ def sample_files() -> list[str]:
     return sorted(p.name for p in SAMPLE_DIR.glob("*.csv"))
 
 
+def load_source(source_id: str, name: str, source: Source) -> None:
+    """Read and store a new source. Same source as last run: nothing to do.
+
+    Re-reading a big upload on every click would be slow, so the source id
+    (upload id or sample name) decides whether to read again.
+    """
+    if st.session_state.get("source_id") == source_id:
+        return
+    try:
+        df, report = read_csv_report(source)  # memory only, never saved
+    except CsvLoadError as e:
+        clear_dataset()
+        st.error(f"Couldn't read {name}. {e}")
+        return
+    set_dataset(name, df)
+    st.session_state["source_id"] = source_id
+    st.session_state["csv_report"] = report
+
+
+def render_csv_report() -> None:
+    report: CsvReport | None = st.session_state.get("csv_report")
+    if report is None:
+        return
+    for note in report.notes():
+        st.caption(note)
+    for warning in report.warnings():
+        st.warning(warning)
+
+
 def render_data_source() -> None:
     st.header("1. Pick some data")
     left, right = st.columns(2)
@@ -112,16 +147,37 @@ def render_data_source() -> None:
     with right:
         sample = st.selectbox("Or try a sample", [NO_SAMPLE, *sample_files()])
     if uploaded is not None:
-        set_dataset(uploaded.name, read_csv_raw(uploaded))  # memory only, never saved
+        load_source(f"upload|{uploaded.file_id}", uploaded.name, uploaded)
     elif sample != NO_SAMPLE:
-        set_dataset(sample, read_csv_raw(SAMPLE_DIR / sample))
+        load_source(f"sample|{sample}", sample, SAMPLE_DIR / sample)
     else:
         clear_dataset()  # user removed the file, so drop it from memory too
+    render_csv_report()
 
 
 def clear_dataset() -> None:
     for key in DATASET_KEYS:
         st.session_state.pop(key, None)
+
+
+# ---------- errors ----------
+
+
+def show_crash(error: Exception) -> None:
+    """Friendly message instead of a traceback.
+
+    The server log gets the error type and where it happened, never the message,
+    since messages can quote values from the user's data.
+    """
+    frames = traceback.extract_tb(error.__traceback__)
+    where = " <- ".join(f"{Path(f.filename).name}:{f.lineno}" for f in reversed(frames[-5:]))
+    logger.error("App error %s at %s", type(error).__name__, where)
+    st.error(
+        "Something went wrong while working on this file, sorry about that. "
+        "Things to try: undo the last setting you changed, untick the last fix you "
+        "turned off, or upload a smaller or cleaner version of the file. "
+        f"(Error type: {type(error).__name__})"
+    )
 
 
 # ---------- profile ----------
@@ -375,10 +431,17 @@ def main() -> None:
     st.set_page_config(page_title="AutoML Playground", layout="wide")
     st.title("AutoML Playground")
     st.caption("Drop in a CSV. We'll figure out the rest.")
-    render_data_source()
-    if "raw_df" not in st.session_state:
-        st.info("Upload a CSV or pick a sample to get started.")
-        return
+    try:
+        render_data_source()
+        if "raw_df" not in st.session_state:
+            st.info("Upload a CSV or pick a sample to get started.")
+            return
+        render_dataset()
+    except Exception as e:  # never show a raw traceback in the UI
+        show_crash(e)
+
+
+def render_dataset() -> None:
     raw_df: pd.DataFrame = st.session_state["raw_df"]
     prof: DatasetProfile = st.session_state["raw_profile"]
     render_profile(prof)

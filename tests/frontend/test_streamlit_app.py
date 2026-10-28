@@ -49,6 +49,26 @@ def test_disabled_step_in_state_is_applied() -> None:
     assert "nsw" in set(at.session_state["clean_df"]["state"].dropna())
 
 
+def test_error_shows_friendly_message_not_traceback() -> None:
+    at = _app()
+    at.selectbox[0].select("iris.csv").run()
+    at.session_state["raw_profile"] = at.session_state["raw_profile"].__class__(n_rows=0, n_cols=1)
+    at.run()  # clean() now raises: the profile doesn't match the frame
+    assert not at.exception
+    assert any("Something went wrong" in e.value for e in at.error)
+    assert any("ValueError" in e.value for e in at.error)
+
+
+def test_same_source_is_not_read_again() -> None:
+    at = _app()
+    at.selectbox[0].select("iris.csv").run()
+    report = at.session_state["csv_report"]
+    assert report.sep == ","
+    at.session_state["raw_df"] = at.session_state["raw_df"].head(10)
+    at.run()
+    assert len(at.session_state["raw_df"]) == 10  # kept, not re-read from disk
+
+
 def test_clearing_the_source_drops_data_from_memory() -> None:
     at = _app()
     at.selectbox[0].select("messy.csv").run()
@@ -56,6 +76,7 @@ def test_clearing_the_source_drops_data_from_memory() -> None:
     assert not at.exception
     assert "raw_df" not in at.session_state
     assert "clean_df" not in at.session_state
+    assert "csv_report" not in at.session_state
 
 
 # ---------------------------------------------------------------- Phase 2 rework (spec E)

@@ -14,6 +14,8 @@ from typing import IO, Any, Literal
 import numpy as np
 import pandas as pd
 
+from app.core import loading
+
 ColumnType = Literal[
     "numeric", "categorical", "boolean", "datetime", "time", "text", "id", "constant"
 ]
@@ -100,8 +102,11 @@ class DatasetProfile:
 
 
 def read_csv_raw(path: str | Path | IO[str] | IO[bytes]) -> pd.DataFrame:
-    """Read a CSV with every cell kept as a raw string (blanks stay "")."""
-    return pd.read_csv(path, dtype=str, keep_default_na=False)
+    """Read a CSV with every cell kept as a raw string (blanks stay "").
+
+    Separator, encoding, junk lines and broken rows are handled in app.core.loading.
+    """
+    return loading.read_csv_raw(path)
 
 
 # ---------------------------------------------------------------- normalising

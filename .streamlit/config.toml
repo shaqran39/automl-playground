@@ -1,0 +1,3 @@
+[client]
+# The app shows its own friendly errors. Never send tracebacks to the browser.
+showErrorDetails = "none"
