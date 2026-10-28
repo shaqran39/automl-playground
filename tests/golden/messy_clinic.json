@@ -1,0 +1,1595 @@
+{
+ "profile": {
+  "n_rows": 80,
+  "n_cols": 16,
+  "n_duplicate_rows": 0,
+  "columns": [
+   {
+    "name": "patient_id",
+    "dtype": "id",
+    "missing_pct": 0.0,
+    "n_unique": 80,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values are unique short codes like 'P0001', so this looks like an ID."
+    ],
+    "sample_values": [
+     "P0001",
+     "P0002",
+     "P0003",
+     "P0004",
+     "P0005"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "age",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 49,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "4 values (5.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "82",
+     "38",
+     "41",
+     "55",
+     "32"
+    ],
+    "stats": {
+     "min": -3.0,
+     "max": 999.0,
+     "mean": 87.2125,
+     "median": 54.5,
+     "std": 182.5450659634353,
+     "skew": 4.838422165065698
+    },
+    "n_outliers": 4,
+    "outlier_pct": 5.0,
+    "outlier_bounds": [
+     -20.125,
+     122.875
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "sex",
+    "dtype": "categorical",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Only two values (1 / 2), so these are labels, not amounts."
+    ],
+    "sample_values": [
+     "1",
+     "2"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "1": 40,
+     "2": 40
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "bmi",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 68,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "3 values (3.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "37.7",
+     "18.1",
+     "23.6",
+     "35.4",
+     "31.5"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 39.8,
+     "mean": 28.77,
+     "median": 30.1,
+     "std": 8.560764191607184,
+     "skew": -1.3761715541629258
+    },
+    "n_outliers": 3,
+    "outlier_pct": 3.75,
+    "outlier_bounds": [
+     5.2625000000000135,
+     52.76249999999999
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "blood_pressure",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 55,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "4 values (5.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "150",
+     "140",
+     "122",
+     "156",
+     "109"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 999.0,
+     "mean": 156.5125,
+     "median": 140.0,
+     "std": 139.32695303412098,
+     "skew": 5.691661577305154
+    },
+    "n_outliers": 4,
+    "outlier_pct": 5.0,
+    "outlier_bounds": [
+     50.5,
+     224.5
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "glucose",
+    "dtype": "numeric",
+    "missing_pct": 7.5,
+    "n_unique": 56,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7.5% of values are missing."
+    ],
+    "sample_values": [
+     "145",
+     "176",
+     "198",
+     "75",
+     "151"
+    ],
+    "stats": {
+     "min": 72.0,
+     "max": 198.0,
+     "mean": 132.9189189189189,
+     "median": 128.0,
+     "std": 40.7275467199898,
+     "skew": 0.08775207848333239
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -19.375,
+     281.625
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "discount_pct",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 14,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "3 values (3.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "40",
+     "5",
+     "20",
+     "30",
+     "10"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 250.0,
+     "mean": 30.9375,
+     "median": 25.0,
+     "std": 33.92185500286568,
+     "skew": 4.189961914097765
+    },
+    "n_outliers": 3,
+    "outlier_pct": 3.75,
+    "outlier_bounds": [
+     -22.5,
+     77.5
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "price",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 80,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "116.48",
+     "236.63",
+     "254.75",
+     "494.54",
+     "259.87"
+    ],
+    "stats": {
+     "min": -40.0,
+     "max": 497.7,
+     "mean": 237.09912500000002,
+     "median": 243.97,
+     "std": 157.5344075190853,
+     "skew": 0.041731193262722684
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -374.56375,
+     836.92625
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "quantity",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 20,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "2",
+     "16",
+     "12",
+     "10",
+     "-1"
+    ],
+    "stats": {
+     "min": -1.0,
+     "max": 20.0,
+     "mean": 11.125,
+     "median": 11.0,
+     "std": 6.126049380527244,
+     "skew": -0.24621078738103608
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -9.0,
+     31.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "income",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 50,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "4 values (5.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "30000",
+     "63000",
+     "25000",
+     "44000",
+     "14000"
+    ],
+    "stats": {
+     "min": 13000.0,
+     "max": 910000.0,
+     "mean": 66512.5,
+     "median": 38000.0,
+     "std": 125424.84700742291,
+     "skew": 5.419639200347135
+    },
+    "n_outliers": 4,
+    "outlier_pct": 5.0,
+    "outlier_bounds": [
+     -12500.0,
+     97500.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "city",
+    "dtype": "categorical",
+    "missing_pct": 6.25,
+    "n_unique": 4,
+    "parse_rate": 1.0,
+    "reasons": [
+     "4 distinct values, so it's treated as categories.",
+     "6.2% of values are missing."
+    ],
+    "sample_values": [
+     "Sydney",
+     "Melbourne",
+     "Brisbane",
+     "Perth"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "Melbourne": 19,
+     "Brisbane": 19,
+     "Perth": 19,
+     "Sydney": 18
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "smoker",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (yes / no), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "yes",
+     "no"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "no": 60,
+     "yes": 20
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "visit_date",
+    "dtype": "datetime",
+    "missing_pct": 0.0,
+    "n_unique": 80,
+    "parse_rate": 0.9875,
+    "reasons": [
+     "99% of values parse as dates."
+    ],
+    "sample_values": [
+     "2023-01-01",
+     "2023-01-10",
+     "2023-01-19",
+     "2023-01-28",
+     "2023-02-06"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": "%Y-%m-%d",
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": [
+     "1850-03-02",
+     "2099-05-01"
+    ],
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "discharge_datetime",
+    "dtype": "datetime",
+    "missing_pct": 0.0,
+    "n_unique": 80,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as dates."
+    ],
+    "sample_values": [
+     "2023-01-02 08:00:00",
+     "2023-01-12 09:07:00",
+     "2023-01-22 10:14:00",
+     "2023-02-01 11:21:00",
+     "2023-02-11 12:28:00"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": "ISO8601",
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": [
+     "2023-01-02",
+     "2024-11-22"
+    ],
+    "has_time": true,
+    "all_missing": false
+   },
+   {
+    "name": "checkin_time",
+    "dtype": "time",
+    "missing_pct": 0.0,
+    "n_unique": 65,
+    "parse_rate": 0.9875,
+    "reasons": [
+     "99% of values parse as times of day (like '14:30')."
+    ],
+    "sample_values": [
+     "7:00",
+     "14:30",
+     "9:05",
+     "2:30 PM",
+     "2:30pm"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "outcome",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (yes / no), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "yes",
+     "no"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "no": 46,
+     "yes": 34
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   }
+  ]
+ },
+ "clean": {
+  "log": {
+   "steps": [
+    {
+     "step_id": "normalize:glucose",
+     "column": "glucose",
+     "action": "normalize",
+     "reason": "Turned 6 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 6
+    },
+    {
+     "step_id": "normalize:city",
+     "column": "city",
+     "action": "normalize",
+     "reason": "Turned 5 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 5
+    },
+    {
+     "step_id": "to_bool:smoker",
+     "column": "smoker",
+     "action": "to_bool",
+     "reason": "It's a yes/no column, so 'yes' became 1 and 'no' became 0. Missing stays missing.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 80
+    },
+    {
+     "step_id": "to_bool:outcome",
+     "column": "outcome",
+     "action": "to_bool",
+     "reason": "It's a yes/no column, so 'yes' became 1 and 'no' became 0. Missing stays missing.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 80
+    },
+    {
+     "step_id": "placeholder:age",
+     "column": "age",
+     "action": "placeholder",
+     "reason": "Found codes that look like stand-ins for missing: 999 (3 times). They sit far away from the real values, so they're now missing.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "placeholder:blood_pressure",
+     "column": "blood_pressure",
+     "action": "placeholder",
+     "reason": "Found codes that look like stand-ins for missing: 999 (2 times). They sit far away from the real values, so they're now missing.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 2
+    },
+    {
+     "step_id": "placeholder:quantity",
+     "column": "quantity",
+     "action": "placeholder",
+     "reason": "Found codes that look like stand-ins for missing: -1 (3 times). They sit far away from the real values, so they're now missing.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "impossible:age",
+     "column": "age",
+     "action": "impossible",
+     "reason": "Some values can't be real for age, so they're now missing: 1 negative value, 1 value over 120.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 2
+    },
+    {
+     "step_id": "impossible:bmi",
+     "column": "bmi",
+     "action": "impossible",
+     "reason": "Some values can't be real for bmi, so they're now missing: 3 zero values.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "impossible:blood_pressure",
+     "column": "blood_pressure",
+     "action": "impossible",
+     "reason": "Some values can't be real for blood_pressure, so they're now missing: 2 zero values.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 2
+    },
+    {
+     "step_id": "impossible:discount_pct",
+     "column": "discount_pct",
+     "action": "impossible",
+     "reason": "Some values can't be real for discount_pct, so they're now missing: 3 values over 100.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "impossible:price",
+     "column": "price",
+     "action": "impossible",
+     "reason": "Some values can't be real for price, so they're now missing: 3 negative values.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "invalid_dates:visit_date",
+     "column": "visit_date",
+     "action": "invalid_dates",
+     "reason": "Some dates can't be right, so they're now missing: 2 placeholder dates (like 1900-01-01 or 1970-01-01), 1 date from before 1900, 1 date in the future (after 2025-01-01).",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 4
+    },
+    {
+     "step_id": "unparseable_dates:visit_date",
+     "column": "visit_date",
+     "action": "unparseable_dates",
+     "reason": "1 value isn't a real date (like '9999-12-31'), so it's missing.",
+     "kind": "flag",
+     "enabled": true,
+     "rows_affected": 1
+    },
+    {
+     "step_id": "invalid_times:checkin_time",
+     "column": "checkin_time",
+     "action": "invalid_times",
+     "reason": "1 value ('25:61') can't be a time of day, so it's now missing.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 1
+    },
+    {
+     "step_id": "drop_id:patient_id",
+     "column": "patient_id",
+     "action": "drop_id",
+     "reason": "100% of values are unique short codes like 'P0001', so this looks like an ID. IDs don't carry over to new rows, so it's left out of the features (it's still kept to label rows).",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 80
+    }
+   ],
+   "row_ids": {
+    "shape": [
+     80,
+     1
+    ],
+    "columns": [
+     "patient_id"
+    ],
+    "dtypes": [
+     "object"
+    ],
+    "index": "a439986713165cb484c95ad6552679147eedf02e",
+    "values": {
+     "patient_id": "bfa35cb62bd13b733300fd05c57fccc8641f4d3a"
+    }
+   }
+  },
+  "frame": {
+   "shape": [
+    80,
+    15
+   ],
+   "columns": [
+    "age",
+    "sex",
+    "bmi",
+    "blood_pressure",
+    "glucose",
+    "discount_pct",
+    "price",
+    "quantity",
+    "income",
+    "city",
+    "smoker",
+    "visit_date",
+    "discharge_datetime",
+    "checkin_time",
+    "outcome"
+   ],
+   "dtypes": [
+    "float64",
+    "str",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "str",
+    "float64",
+    "datetime64[ns]",
+    "datetime64[ns]",
+    "object",
+    "float64"
+   ],
+   "index": "a439986713165cb484c95ad6552679147eedf02e",
+   "values": {
+    "age": "2e0e8648a704749043a5faf3c2a88d325d4b935d",
+    "sex": "658ba43eba2a4a0f0b36737cd7d43509d716f7a5",
+    "bmi": "495a837748ca582c2cebdc2ca29056882ec260a5",
+    "blood_pressure": "3e50e1b1657ae4ee6d017265cb4f82531da30d0f",
+    "glucose": "f45abab1c747febafa2aaf13a53c7faa41e4fec5",
+    "discount_pct": "225ecb070b628e62ab8f6bf56f6e40a408b2b149",
+    "price": "05180eeea58a7fe482c9b1380e0ed09ded9df644",
+    "quantity": "90d5177fc3feb75a8c7f15a278cec345ae0a7801",
+    "income": "41a6e0d4307ec05f2c9d1a5b59753a8610087a2e",
+    "city": "52a5554a084a20229138db3debec83c2bccc7ae6",
+    "smoker": "6c3e79d084ddf1349eea20efc00cb34b02aae15b",
+    "visit_date": "0f1c099f33f809c1721d28b72a050f3060349566",
+    "discharge_datetime": "499c57be35b097d4c2feb0a5a66828ef5fc27aa9",
+    "checkin_time": "13a09cf4c6bac5af67b7772ebeca7387e44f7e1d",
+    "outcome": "037a83023174ddded2e7ddecef0c150659e82600"
+   }
+  }
+ },
+ "clean_profile": {
+  "n_rows": 80,
+  "n_cols": 15,
+  "n_duplicate_rows": 0,
+  "columns": [
+   {
+    "name": "age",
+    "dtype": "numeric",
+    "missing_pct": 6.25,
+    "n_unique": 46,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "6.2% of values are missing."
+    ],
+    "sample_values": [
+     "82.0",
+     "38.0",
+     "41.0",
+     "55.0",
+     "32.0"
+    ],
+    "stats": {
+     "min": 18.0,
+     "max": 84.0,
+     "mean": 51.10666666666667,
+     "median": 53.0,
+     "std": 19.649340359833367,
+     "skew": 0.037075225971016125
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -17.25,
+     116.75
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "sex",
+    "dtype": "categorical",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Only two values (1 / 2), so these are labels, not amounts."
+    ],
+    "sample_values": [
+     "1",
+     "2"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "1": 40,
+     "2": 40
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "bmi",
+    "dtype": "numeric",
+    "missing_pct": 3.75,
+    "n_unique": 67,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "3.8% of values are missing."
+    ],
+    "sample_values": [
+     "37.7",
+     "18.1",
+     "23.6",
+     "35.4",
+     "31.5"
+    ],
+    "stats": {
+     "min": 18.1,
+     "max": 39.8,
+     "mean": 29.89090909090909,
+     "median": 30.6,
+     "std": 6.498748499320178,
+     "skew": -0.29359714562385975
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     5.900000000000006,
+     53.099999999999994
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "blood_pressure",
+    "dtype": "numeric",
+    "missing_pct": 5.0,
+    "n_unique": 53,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "5.0% of values are missing."
+    ],
+    "sample_values": [
+     "150.0",
+     "140.0",
+     "122.0",
+     "156.0",
+     "109.0"
+    ],
+    "stats": {
+     "min": 100.0,
+     "max": 176.0,
+     "mean": 138.46052631578948,
+     "median": 140.0,
+     "std": 23.15711023392092,
+     "skew": 0.02926856584419576
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     54.5,
+     220.5
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "glucose",
+    "dtype": "numeric",
+    "missing_pct": 7.5,
+    "n_unique": 56,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7.5% of values are missing."
+    ],
+    "sample_values": [
+     "145.0",
+     "176.0",
+     "198.0",
+     "75.0",
+     "151.0"
+    ],
+    "stats": {
+     "min": 72.0,
+     "max": 198.0,
+     "mean": 132.9189189189189,
+     "median": 128.0,
+     "std": 40.7275467199898,
+     "skew": 0.08775207848333239
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -19.375,
+     281.625
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "discount_pct",
+    "dtype": "numeric",
+    "missing_pct": 3.75,
+    "n_unique": 11,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "3.8% of values are missing."
+    ],
+    "sample_values": [
+     "40.0",
+     "5.0",
+     "20.0",
+     "30.0",
+     "10.0"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 50.0,
+     "mean": 25.38961038961039,
+     "median": 25.0,
+     "std": 15.575922583265834,
+     "skew": 0.03822977335409025
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -22.5,
+     77.5
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "price",
+    "dtype": "numeric",
+    "missing_pct": 3.75,
+    "n_unique": 77,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "3.8% of values are missing."
+    ],
+    "sample_values": [
+     "116.48",
+     "236.63",
+     "254.75",
+     "494.54",
+     "259.87"
+    ],
+    "stats": {
+     "min": 15.01,
+     "max": 497.7,
+     "mean": 247.06077922077924,
+     "median": 254.75,
+     "std": 152.00665081334463,
+     "skew": 0.04123830964953199
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -350.9600000000001,
+     850.1600000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "quantity",
+    "dtype": "numeric",
+    "missing_pct": 3.75,
+    "n_unique": 19,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "3.8% of values are missing."
+    ],
+    "sample_values": [
+     "2.0",
+     "16.0",
+     "12.0",
+     "10.0",
+     "11.0"
+    ],
+    "stats": {
+     "min": 1.0,
+     "max": 20.0,
+     "mean": 11.597402597402597,
+     "median": 11.0,
+     "std": 5.742866834649702,
+     "skew": -0.18348703697951996
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -6.5,
+     29.5
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "income",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 50,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "4 values (5.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "30000.0",
+     "63000.0",
+     "25000.0",
+     "44000.0",
+     "14000.0"
+    ],
+    "stats": {
+     "min": 13000.0,
+     "max": 910000.0,
+     "mean": 66512.5,
+     "median": 38000.0,
+     "std": 125424.84700742291,
+     "skew": 5.419639200347135
+    },
+    "n_outliers": 4,
+    "outlier_pct": 5.0,
+    "outlier_bounds": [
+     -12500.0,
+     97500.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "city",
+    "dtype": "categorical",
+    "missing_pct": 6.25,
+    "n_unique": 4,
+    "parse_rate": 1.0,
+    "reasons": [
+     "4 distinct values, so it's treated as categories.",
+     "6.2% of values are missing."
+    ],
+    "sample_values": [
+     "Sydney",
+     "Melbourne",
+     "Brisbane",
+     "Perth"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "Melbourne": 19,
+     "Brisbane": 19,
+     "Perth": 19,
+     "Sydney": 18
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "smoker",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (1.0 / 0.0), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "1.0",
+     "0.0"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "0.0": 60,
+     "1.0": 20
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "visit_date",
+    "dtype": "datetime",
+    "missing_pct": 6.25,
+    "n_unique": 75,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as dates.",
+     "6.2% of values are missing."
+    ],
+    "sample_values": [
+     "2023-01-01 00:00:00",
+     "2023-01-10 00:00:00",
+     "2023-01-19 00:00:00",
+     "2023-01-28 00:00:00",
+     "2023-02-06 00:00:00"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": "ISO8601",
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": [
+     "2023-01-01",
+     "2024-11-15"
+    ],
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "discharge_datetime",
+    "dtype": "datetime",
+    "missing_pct": 0.0,
+    "n_unique": 80,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as dates."
+    ],
+    "sample_values": [
+     "2023-01-02 08:00:00",
+     "2023-01-12 09:07:00",
+     "2023-01-22 10:14:00",
+     "2023-02-01 11:21:00",
+     "2023-02-11 12:28:00"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": "ISO8601",
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": [
+     "2023-01-02",
+     "2024-11-22"
+    ],
+    "has_time": true,
+    "all_missing": false
+   },
+   {
+    "name": "checkin_time",
+    "dtype": "time",
+    "missing_pct": 1.25,
+    "n_unique": 62,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as times of day (like '14:30').",
+     "1.2% of values are missing."
+    ],
+    "sample_values": [
+     "07:00:00",
+     "14:30:00",
+     "09:05:00",
+     "08:05:00",
+     "13:18:00"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "outcome",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (1.0 / 0.0), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "1.0",
+     "0.0"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "0.0": 46,
+     "1.0": 34
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   }
+  ]
+ },
+ "all_off": {
+  "log": {
+   "steps": [
+    {
+     "step_id": "normalize:glucose",
+     "column": "glucose",
+     "action": "normalize",
+     "reason": "Turned 6 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 6
+    },
+    {
+     "step_id": "normalize:city",
+     "column": "city",
+     "action": "normalize",
+     "reason": "Turned 5 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 5
+    },
+    {
+     "step_id": "to_bool:smoker",
+     "column": "smoker",
+     "action": "to_bool",
+     "reason": "It's a yes/no column, so 'yes' became 1 and 'no' became 0. Missing stays missing.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 80
+    },
+    {
+     "step_id": "to_bool:outcome",
+     "column": "outcome",
+     "action": "to_bool",
+     "reason": "It's a yes/no column, so 'yes' became 1 and 'no' became 0. Missing stays missing.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 80
+    },
+    {
+     "step_id": "placeholder:age",
+     "column": "age",
+     "action": "placeholder",
+     "reason": "Found codes that look like stand-ins for missing: 999 (3 times). They sit far away from the real values, so they're now missing.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "placeholder:blood_pressure",
+     "column": "blood_pressure",
+     "action": "placeholder",
+     "reason": "Found codes that look like stand-ins for missing: 999 (2 times). They sit far away from the real values, so they're now missing.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 2
+    },
+    {
+     "step_id": "placeholder:quantity",
+     "column": "quantity",
+     "action": "placeholder",
+     "reason": "Found codes that look like stand-ins for missing: -1 (3 times). They sit far away from the real values, so they're now missing.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "impossible:age",
+     "column": "age",
+     "action": "impossible",
+     "reason": "Some values can't be real for age, so they're now missing: 1 negative value, 1 value over 120.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 2
+    },
+    {
+     "step_id": "impossible:bmi",
+     "column": "bmi",
+     "action": "impossible",
+     "reason": "Some values can't be real for bmi, so they're now missing: 3 zero values.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "impossible:blood_pressure",
+     "column": "blood_pressure",
+     "action": "impossible",
+     "reason": "Some values can't be real for blood_pressure, so they're now missing: 2 zero values.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 2
+    },
+    {
+     "step_id": "impossible:discount_pct",
+     "column": "discount_pct",
+     "action": "impossible",
+     "reason": "Some values can't be real for discount_pct, so they're now missing: 3 values over 100.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "impossible:price",
+     "column": "price",
+     "action": "impossible",
+     "reason": "Some values can't be real for price, so they're now missing: 3 negative values.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 3
+    },
+    {
+     "step_id": "invalid_dates:visit_date",
+     "column": "visit_date",
+     "action": "invalid_dates",
+     "reason": "Some dates can't be right, so they're now missing: 2 placeholder dates (like 1900-01-01 or 1970-01-01), 1 date from before 1900, 1 date in the future (after 2025-01-01).",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 4
+    },
+    {
+     "step_id": "unparseable_dates:visit_date",
+     "column": "visit_date",
+     "action": "unparseable_dates",
+     "reason": "1 value isn't a real date (like '9999-12-31'), so it's missing.",
+     "kind": "flag",
+     "enabled": true,
+     "rows_affected": 1
+    },
+    {
+     "step_id": "invalid_times:checkin_time",
+     "column": "checkin_time",
+     "action": "invalid_times",
+     "reason": "1 value ('25:61') can't be a time of day, so it's now missing.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 1
+    },
+    {
+     "step_id": "drop_id:patient_id",
+     "column": "patient_id",
+     "action": "drop_id",
+     "reason": "100% of values are unique short codes like 'P0001', so this looks like an ID. IDs don't carry over to new rows, so it's left out of the features (it's still kept to label rows).",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 80
+    }
+   ],
+   "row_ids": {
+    "shape": [
+     80,
+     1
+    ],
+    "columns": [
+     "patient_id"
+    ],
+    "dtypes": [
+     "object"
+    ],
+    "index": "a439986713165cb484c95ad6552679147eedf02e",
+    "values": {
+     "patient_id": "bfa35cb62bd13b733300fd05c57fccc8641f4d3a"
+    }
+   }
+  },
+  "frame": {
+   "shape": [
+    80,
+    16
+   ],
+   "columns": [
+    "patient_id",
+    "age",
+    "sex",
+    "bmi",
+    "blood_pressure",
+    "glucose",
+    "discount_pct",
+    "price",
+    "quantity",
+    "income",
+    "city",
+    "smoker",
+    "visit_date",
+    "discharge_datetime",
+    "checkin_time",
+    "outcome"
+   ],
+   "dtypes": [
+    "str",
+    "float64",
+    "str",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "str",
+    "str",
+    "datetime64[ns]",
+    "datetime64[ns]",
+    "object",
+    "str"
+   ],
+   "index": "a439986713165cb484c95ad6552679147eedf02e",
+   "values": {
+    "patient_id": "bfa35cb62bd13b733300fd05c57fccc8641f4d3a",
+    "age": "45664bbf6bbdf9c491a4d559b5540469e8ba24a8",
+    "sex": "658ba43eba2a4a0f0b36737cd7d43509d716f7a5",
+    "bmi": "c86cc675261b68a2602b5fbd80d7399e7640df2b",
+    "blood_pressure": "1703c16f7bbff334fa7a7167b821de70c251387e",
+    "glucose": "f45abab1c747febafa2aaf13a53c7faa41e4fec5",
+    "discount_pct": "5ad144edf62347498c9adbd9891156a12540fe05",
+    "price": "daaebb7399fe34e19803d71248ddd466b603d665",
+    "quantity": "663831c453ee2aa5afd0563c74a2f22330be6d4b",
+    "income": "41a6e0d4307ec05f2c9d1a5b59753a8610087a2e",
+    "city": "a5d24f4e25152eddf812ad3681d342833e0c12b6",
+    "smoker": "7d8620263d88fa9c561c483533cf05f6fdb8c564",
+    "visit_date": "3cd23e776bbb44c4374ba5930e847a7c0c3a40c6",
+    "discharge_datetime": "499c57be35b097d4c2feb0a5a66828ef5fc27aa9",
+    "checkin_time": "a967a31e010a62b3e36f0df8de67ceb5ff34a693",
+    "outcome": "5ad39278402756461b272ad74e440bb19d980bff"
+   }
+  }
+ }
+}

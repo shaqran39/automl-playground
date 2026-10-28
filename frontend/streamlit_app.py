@@ -39,7 +39,9 @@ DATASET_KEYS = (
     "numeric_imputer",
     "source_id",
     "csv_report",
+    "clean_cache",
 )
+CLEAN_CACHE_SIZE = 4  # recent cleaning settings kept, so toggling a step back is instant
 OUTLIER_LABELS: dict[str, str] = {
     "auto": "auto",
     "keep": "keep",
@@ -67,21 +69,40 @@ GROUP_LABELS: dict[str, str] = {
 # ---------- state ----------
 
 
-def dataset_key(name: str, df: pd.DataFrame) -> str:
-    """Stable key for a dataset: name, shape and a hash of the contents."""
-    digest = hashlib.sha1(pd.util.hash_pandas_object(df, index=True).values.tobytes())
-    return f"{name}|{df.shape[0]}x{df.shape[1]}|{digest.hexdigest()[:12]}"
+def dataset_key(name: str, df: pd.DataFrame, digest: str | None = None) -> str:
+    """Stable key for a dataset: name, shape and a hash of the contents.
+
+    digest is the loader's hash of the file bytes, much cheaper than hashing the frame.
+    """
+    if digest is None:
+        digest = hashlib.sha1(pd.util.hash_pandas_object(df, index=True).values.tobytes())
+        digest = digest.hexdigest()
+    return f"{name}|{df.shape[0]}x{df.shape[1]}|{digest[:12]}"
 
 
-def set_dataset(name: str, df: pd.DataFrame) -> None:
+def profile_with_progress(df: pd.DataFrame) -> DatasetProfile:
+    """profile(), with a bar showing which column it's on."""
+    bar = st.progress(0.0, text="Profiling the data...")
+
+    def tick(i: int, n: int, name: str) -> None:
+        bar.progress(i / max(n, 1), text=f"Profiling column {i + 1} of {n}: {name}")
+
+    try:
+        return profile(df, progress=tick)
+    finally:
+        bar.empty()
+
+
+def set_dataset(name: str, df: pd.DataFrame, digest: str | None = None) -> None:
     """Store the raw df in session state; reset cleaning choices when it changes."""
-    key = dataset_key(name, df)
+    key = dataset_key(name, df, digest)
     if st.session_state.get("dataset_key") == key:
         return
+    st.session_state.pop("clean_cache", None)
     st.session_state["dataset_key"] = key
     st.session_state["dataset_name"] = name
     st.session_state["raw_df"] = df
-    st.session_state["raw_profile"] = profile(df)
+    st.session_state["raw_profile"] = profile_with_progress(df)
     st.session_state["disabled_steps"] = set()
     st.session_state["editor_version"] = 0
     st.session_state["outlier_choices"] = {}
@@ -119,12 +140,13 @@ def load_source(source_id: str, name: str, source: Source) -> None:
     if st.session_state.get("source_id") == source_id:
         return
     try:
-        df, report = read_csv_report(source)  # memory only, never saved
+        with st.spinner(f"Reading {name}..."):
+            df, report = read_csv_report(source)  # memory only, never saved
     except CsvLoadError as e:
         clear_dataset()
         st.error(f"Couldn't read {name}. {e}")
         return
-    set_dataset(name, df)
+    set_dataset(name, df, report.digest)
     st.session_state["source_id"] = source_id
     st.session_state["csv_report"] = report
 
@@ -441,15 +463,41 @@ def main() -> None:
         show_crash(e)
 
 
+def clean_key(raw_df: pd.DataFrame, prof: DatasetProfile, disabled: set[str]) -> tuple:
+    """Same file, same profile object, same switched-off steps and same day: same result."""
+    today = pd.Timestamp.now(tz="UTC").date().isoformat()  # future dates depend on today
+    return (st.session_state["dataset_key"], id(raw_df), id(prof), frozenset(disabled), today)
+
+
+def cleaned(
+    raw_df: pd.DataFrame, prof: DatasetProfile, disabled: set[str]
+) -> tuple[pd.DataFrame, CleaningLog, DatasetProfile]:
+    """clean() plus a profile of the result, cached per session.
+
+    The cache lives in st.session_state (like the upload itself), so it goes
+    away with the session and is never shared or written anywhere.
+    """
+    cache: dict[tuple, tuple] = st.session_state.setdefault("clean_cache", {})
+    key = clean_key(raw_df, prof, disabled)
+    if key not in cache:
+        with st.spinner("Cleaning the data..."):
+            clean_df, log = clean(raw_df, prof, disabled)
+        with st.spinner("Profiling the cleaned data..."):
+            clean_prof = profile(clean_df, reuse=prof)
+        while len(cache) >= CLEAN_CACHE_SIZE:
+            cache.pop(next(iter(cache)))  # oldest first
+        cache[key] = (clean_df, log, clean_prof)
+    return cache[key]
+
+
 def render_dataset() -> None:
     raw_df: pd.DataFrame = st.session_state["raw_df"]
     prof: DatasetProfile = st.session_state["raw_profile"]
     render_profile(prof)
-    clean_df, log = clean(raw_df, prof, disabled_steps())
+    clean_df, log, clean_prof = cleaned(raw_df, prof, disabled_steps())
     st.session_state["clean_df"] = clean_df
     st.session_state["cleaning_log"] = log
     render_cleaning(log)
-    clean_prof = profile(clean_df)
     render_outliers(clean_prof, log)
     render_result(raw_df, clean_df, log)
     render_model_view(clean_df, clean_prof)

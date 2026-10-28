@@ -1,0 +1,2758 @@
+{
+ "profile": {
+  "n_rows": 569,
+  "n_cols": 31,
+  "n_duplicate_rows": 0,
+  "columns": [
+   {
+    "name": "mean radius",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 456,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "14 values (2.5%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "17.99",
+     "20.57",
+     "19.69",
+     "11.42",
+     "20.29"
+    ],
+    "stats": {
+     "min": 6.981,
+     "max": 28.11,
+     "mean": 14.127291739894552,
+     "median": 13.37,
+     "std": 3.5240488262120775,
+     "skew": 0.9423795716731002
+    },
+    "n_outliers": 14,
+    "outlier_pct": 2.460456942003515,
+    "outlier_bounds": [
+     5.579999999999999,
+     21.9
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean texture",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 479,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7 values (1.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "10.38",
+     "17.77",
+     "21.25",
+     "20.38",
+     "14.34"
+    ],
+    "stats": {
+     "min": 9.71,
+     "max": 39.28,
+     "mean": 19.289648506151142,
+     "median": 18.84,
+     "std": 4.301035768166949,
+     "skew": 0.6504495420828158
+    },
+    "n_outliers": 7,
+    "outlier_pct": 1.2302284710017575,
+    "outlier_bounds": [
+     7.725000000000003,
+     30.244999999999997
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean perimeter",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 522,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "13 values (2.3%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "122.8",
+     "132.9",
+     "130.0",
+     "77.58",
+     "135.1"
+    ],
+    "stats": {
+     "min": 43.79,
+     "max": 188.5,
+     "mean": 91.96903339191564,
+     "median": 86.24,
+     "std": 24.298981038754906,
+     "skew": 0.9906504253930083
+    },
+    "n_outliers": 13,
+    "outlier_pct": 2.2847100175746924,
+    "outlier_bounds": [
+     31.775000000000013,
+     147.49499999999998
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean area",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 539,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "25 values (4.4%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "1001.0",
+     "1326.0",
+     "1203.0",
+     "386.1",
+     "1297.0"
+    ],
+    "stats": {
+     "min": 143.5,
+     "max": 2501.0,
+     "mean": 654.8891036906855,
+     "median": 551.1,
+     "std": 351.914129181653,
+     "skew": 1.6457321756240433
+    },
+    "n_outliers": 25,
+    "outlier_pct": 4.393673110720562,
+    "outlier_bounds": [
+     -123.30000000000001,
+     1326.3000000000002
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean smoothness",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 474,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "6 values (1.1%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.1184",
+     "0.08474",
+     "0.1096",
+     "0.1425",
+     "0.1003"
+    ],
+    "stats": {
+     "min": 0.05263,
+     "max": 0.1634,
+     "mean": 0.0963602811950791,
+     "median": 0.09587,
+     "std": 0.01406412813767362,
+     "skew": 0.45632376481956094
+    },
+    "n_outliers": 6,
+    "outlier_pct": 1.054481546572935,
+    "outlier_bounds": [
+     0.057975,
+     0.133695
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean compactness",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 537,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "16 values (2.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.2776",
+     "0.07864",
+     "0.1599",
+     "0.2839",
+     "0.1328"
+    ],
+    "stats": {
+     "min": 0.01938,
+     "max": 0.3454,
+     "mean": 0.10434098418277679,
+     "median": 0.09263,
+     "std": 0.052812757932512194,
+     "skew": 1.19012303119804
+    },
+    "n_outliers": 16,
+    "outlier_pct": 2.81195079086116,
+    "outlier_bounds": [
+     -0.03329999999999997,
+     0.22861999999999996
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean concavity",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 537,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "18 values (3.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.3001",
+     "0.0869",
+     "0.1974",
+     "0.2414",
+     "0.198"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.4268,
+     "mean": 0.0887993158172232,
+     "median": 0.06154,
+     "std": 0.07971980870789348,
+     "skew": 1.401179738948672
+    },
+    "n_outliers": 18,
+    "outlier_pct": 3.1634446397188047,
+    "outlier_bounds": [
+     -0.12215000000000001,
+     0.28241000000000005
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean concave points",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 542,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "10 values (1.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.1471",
+     "0.07017",
+     "0.1279",
+     "0.1052",
+     "0.1043"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.2012,
+     "mean": 0.04891914586994728,
+     "median": 0.0335,
+     "std": 0.038802844859153605,
+     "skew": 1.1711800812336282
+    },
+    "n_outliers": 10,
+    "outlier_pct": 1.757469244288225,
+    "outlier_bounds": [
+     -0.060224999999999994,
+     0.15453499999999998
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean symmetry",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 432,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "15 values (2.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.2419",
+     "0.1812",
+     "0.2069",
+     "0.2597",
+     "0.1809"
+    ],
+    "stats": {
+     "min": 0.106,
+     "max": 0.304,
+     "mean": 0.18116186291739894,
+     "median": 0.1792,
+     "std": 0.027414281336035715,
+     "skew": 0.7256089733641997
+    },
+    "n_outliers": 15,
+    "outlier_pct": 2.6362038664323375,
+    "outlier_bounds": [
+     0.11119999999999995,
+     0.24640000000000006
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean fractal dimension",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 499,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "15 values (2.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.07871",
+     "0.05667",
+     "0.05999",
+     "0.09744",
+     "0.05883"
+    ],
+    "stats": {
+     "min": 0.04996,
+     "max": 0.09744,
+     "mean": 0.06279760984182776,
+     "median": 0.06154,
+     "std": 0.007060362795084459,
+     "skew": 1.3044888125755068
+    },
+    "n_outliers": 15,
+    "outlier_pct": 2.6362038664323375,
+    "outlier_bounds": [
+     0.045070000000000006,
+     0.07874999999999999
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "radius error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 540,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "38 values (6.7%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "1.095",
+     "0.5435",
+     "0.7456",
+     "0.4956",
+     "0.7572"
+    ],
+    "stats": {
+     "min": 0.1115,
+     "max": 2.873,
+     "mean": 0.40517205623901575,
+     "median": 0.3242,
+     "std": 0.2773127329861039,
+     "skew": 3.0886121663847557
+    },
+    "n_outliers": 38,
+    "outlier_pct": 6.678383128295255,
+    "outlier_bounds": [
+     -0.13735000000000003,
+     0.84865
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "texture error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 519,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "20 values (3.5%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.9053",
+     "0.7339",
+     "0.7869",
+     "1.156",
+     "0.7813"
+    ],
+    "stats": {
+     "min": 0.3602,
+     "max": 4.885,
+     "mean": 1.2168534270650264,
+     "median": 1.108,
+     "std": 0.5516483926172023,
+     "skew": 1.646443808753053
+    },
+    "n_outliers": 20,
+    "outlier_pct": 3.51493848857645,
+    "outlier_bounds": [
+     -0.12625000000000008,
+     2.43415
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "perimeter error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 533,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "38 values (6.7%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "8.589",
+     "3.398",
+     "4.585",
+     "3.445",
+     "5.438"
+    ],
+    "stats": {
+     "min": 0.757,
+     "max": 21.98,
+     "mean": 2.8660592267135327,
+     "median": 2.287,
+     "std": 2.0218545540421076,
+     "skew": 3.4436152021949002
+    },
+    "n_outliers": 38,
+    "outlier_pct": 6.678383128295255,
+    "outlier_bounds": [
+     -1.0205,
+     5.9835
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "area error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 528,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "65 values (11.4%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "153.4",
+     "74.08",
+     "94.03",
+     "27.23",
+     "94.44"
+    ],
+    "stats": {
+     "min": 6.802,
+     "max": 542.2,
+     "mean": 40.337079086116,
+     "median": 24.53,
+     "std": 45.49100551613181,
+     "skew": 5.447186284898397
+    },
+    "n_outliers": 65,
+    "outlier_pct": 11.423550087873462,
+    "outlier_bounds": [
+     -23.15999999999999,
+     86.19999999999999
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "smoothness error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 547,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "30 values (5.3%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.006399",
+     "0.005225",
+     "0.00615",
+     "0.00911",
+     "0.01149"
+    ],
+    "stats": {
+     "min": 0.001713,
+     "max": 0.03113,
+     "mean": 0.007040978910369069,
+     "median": 0.00638,
+     "std": 0.0030025179438390656,
+     "skew": 2.31445005663676
+    },
+    "n_outliers": 30,
+    "outlier_pct": 5.272407732864675,
+    "outlier_bounds": [
+     0.0007034999999999993,
+     0.012611500000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "compactness error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 541,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "28 values (4.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.04904",
+     "0.01308",
+     "0.04006",
+     "0.07458",
+     "0.02461"
+    ],
+    "stats": {
+     "min": 0.002252,
+     "max": 0.1354,
+     "mean": 0.025478138840070295,
+     "median": 0.02045,
+     "std": 0.017908179325677388,
+     "skew": 1.9022207096378565
+    },
+    "n_outliers": 28,
+    "outlier_pct": 4.92091388400703,
+    "outlier_bounds": [
+     -0.015974999999999996,
+     0.061505
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "concavity error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 533,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "22 values (3.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.05373",
+     "0.0186",
+     "0.03832",
+     "0.05661",
+     "0.05688"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.396,
+     "mean": 0.03189371634446397,
+     "median": 0.02589,
+     "std": 0.03018606032298841,
+     "skew": 5.110463049043661
+    },
+    "n_outliers": 22,
+    "outlier_pct": 3.866432337434095,
+    "outlier_bounds": [
+     -0.025349999999999998,
+     0.08249
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "concave points error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 507,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "19 values (3.3%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.01587",
+     "0.0134",
+     "0.02058",
+     "0.01867",
+     "0.01885"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.05279,
+     "mean": 0.011796137082601054,
+     "median": 0.01093,
+     "std": 0.006170285174046869,
+     "skew": 1.4446781446974786
+    },
+    "n_outliers": 19,
+    "outlier_pct": 3.3391915641476273,
+    "outlier_bounds": [
+     -0.0029700000000000013,
+     0.025318
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "symmetry error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 498,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "27 values (4.7%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.03003",
+     "0.01389",
+     "0.0225",
+     "0.05963",
+     "0.01756"
+    ],
+    "stats": {
+     "min": 0.007882,
+     "max": 0.07895,
+     "mean": 0.02054229876977153,
+     "median": 0.01873,
+     "std": 0.008266371528798399,
+     "skew": 2.1951328995478225
+    },
+    "n_outliers": 27,
+    "outlier_pct": 4.745166959578207,
+    "outlier_bounds": [
+     0.0026799999999999984,
+     0.035960000000000006
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "fractal dimension error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 545,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "28 values (4.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.006193",
+     "0.003532",
+     "0.004571",
+     "0.009208",
+     "0.005115"
+    ],
+    "stats": {
+     "min": 0.0008948,
+     "max": 0.02984,
+     "mean": 0.0037949038664323374,
+     "median": 0.003187,
+     "std": 0.002646070967089195,
+     "skew": 3.9239686202274116
+    },
+    "n_outliers": 28,
+    "outlier_pct": 4.92091388400703,
+    "outlier_bounds": [
+     -0.0012170000000000006,
+     0.008023
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst radius",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 457,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "17 values (3.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "25.38",
+     "24.99",
+     "23.57",
+     "14.91",
+     "22.54"
+    ],
+    "stats": {
+     "min": 7.93,
+     "max": 36.04,
+     "mean": 16.269189806678387,
+     "median": 14.97,
+     "std": 4.833241580469323,
+     "skew": 1.1031152059604399
+    },
+    "n_outliers": 17,
+    "outlier_pct": 2.9876977152899826,
+    "outlier_bounds": [
+     4.340000000000002,
+     27.459999999999997
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst texture",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 511,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "5 values (0.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "17.33",
+     "23.41",
+     "25.53",
+     "26.5",
+     "16.67"
+    ],
+    "stats": {
+     "min": 12.02,
+     "max": 49.54,
+     "mean": 25.677223198594024,
+     "median": 25.41,
+     "std": 6.146257623038319,
+     "skew": 0.4983213094871645
+    },
+    "n_outliers": 5,
+    "outlier_pct": 0.8787346221441125,
+    "outlier_bounds": [
+     8.119999999999997,
+     42.68
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst perimeter",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 514,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "15 values (2.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "184.6",
+     "158.8",
+     "152.5",
+     "98.87",
+     "152.2"
+    ],
+    "stats": {
+     "min": 50.41,
+     "max": 251.2,
+     "mean": 107.26121265377857,
+     "median": 97.66,
+     "std": 33.602542269036356,
+     "skew": 1.1281638713683728
+    },
+    "n_outliers": 15,
+    "outlier_pct": 2.6362038664323375,
+    "outlier_bounds": [
+     22.17499999999999,
+     187.335
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst area",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 544,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "35 values (6.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "2019.0",
+     "1956.0",
+     "1709.0",
+     "567.7",
+     "1575.0"
+    ],
+    "stats": {
+     "min": 185.2,
+     "max": 4254.0,
+     "mean": 880.5831282952548,
+     "median": 686.5,
+     "std": 569.356992669949,
+     "skew": 1.8593732724433463
+    },
+    "n_outliers": 35,
+    "outlier_pct": 6.151142355008787,
+    "outlier_bounds": [
+     -337.7500000000001,
+     1937.0500000000002
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst smoothness",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 411,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7 values (1.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.1622",
+     "0.1238",
+     "0.1444",
+     "0.2098",
+     "0.1374"
+    ],
+    "stats": {
+     "min": 0.07117,
+     "max": 0.2226,
+     "mean": 0.13236859402460457,
+     "median": 0.1313,
+     "std": 0.022832429404835465,
+     "skew": 0.4154259962824683
+    },
+    "n_outliers": 7,
+    "outlier_pct": 1.2302284710017575,
+    "outlier_bounds": [
+     0.07250000000000001,
+     0.1901
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst compactness",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 529,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "16 values (2.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.6656",
+     "0.1866",
+     "0.4245",
+     "0.8663",
+     "0.205"
+    ],
+    "stats": {
+     "min": 0.02729,
+     "max": 1.058,
+     "mean": 0.25426504393673116,
+     "median": 0.2119,
+     "std": 0.157336488913742,
+     "skew": 1.4735549003297965
+    },
+    "n_outliers": 16,
+    "outlier_pct": 2.81195079086116,
+    "outlier_bounds": [
+     -0.14065000000000005,
+     0.6269500000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst concavity",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 539,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "12 values (2.1%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.7119",
+     "0.2416",
+     "0.4504",
+     "0.6869",
+     "0.4"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 1.252,
+     "mean": 0.27218848330404216,
+     "median": 0.2267,
+     "std": 0.2086242806081323,
+     "skew": 1.150236821946026
+    },
+    "n_outliers": 12,
+    "outlier_pct": 2.10896309314587,
+    "outlier_bounds": [
+     -0.2881000000000001,
+     0.7855000000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst concave points",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 492,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "0.2654",
+     "0.186",
+     "0.243",
+     "0.2575",
+     "0.1625"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.291,
+     "mean": 0.11460622319859401,
+     "median": 0.09993,
+     "std": 0.06573234119594207,
+     "skew": 0.4926155268855079
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -0.07977499999999997,
+     0.30610499999999996
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst symmetry",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 500,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "23 values (4.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.4601",
+     "0.275",
+     "0.3613",
+     "0.6638",
+     "0.2364"
+    ],
+    "stats": {
+     "min": 0.1565,
+     "max": 0.6638,
+     "mean": 0.2900755711775044,
+     "median": 0.2822,
+     "std": 0.061867467537518685,
+     "skew": 1.4339277651893272
+    },
+    "n_outliers": 23,
+    "outlier_pct": 4.042179261862917,
+    "outlier_bounds": [
+     0.14915,
+     0.41915
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst fractal dimension",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 535,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "24 values (4.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.1189",
+     "0.08902",
+     "0.08758",
+     "0.173",
+     "0.07678"
+    ],
+    "stats": {
+     "min": 0.05504,
+     "max": 0.2075,
+     "mean": 0.0839458172231986,
+     "median": 0.08004,
+     "std": 0.018061267348893986,
+     "skew": 1.6625792663955172
+    },
+    "n_outliers": 24,
+    "outlier_pct": 4.21792618629174,
+    "outlier_bounds": [
+     0.04053,
+     0.12301
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "diagnosis",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (1 / 0), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "0",
+     "1"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "1": 357,
+     "0": 212
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   }
+  ]
+ },
+ "clean": {
+  "log": {
+   "steps": [],
+   "row_ids": null
+  },
+  "frame": {
+   "shape": [
+    569,
+    31
+   ],
+   "columns": [
+    "mean radius",
+    "mean texture",
+    "mean perimeter",
+    "mean area",
+    "mean smoothness",
+    "mean compactness",
+    "mean concavity",
+    "mean concave points",
+    "mean symmetry",
+    "mean fractal dimension",
+    "radius error",
+    "texture error",
+    "perimeter error",
+    "area error",
+    "smoothness error",
+    "compactness error",
+    "concavity error",
+    "concave points error",
+    "symmetry error",
+    "fractal dimension error",
+    "worst radius",
+    "worst texture",
+    "worst perimeter",
+    "worst area",
+    "worst smoothness",
+    "worst compactness",
+    "worst concavity",
+    "worst concave points",
+    "worst symmetry",
+    "worst fractal dimension",
+    "diagnosis"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "index": "54f9e4459dd80052b950e5d4444cac011fd16601",
+   "values": {
+    "mean radius": "af4f1f18b925420dc09d1956d0bdba88fda51a6f",
+    "mean texture": "57ac7c79b9dfa0bf655d259e71b443ee3a7b5d4e",
+    "mean perimeter": "d216351b82616706a3702cf4153ec6c2b3c40915",
+    "mean area": "881cbe5fbd601b6de31571ea6114bbe4c2f75897",
+    "mean smoothness": "7b880ad3c6548fc77b5e34269c8651e65d87cde8",
+    "mean compactness": "edb4efd0e41508ec8d516cf38a82ea55303924b2",
+    "mean concavity": "2baa9f438f1b6e39b7c81bde9042ed31d0edb2e1",
+    "mean concave points": "dcef97e15bb045f6949ce882d80787f85450b813",
+    "mean symmetry": "8217e60228ff408f30c4e9340cbf8f96313a6025",
+    "mean fractal dimension": "a8b05d873e90ccd961b4b29d1e5d6698eb9db01c",
+    "radius error": "9fabcf8e683256c04d425713333f593711137c73",
+    "texture error": "58f6dbfd737ab0244261cd691c9b52a1a22eb3bd",
+    "perimeter error": "1fc01d94a52e204e06e8b1926ef73cc9c4e3acb8",
+    "area error": "ae0a9e4beeddfd02c72a1d36824cdf1bac5890c3",
+    "smoothness error": "b8720d132a9a6c47b775a463d80aaa2351bd3544",
+    "compactness error": "6f3eabc01d50408d892e570311be1db411e37034",
+    "concavity error": "adcf25e39a4c31a5d5978e76cbf92e781b9f3aba",
+    "concave points error": "4d573243689a37fa9c0afd0eeb6559f9a42d1d8a",
+    "symmetry error": "f8ccea222d2d0eac8387505a4f908b19eb10d440",
+    "fractal dimension error": "d2737b597ba508b24979e0c2ded88fdc9e7e0f6e",
+    "worst radius": "1c05033111b871e24506c2c4170eb8687d293036",
+    "worst texture": "9225f731adc7166271aa23df21adbebf530a4b38",
+    "worst perimeter": "5ae9a3a15e4cebe71c472cd416c526139b3d1d98",
+    "worst area": "3c7bc13ccd473db36416c7e844b8ca625db83a73",
+    "worst smoothness": "b934a0edc010666b75ab5517bb28a4e6dd0a8327",
+    "worst compactness": "f57f6924206d5ae2d4bb1cb028ca8a7197f14bdd",
+    "worst concavity": "18b1c886feb76ffd29fe95fe60e7eb145833d5a7",
+    "worst concave points": "0d06fdd1239b1c72eb891142e243dbf159675947",
+    "worst symmetry": "268d38c3b638e5c72f08aa13bb7e60d60cc41b42",
+    "worst fractal dimension": "67a71071cdfde848d6ee62f118177ef75568cb41",
+    "diagnosis": "369dbbac01aca7c6baeadd9dad292fdcc102be27"
+   }
+  }
+ },
+ "clean_profile": {
+  "n_rows": 569,
+  "n_cols": 31,
+  "n_duplicate_rows": 0,
+  "columns": [
+   {
+    "name": "mean radius",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 456,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "14 values (2.5%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "17.99",
+     "20.57",
+     "19.69",
+     "11.42",
+     "20.29"
+    ],
+    "stats": {
+     "min": 6.981,
+     "max": 28.11,
+     "mean": 14.127291739894552,
+     "median": 13.37,
+     "std": 3.5240488262120775,
+     "skew": 0.9423795716731002
+    },
+    "n_outliers": 14,
+    "outlier_pct": 2.460456942003515,
+    "outlier_bounds": [
+     5.579999999999999,
+     21.9
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean texture",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 479,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7 values (1.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "10.38",
+     "17.77",
+     "21.25",
+     "20.38",
+     "14.34"
+    ],
+    "stats": {
+     "min": 9.71,
+     "max": 39.28,
+     "mean": 19.289648506151142,
+     "median": 18.84,
+     "std": 4.301035768166949,
+     "skew": 0.6504495420828158
+    },
+    "n_outliers": 7,
+    "outlier_pct": 1.2302284710017575,
+    "outlier_bounds": [
+     7.725000000000003,
+     30.244999999999997
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean perimeter",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 522,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "13 values (2.3%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "122.8",
+     "132.9",
+     "130.0",
+     "77.58",
+     "135.1"
+    ],
+    "stats": {
+     "min": 43.79,
+     "max": 188.5,
+     "mean": 91.96903339191564,
+     "median": 86.24,
+     "std": 24.298981038754906,
+     "skew": 0.9906504253930083
+    },
+    "n_outliers": 13,
+    "outlier_pct": 2.2847100175746924,
+    "outlier_bounds": [
+     31.775000000000013,
+     147.49499999999998
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean area",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 539,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "25 values (4.4%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "1001.0",
+     "1326.0",
+     "1203.0",
+     "386.1",
+     "1297.0"
+    ],
+    "stats": {
+     "min": 143.5,
+     "max": 2501.0,
+     "mean": 654.8891036906855,
+     "median": 551.1,
+     "std": 351.914129181653,
+     "skew": 1.6457321756240433
+    },
+    "n_outliers": 25,
+    "outlier_pct": 4.393673110720562,
+    "outlier_bounds": [
+     -123.30000000000001,
+     1326.3000000000002
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean smoothness",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 474,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "6 values (1.1%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.1184",
+     "0.08474",
+     "0.1096",
+     "0.1425",
+     "0.1003"
+    ],
+    "stats": {
+     "min": 0.05263,
+     "max": 0.1634,
+     "mean": 0.0963602811950791,
+     "median": 0.09587,
+     "std": 0.01406412813767362,
+     "skew": 0.45632376481956094
+    },
+    "n_outliers": 6,
+    "outlier_pct": 1.054481546572935,
+    "outlier_bounds": [
+     0.057975,
+     0.133695
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean compactness",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 537,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "16 values (2.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.2776",
+     "0.07864",
+     "0.1599",
+     "0.2839",
+     "0.1328"
+    ],
+    "stats": {
+     "min": 0.01938,
+     "max": 0.3454,
+     "mean": 0.10434098418277679,
+     "median": 0.09263,
+     "std": 0.052812757932512194,
+     "skew": 1.19012303119804
+    },
+    "n_outliers": 16,
+    "outlier_pct": 2.81195079086116,
+    "outlier_bounds": [
+     -0.03329999999999997,
+     0.22861999999999996
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean concavity",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 537,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "18 values (3.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.3001",
+     "0.0869",
+     "0.1974",
+     "0.2414",
+     "0.198"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.4268,
+     "mean": 0.0887993158172232,
+     "median": 0.06154,
+     "std": 0.07971980870789348,
+     "skew": 1.401179738948672
+    },
+    "n_outliers": 18,
+    "outlier_pct": 3.1634446397188047,
+    "outlier_bounds": [
+     -0.12215000000000001,
+     0.28241000000000005
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean concave points",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 542,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "10 values (1.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.1471",
+     "0.07017",
+     "0.1279",
+     "0.1052",
+     "0.1043"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.2012,
+     "mean": 0.04891914586994728,
+     "median": 0.0335,
+     "std": 0.038802844859153605,
+     "skew": 1.1711800812336282
+    },
+    "n_outliers": 10,
+    "outlier_pct": 1.757469244288225,
+    "outlier_bounds": [
+     -0.060224999999999994,
+     0.15453499999999998
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean symmetry",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 432,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "15 values (2.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.2419",
+     "0.1812",
+     "0.2069",
+     "0.2597",
+     "0.1809"
+    ],
+    "stats": {
+     "min": 0.106,
+     "max": 0.304,
+     "mean": 0.18116186291739894,
+     "median": 0.1792,
+     "std": 0.027414281336035715,
+     "skew": 0.7256089733641997
+    },
+    "n_outliers": 15,
+    "outlier_pct": 2.6362038664323375,
+    "outlier_bounds": [
+     0.11119999999999995,
+     0.24640000000000006
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "mean fractal dimension",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 499,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "15 values (2.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.07871",
+     "0.05667",
+     "0.05999",
+     "0.09744",
+     "0.05883"
+    ],
+    "stats": {
+     "min": 0.04996,
+     "max": 0.09744,
+     "mean": 0.06279760984182776,
+     "median": 0.06154,
+     "std": 0.007060362795084459,
+     "skew": 1.3044888125755068
+    },
+    "n_outliers": 15,
+    "outlier_pct": 2.6362038664323375,
+    "outlier_bounds": [
+     0.045070000000000006,
+     0.07874999999999999
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "radius error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 540,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "38 values (6.7%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "1.095",
+     "0.5435",
+     "0.7456",
+     "0.4956",
+     "0.7572"
+    ],
+    "stats": {
+     "min": 0.1115,
+     "max": 2.873,
+     "mean": 0.40517205623901575,
+     "median": 0.3242,
+     "std": 0.2773127329861039,
+     "skew": 3.0886121663847557
+    },
+    "n_outliers": 38,
+    "outlier_pct": 6.678383128295255,
+    "outlier_bounds": [
+     -0.13735000000000003,
+     0.84865
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "texture error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 519,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "20 values (3.5%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.9053",
+     "0.7339",
+     "0.7869",
+     "1.156",
+     "0.7813"
+    ],
+    "stats": {
+     "min": 0.3602,
+     "max": 4.885,
+     "mean": 1.2168534270650264,
+     "median": 1.108,
+     "std": 0.5516483926172023,
+     "skew": 1.646443808753053
+    },
+    "n_outliers": 20,
+    "outlier_pct": 3.51493848857645,
+    "outlier_bounds": [
+     -0.12625000000000008,
+     2.43415
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "perimeter error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 533,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "38 values (6.7%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "8.589",
+     "3.398",
+     "4.585",
+     "3.445",
+     "5.438"
+    ],
+    "stats": {
+     "min": 0.757,
+     "max": 21.98,
+     "mean": 2.8660592267135327,
+     "median": 2.287,
+     "std": 2.0218545540421076,
+     "skew": 3.4436152021949002
+    },
+    "n_outliers": 38,
+    "outlier_pct": 6.678383128295255,
+    "outlier_bounds": [
+     -1.0205,
+     5.9835
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "area error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 528,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "65 values (11.4%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "153.4",
+     "74.08",
+     "94.03",
+     "27.23",
+     "94.44"
+    ],
+    "stats": {
+     "min": 6.802,
+     "max": 542.2,
+     "mean": 40.337079086116,
+     "median": 24.53,
+     "std": 45.49100551613181,
+     "skew": 5.447186284898397
+    },
+    "n_outliers": 65,
+    "outlier_pct": 11.423550087873462,
+    "outlier_bounds": [
+     -23.15999999999999,
+     86.19999999999999
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "smoothness error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 547,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "30 values (5.3%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.006399",
+     "0.005225",
+     "0.00615",
+     "0.00911",
+     "0.01149"
+    ],
+    "stats": {
+     "min": 0.001713,
+     "max": 0.03113,
+     "mean": 0.007040978910369069,
+     "median": 0.00638,
+     "std": 0.0030025179438390656,
+     "skew": 2.31445005663676
+    },
+    "n_outliers": 30,
+    "outlier_pct": 5.272407732864675,
+    "outlier_bounds": [
+     0.0007034999999999993,
+     0.012611500000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "compactness error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 541,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "28 values (4.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.04904",
+     "0.01308",
+     "0.04006",
+     "0.07458",
+     "0.02461"
+    ],
+    "stats": {
+     "min": 0.002252,
+     "max": 0.1354,
+     "mean": 0.025478138840070295,
+     "median": 0.02045,
+     "std": 0.017908179325677388,
+     "skew": 1.9022207096378565
+    },
+    "n_outliers": 28,
+    "outlier_pct": 4.92091388400703,
+    "outlier_bounds": [
+     -0.015974999999999996,
+     0.061505
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "concavity error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 533,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "22 values (3.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.05373",
+     "0.0186",
+     "0.03832",
+     "0.05661",
+     "0.05688"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.396,
+     "mean": 0.03189371634446397,
+     "median": 0.02589,
+     "std": 0.03018606032298841,
+     "skew": 5.110463049043661
+    },
+    "n_outliers": 22,
+    "outlier_pct": 3.866432337434095,
+    "outlier_bounds": [
+     -0.025349999999999998,
+     0.08249
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "concave points error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 507,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "19 values (3.3%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.01587",
+     "0.0134",
+     "0.02058",
+     "0.01867",
+     "0.01885"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.05279,
+     "mean": 0.011796137082601054,
+     "median": 0.01093,
+     "std": 0.006170285174046869,
+     "skew": 1.4446781446974786
+    },
+    "n_outliers": 19,
+    "outlier_pct": 3.3391915641476273,
+    "outlier_bounds": [
+     -0.0029700000000000013,
+     0.025318
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "symmetry error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 498,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "27 values (4.7%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.03003",
+     "0.01389",
+     "0.0225",
+     "0.05963",
+     "0.01756"
+    ],
+    "stats": {
+     "min": 0.007882,
+     "max": 0.07895,
+     "mean": 0.02054229876977153,
+     "median": 0.01873,
+     "std": 0.008266371528798399,
+     "skew": 2.1951328995478225
+    },
+    "n_outliers": 27,
+    "outlier_pct": 4.745166959578207,
+    "outlier_bounds": [
+     0.0026799999999999984,
+     0.035960000000000006
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "fractal dimension error",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 545,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "28 values (4.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.006193",
+     "0.003532",
+     "0.004571",
+     "0.009208",
+     "0.005115"
+    ],
+    "stats": {
+     "min": 0.0008948,
+     "max": 0.02984,
+     "mean": 0.0037949038664323374,
+     "median": 0.003187,
+     "std": 0.002646070967089195,
+     "skew": 3.9239686202274116
+    },
+    "n_outliers": 28,
+    "outlier_pct": 4.92091388400703,
+    "outlier_bounds": [
+     -0.0012170000000000006,
+     0.008023
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst radius",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 457,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "17 values (3.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "25.38",
+     "24.99",
+     "23.57",
+     "14.91",
+     "22.54"
+    ],
+    "stats": {
+     "min": 7.93,
+     "max": 36.04,
+     "mean": 16.269189806678387,
+     "median": 14.97,
+     "std": 4.833241580469323,
+     "skew": 1.1031152059604399
+    },
+    "n_outliers": 17,
+    "outlier_pct": 2.9876977152899826,
+    "outlier_bounds": [
+     4.340000000000002,
+     27.459999999999997
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst texture",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 511,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "5 values (0.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "17.33",
+     "23.41",
+     "25.53",
+     "26.5",
+     "16.67"
+    ],
+    "stats": {
+     "min": 12.02,
+     "max": 49.54,
+     "mean": 25.677223198594024,
+     "median": 25.41,
+     "std": 6.146257623038319,
+     "skew": 0.4983213094871645
+    },
+    "n_outliers": 5,
+    "outlier_pct": 0.8787346221441125,
+    "outlier_bounds": [
+     8.119999999999997,
+     42.68
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst perimeter",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 514,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "15 values (2.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "184.6",
+     "158.8",
+     "152.5",
+     "98.87",
+     "152.2"
+    ],
+    "stats": {
+     "min": 50.41,
+     "max": 251.2,
+     "mean": 107.26121265377857,
+     "median": 97.66,
+     "std": 33.602542269036356,
+     "skew": 1.1281638713683728
+    },
+    "n_outliers": 15,
+    "outlier_pct": 2.6362038664323375,
+    "outlier_bounds": [
+     22.17499999999999,
+     187.335
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst area",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 544,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "35 values (6.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "2019.0",
+     "1956.0",
+     "1709.0",
+     "567.7",
+     "1575.0"
+    ],
+    "stats": {
+     "min": 185.2,
+     "max": 4254.0,
+     "mean": 880.5831282952548,
+     "median": 686.5,
+     "std": 569.356992669949,
+     "skew": 1.8593732724433463
+    },
+    "n_outliers": 35,
+    "outlier_pct": 6.151142355008787,
+    "outlier_bounds": [
+     -337.7500000000001,
+     1937.0500000000002
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst smoothness",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 411,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7 values (1.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.1622",
+     "0.1238",
+     "0.1444",
+     "0.2098",
+     "0.1374"
+    ],
+    "stats": {
+     "min": 0.07117,
+     "max": 0.2226,
+     "mean": 0.13236859402460457,
+     "median": 0.1313,
+     "std": 0.022832429404835465,
+     "skew": 0.4154259962824683
+    },
+    "n_outliers": 7,
+    "outlier_pct": 1.2302284710017575,
+    "outlier_bounds": [
+     0.07250000000000001,
+     0.1901
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst compactness",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 529,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "16 values (2.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.6656",
+     "0.1866",
+     "0.4245",
+     "0.8663",
+     "0.205"
+    ],
+    "stats": {
+     "min": 0.02729,
+     "max": 1.058,
+     "mean": 0.25426504393673116,
+     "median": 0.2119,
+     "std": 0.157336488913742,
+     "skew": 1.4735549003297965
+    },
+    "n_outliers": 16,
+    "outlier_pct": 2.81195079086116,
+    "outlier_bounds": [
+     -0.14065000000000005,
+     0.6269500000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst concavity",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 539,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "12 values (2.1%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.7119",
+     "0.2416",
+     "0.4504",
+     "0.6869",
+     "0.4"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 1.252,
+     "mean": 0.27218848330404216,
+     "median": 0.2267,
+     "std": 0.2086242806081323,
+     "skew": 1.150236821946026
+    },
+    "n_outliers": 12,
+    "outlier_pct": 2.10896309314587,
+    "outlier_bounds": [
+     -0.2881000000000001,
+     0.7855000000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst concave points",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 492,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "0.2654",
+     "0.186",
+     "0.243",
+     "0.2575",
+     "0.1625"
+    ],
+    "stats": {
+     "min": 0.0,
+     "max": 0.291,
+     "mean": 0.11460622319859401,
+     "median": 0.09993,
+     "std": 0.06573234119594207,
+     "skew": 0.4926155268855079
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -0.07977499999999997,
+     0.30610499999999996
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst symmetry",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 500,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "23 values (4.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.4601",
+     "0.275",
+     "0.3613",
+     "0.6638",
+     "0.2364"
+    ],
+    "stats": {
+     "min": 0.1565,
+     "max": 0.6638,
+     "mean": 0.2900755711775044,
+     "median": 0.2822,
+     "std": 0.061867467537518685,
+     "skew": 1.4339277651893272
+    },
+    "n_outliers": 23,
+    "outlier_pct": 4.042179261862917,
+    "outlier_bounds": [
+     0.14915,
+     0.41915
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "worst fractal dimension",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 535,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "24 values (4.2%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "0.1189",
+     "0.08902",
+     "0.08758",
+     "0.173",
+     "0.07678"
+    ],
+    "stats": {
+     "min": 0.05504,
+     "max": 0.2075,
+     "mean": 0.0839458172231986,
+     "median": 0.08004,
+     "std": 0.018061267348893986,
+     "skew": 1.6625792663955172
+    },
+    "n_outliers": 24,
+    "outlier_pct": 4.21792618629174,
+    "outlier_bounds": [
+     0.04053,
+     0.12301
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "diagnosis",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (1.0 / 0.0), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "0.0",
+     "1.0"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "1.0": 357,
+     "0.0": 212
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   }
+  ]
+ },
+ "all_off": {
+  "log": {
+   "steps": [],
+   "row_ids": null
+  },
+  "frame": {
+   "shape": [
+    569,
+    31
+   ],
+   "columns": [
+    "mean radius",
+    "mean texture",
+    "mean perimeter",
+    "mean area",
+    "mean smoothness",
+    "mean compactness",
+    "mean concavity",
+    "mean concave points",
+    "mean symmetry",
+    "mean fractal dimension",
+    "radius error",
+    "texture error",
+    "perimeter error",
+    "area error",
+    "smoothness error",
+    "compactness error",
+    "concavity error",
+    "concave points error",
+    "symmetry error",
+    "fractal dimension error",
+    "worst radius",
+    "worst texture",
+    "worst perimeter",
+    "worst area",
+    "worst smoothness",
+    "worst compactness",
+    "worst concavity",
+    "worst concave points",
+    "worst symmetry",
+    "worst fractal dimension",
+    "diagnosis"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "index": "54f9e4459dd80052b950e5d4444cac011fd16601",
+   "values": {
+    "mean radius": "af4f1f18b925420dc09d1956d0bdba88fda51a6f",
+    "mean texture": "57ac7c79b9dfa0bf655d259e71b443ee3a7b5d4e",
+    "mean perimeter": "d216351b82616706a3702cf4153ec6c2b3c40915",
+    "mean area": "881cbe5fbd601b6de31571ea6114bbe4c2f75897",
+    "mean smoothness": "7b880ad3c6548fc77b5e34269c8651e65d87cde8",
+    "mean compactness": "edb4efd0e41508ec8d516cf38a82ea55303924b2",
+    "mean concavity": "2baa9f438f1b6e39b7c81bde9042ed31d0edb2e1",
+    "mean concave points": "dcef97e15bb045f6949ce882d80787f85450b813",
+    "mean symmetry": "8217e60228ff408f30c4e9340cbf8f96313a6025",
+    "mean fractal dimension": "a8b05d873e90ccd961b4b29d1e5d6698eb9db01c",
+    "radius error": "9fabcf8e683256c04d425713333f593711137c73",
+    "texture error": "58f6dbfd737ab0244261cd691c9b52a1a22eb3bd",
+    "perimeter error": "1fc01d94a52e204e06e8b1926ef73cc9c4e3acb8",
+    "area error": "ae0a9e4beeddfd02c72a1d36824cdf1bac5890c3",
+    "smoothness error": "b8720d132a9a6c47b775a463d80aaa2351bd3544",
+    "compactness error": "6f3eabc01d50408d892e570311be1db411e37034",
+    "concavity error": "adcf25e39a4c31a5d5978e76cbf92e781b9f3aba",
+    "concave points error": "4d573243689a37fa9c0afd0eeb6559f9a42d1d8a",
+    "symmetry error": "f8ccea222d2d0eac8387505a4f908b19eb10d440",
+    "fractal dimension error": "d2737b597ba508b24979e0c2ded88fdc9e7e0f6e",
+    "worst radius": "1c05033111b871e24506c2c4170eb8687d293036",
+    "worst texture": "9225f731adc7166271aa23df21adbebf530a4b38",
+    "worst perimeter": "5ae9a3a15e4cebe71c472cd416c526139b3d1d98",
+    "worst area": "3c7bc13ccd473db36416c7e844b8ca625db83a73",
+    "worst smoothness": "b934a0edc010666b75ab5517bb28a4e6dd0a8327",
+    "worst compactness": "f57f6924206d5ae2d4bb1cb028ca8a7197f14bdd",
+    "worst concavity": "18b1c886feb76ffd29fe95fe60e7eb145833d5a7",
+    "worst concave points": "0d06fdd1239b1c72eb891142e243dbf159675947",
+    "worst symmetry": "268d38c3b638e5c72f08aa13bb7e60d60cc41b42",
+    "worst fractal dimension": "67a71071cdfde848d6ee62f118177ef75568cb41",
+    "diagnosis": "369dbbac01aca7c6baeadd9dad292fdcc102be27"
+   }
+  }
+ }
+}

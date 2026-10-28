@@ -180,6 +180,25 @@ def test_short_rows_are_padded_and_counted() -> None:
     assert "1 row" in rep.warnings()[0]
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        "a,b,c\n1,2,3\n4\n5,6,7\n",
+        'a,b,c\n1,"x\ny",3\n4,5\n"q",\n\n  \n7,8,9\n',
+        'a,b,c\n"multi\nline, with sep",2,3\n9\n',
+    ],
+)
+def test_short_rows_fast_count_matches_the_csv_scan(text: str) -> None:
+    """pyarrow counts short rows; the csv module is the reference (and the fallback)."""
+    import csv
+
+    reader = csv.reader(io.StringIO(text))
+    next(reader)
+    expected = sum(1 for r in reader if 0 < len(r) < 3 and any(c.strip() for c in r))
+    assert L._short_rows_arrow(text, ",", 3) == expected
+    assert L._short_rows(text, ",", 3) == expected
+
+
 def test_clean_file_has_no_warnings() -> None:
     _, rep = load("a,b\n1,2\n3,4\n")
     assert rep.warnings() == []

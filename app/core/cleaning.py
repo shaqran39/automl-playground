@@ -28,18 +28,19 @@ import numpy as np
 import pandas as pd
 
 from app.core.profiling import (
-    _NUMBER_RE,
     MISSING_TOKENS,
     ColumnProfile,
     DatasetProfile,
+    Distinct,
+    ParsedColumn,
     _boolean_key,
+    _clean_uniques,
     _disguise_phrase,
     _fmt_pct,
     _is_missing_scalar,
     _quote_list,
-    parse_dates,
-    parse_numeric,
-    parse_times,
+    factorize,
+    parsed_columns,
     to_clean_strings,
     to_utc_naive,
 )
@@ -202,14 +203,18 @@ def _null_rows(blank: _Blank, labels: pd.Index) -> Transform:
     return apply
 
 
-def duplicate_groups(frame: pd.DataFrame) -> pd.Series:
+def duplicate_groups(frame: pd.DataFrame, codes: np.ndarray | None = None) -> pd.Series:
     """Group number per row, shared by rows that exactly repeat each other.
 
     Uses the same notion of "exact copy" as dedupe, so copies kept with dedupe
-    off still get the same fixes as the row they repeat.
+    off still get the same fixes as the row they repeat. codes, when given, is
+    one integer per cell standing for its raw text, which groups much faster.
     """
     if frame.shape[1] == 0:
         return pd.Series(np.arange(len(frame)), index=frame.index)
+    if codes is not None:
+        ids = pd.DataFrame(codes).groupby(list(range(codes.shape[1])), sort=False).ngroup()
+        return pd.Series(ids.to_numpy(), index=frame.index)
     positional = frame.set_axis(range(frame.shape[1]), axis=1)
     keys = list(positional.columns)
     try:
@@ -249,6 +254,68 @@ def _duplicate_mask(frame: pd.DataFrame) -> np.ndarray:
         return positional.astype(str).duplicated().to_numpy()
 
 
+class _Parsed:
+    """The raw columns of one clean() call, parsed once.
+
+    Taken straight from the profile when it saw exactly these raw values, so a
+    column is never parsed twice. A view is only handed out while the column
+    still holds its raw text (maybe trimmed, maybe with duplicate rows gone),
+    which is true up to and including its own type conversion.
+    """
+
+    def __init__(self, work: pd.DataFrame, prof: DatasetProfile) -> None:
+        self._work = work
+        cached = parsed_columns(prof) or []
+        self._cols: dict[str, ParsedColumn] = {
+            col.name: p
+            for col, p in zip(prof.columns, cached, strict=False)
+            if p.matches(work[col.name])
+        }
+
+    @property
+    def reused(self) -> int:
+        return len(self._cols)
+
+    def row_codes(self) -> np.ndarray | None:
+        """One integer per cell for its raw text, when every column is text.
+
+        Two rows are exact copies when all their codes match. Only for text,
+        since numbers compare by value (-0.0 equals 0.0) but code by bits.
+        """
+        cols = list(self._work.columns)
+        if not cols or not all(_is_text_column(self._work[c]) for c in cols):
+            return None
+        out = np.empty((len(self._work), len(cols)), dtype=np.int64)
+        for j, name in enumerate(cols):
+            p = self._cols.get(name) or ParsedColumn(self._work[name])
+            self._cols[name] = p
+            assert p.distinct.raw_codes is not None
+            out[:, j] = p.distinct.raw_codes
+        return out
+
+    def view(self, name: str, values: pd.Series) -> tuple[ParsedColumn, Distinct] | None:
+        if not _is_text_column(values) or name not in self._work.columns:
+            return None
+        pos = self._work.index.get_indexer(values.index)
+        if (pos < 0).any():
+            return None
+        p = self._cols.get(name)
+        if p is None:
+            p = self._cols[name] = ParsedColumn(self._work[name])
+        if len(pos) == len(self._work) and bool((pos == np.arange(len(pos))).all()):
+            return p, p.distinct
+        return p, p.distinct.at(pos, values.index)
+
+
+def _view(ctx: _Parsed | None, name: str, values: pd.Series) -> tuple[ParsedColumn, Distinct]:
+    """The parsed column for values: shared when possible, else parsed on the spot."""
+    got = None if ctx is None else ctx.view(name, values)
+    if got is not None:
+        return got
+    p = ParsedColumn(values)
+    return p, p.distinct
+
+
 def _reference_day(reference_date: ReferenceDate) -> pd.Timestamp:
     """The cutoff for future dates, at midnight UTC. None means today in UTC."""
     ref = pd.Timestamp.now(tz="UTC") if reference_date is None else pd.Timestamp(reference_date)
@@ -267,30 +334,64 @@ def _normalize_value(value: Any) -> Any:
     return np.nan if _is_missing_scalar(value) else value
 
 
+def _raw_distinct(ctx: _Parsed | None, name: str, values: pd.Series) -> Distinct:
+    """Distinct raw values (before trimming), from the shared parse when possible."""
+    got = None if ctx is None else ctx.view(name, values)
+    if got is not None and got[1].raw_codes is not None:
+        return got[1]
+    codes, uniques = factorize(values)
+    return Distinct(values.index, codes, pd.Series(dtype=object), np.zeros(0), codes, uniques)
+
+
+def _raw_cleaned(d: Distinct) -> np.ndarray:
+    return d.raw_cleaned if d.raw_cleaned is not None else _clean_uniques(d.raw_uniques)
+
+
+def _normalized(ctx: _Parsed | None, name: str, values: pd.Series) -> pd.Series:
+    """normalize_values, worked out once per distinct raw value."""
+    d = _raw_distinct(ctx, name, values)
+    cleaned = _raw_cleaned(d)
+    if _is_str(d.raw_uniques).all():
+        per_value = np.where(pd.isna(cleaned), np.nan, cleaned)
+    else:
+        per_value = [
+            (np.nan if c is None else c) if isinstance(u, str) else _normalize_value(u)
+            for u, c in zip(d.raw_uniques, cleaned, strict=True)
+        ]
+    out = d.raw_to_rows(per_value, np.nan)
+    return pd.Series(out.to_numpy(), index=values.index, dtype=values.dtype, name=values.name)
+
+
 def normalize_values(values: pd.Series) -> pd.Series:
     """Trim strings and turn null tokens (and None) into NaN. Non-strings are left alone."""
-    out = [_normalize_value(v) for v in values]
-    return pd.Series(out, index=values.index, dtype=values.dtype, name=values.name)
+    return _normalized(None, str(values.name), values)
 
 
-def _normalize_counts(values: pd.Series) -> tuple[int, int]:
+def _is_str(values: np.ndarray) -> np.ndarray:
+    if pd.api.types.infer_dtype(values, skipna=False) == "string":
+        return np.ones(len(values), dtype=bool)
+    return np.fromiter((isinstance(u, str) for u in values), dtype=bool, count=len(values))
+
+
+def _normalize_counts(d: Distinct) -> tuple[int, int]:
     """(values trimmed, values turned into missing) among the strings."""
-    trimmed = nulled = 0
-    for v in values:
-        if not isinstance(v, str):
-            continue
-        text = v.strip()
-        if text.lower() in MISSING_TOKENS:
-            nulled += 1
-        elif text != v:
-            trimmed += 1
-    return trimmed, nulled
+    raw, cleaned = d.raw_uniques, _raw_cleaned(d)
+    is_str = _is_str(raw)
+    nulled = is_str & pd.isna(cleaned)
+    trimmed = is_str & ~nulled & (cleaned != raw)
+    counts = d.raw_counts()
+    return int(counts[trimmed].sum()), int(counts[nulled].sum())
+
+
+def _numbers(ctx: _Parsed | None, name: str, values: pd.Series) -> pd.Series:
+    p, d = _view(ctx, name, values)
+    out = d.to_rows(p.numbers()[0].to_numpy(), np.nan, np.float64)
+    return out.rename(values.name)
 
 
 def to_numbers(values: pd.Series) -> pd.Series:
     """float64 numbers with disguises removed. Leftovers become NaN."""
-    parsed, _ = parse_numeric(to_clean_strings(values))
-    return parsed.astype(np.float64).rename(values.name)
+    return _numbers(None, str(values.name), values)
 
 
 def _bool_value(value: str | None) -> float:
@@ -299,27 +400,51 @@ def _bool_value(value: str | None) -> float:
     return 1.0 if _boolean_key(value) in TRUE_KEYS else 0.0
 
 
+def _bools(ctx: _Parsed | None, name: str, values: pd.Series) -> pd.Series:
+    _, d = _view(ctx, name, values)
+    out = d.to_rows([_bool_value(v) for v in d.objects], np.nan, np.float64)
+    return out.rename(values.name)
+
+
 def to_bools(values: pd.Series) -> pd.Series:
     """1.0 for the yes side, 0.0 for the no side, NaN when missing."""
-    out = [_bool_value(v) for v in to_clean_strings(values)]
-    return pd.Series(out, index=values.index, dtype=np.float64, name=values.name)
+    return _bools(None, str(values.name), values)
 
 
-def to_datetimes(values: pd.Series) -> pd.Series:
-    """datetime64[ns], tz-naive in UTC. NaT where a value didn't parse or won't fit in ns."""
+def _datetimes(ctx: _Parsed | None, name: str, values: pd.Series) -> pd.Series:
     values = to_utc_naive(values)
     if _is_datetime(values):
         fits = (values >= pd.Timestamp.min) & (values <= pd.Timestamp.max)
         return values.where(fits).astype("datetime64[ns]")
-    parsed, _, _ = parse_dates(to_clean_strings(values))
-    return parsed.rename(values.name)
+    p, d = _view(ctx, name, values)
+    out = d.to_rows(p.dates().parsed.to_numpy(), np.datetime64("NaT"), "datetime64[ns]")
+    return out.rename(values.name)
+
+
+def to_datetimes(values: pd.Series) -> pd.Series:
+    """datetime64[ns], tz-naive in UTC. NaT where a value didn't parse or won't fit in ns."""
+    return _datetimes(None, str(values.name), values)
+
+
+def _clean_text(ctx: _Parsed | None, name: str, values: pd.Series) -> pd.Series:
+    _, d = _view(ctx, name, values)
+    return d.to_rows(d.uniques.to_numpy(dtype=object), None)
+
+
+def _time_rows(ctx: _Parsed | None, name: str, values: pd.Series) -> pd.Series:
+    p, d = _view(ctx, name, values)
+    return d.to_rows(p.times().to_numpy(dtype=object), None)
+
+
+def _times(ctx: _Parsed | None, name: str, values: pd.Series) -> pd.Series:
+    parsed = _time_rows(ctx, name, values)
+    keep_raw = parsed.isna() & _clean_text(ctx, name, values).notna()
+    return parsed.where(~keep_raw, values.astype(object)).rename(values.name)
 
 
 def to_times(values: pd.Series) -> pd.Series:
     """ "HH:MM:SS" strings. Values that aren't real times keep their raw text."""
-    parsed = parse_times(values)
-    keep_raw = parsed.isna() & to_clean_strings(values).notna()
-    return parsed.where(~keep_raw, values.astype(object)).rename(values.name)
+    return _times(None, str(values.name), values)
 
 
 def _case_winner(spellings: list[str], counts: pd.Series) -> str:
@@ -366,13 +491,13 @@ def _dedupe_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planned]:
     return [_Planned(_step(TABLE, "dedupe", reason, n), lambda f: f[~_duplicate_mask(f)])]
 
 
-def _normalize_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planned]:
+def _normalize_stage(frame: pd.DataFrame, prof: DatasetProfile, ctx: _Parsed) -> list[_Planned]:
     out: list[_Planned] = []
     for col in prof.columns:
         values = frame[col.name]
         if not _is_text_column(values):
             continue
-        trimmed, nulled = _normalize_counts(values)
+        trimmed, nulled = _normalize_counts(_raw_distinct(ctx, col.name, values))
         if trimmed + nulled == 0:
             continue
         bits = []
@@ -385,7 +510,7 @@ def _normalize_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planned
             )
         text = " and ".join(bits)
         reason = text[0].upper() + text[1:] + "."
-        apply = _set_column(col.name, normalize_values)
+        apply = _set_column(col.name, lambda v, n=col.name: _normalized(ctx, n, v))
         out.append(_Planned(_step(col.name, "normalize", reason, trimmed + nulled), apply))
     return out
 
@@ -404,19 +529,19 @@ def _to_numeric_reason(disguised: int, leftover: int, disguise: list[str]) -> st
     return " ".join(bits)
 
 
-def _to_numeric_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planned]:
+def _to_numeric_stage(frame: pd.DataFrame, prof: DatasetProfile, ctx: _Parsed) -> list[_Planned]:
     """Numbers stored as text. Logged only when a disguise is removed or a value is lost."""
     out: list[_Planned] = []
     for col in prof.columns:
         values = frame[col.name]
         if col.dtype != "numeric" or pd.api.types.is_numeric_dtype(values):
             continue
-        apply = _set_column(col.name, to_numbers)
-        clean = to_clean_strings(values)
-        parsed, disguise = parse_numeric(clean)
-        plain = clean.map(lambda t: t is not None and bool(_NUMBER_RE.match(t)))
-        disguised = int((parsed.notna() & ~plain).sum())
-        leftover = int((clean.notna() & parsed.isna()).sum())
+        apply = _set_column(col.name, lambda v, n=col.name: _numbers(ctx, n, v))
+        p, d = _view(ctx, col.name, values)
+        parsed, disguise = p.numbers()  # one per distinct value
+        plain = p.plain()
+        disguised = d.total(parsed.notna().to_numpy() & ~plain)
+        leftover = d.total(parsed.isna().to_numpy())
         if disguised + leftover == 0:
             out.append(_Planned(None, apply))
             continue
@@ -425,17 +550,18 @@ def _to_numeric_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planne
     return out
 
 
-def _to_bool_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planned]:
+def _to_bool_stage(frame: pd.DataFrame, prof: DatasetProfile, ctx: _Parsed) -> list[_Planned]:
     """Yes/no columns. Logged only when words (yes, true, on...) become 1/0."""
     out: list[_Planned] = []
     for col in prof.columns:
         values = frame[col.name]
         if col.dtype != "boolean" or _is_numeric(values):
             continue
-        apply = _set_column(col.name, to_bools)
-        present = to_clean_strings(values).dropna()
-        words = present[present.map(lambda v: _boolean_key(v) not in ("0", "1"))]
-        if words.empty:
+        apply = _set_column(col.name, lambda v, n=col.name: _bools(ctx, n, v))
+        _, d = _view(ctx, col.name, values)
+        present = [v for v, n in zip(d.objects, d.counts, strict=True) if n]
+        n_words = d.total([_boolean_key(v) not in ("0", "1") for v in d.objects])
+        if n_words == 0:
             out.append(_Planned(None, apply))
             continue
         yes = sorted({v for v in present if _boolean_key(v) in TRUE_KEYS})
@@ -444,7 +570,7 @@ def _to_bool_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planned]:
             f"It's a yes/no column, so {_quote_list(yes)} became 1 and "
             f"{_quote_list(no)} became 0. Missing stays missing."
         )
-        out.append(_Planned(_step(col.name, "to_bool", reason, len(words)), apply))
+        out.append(_Planned(_step(col.name, "to_bool", reason, n_words), apply))
     return out
 
 
@@ -458,8 +584,9 @@ def _merge_case_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planne
         n = int(values.isin(list(mapping)).sum())
         if not mapping or n == 0:
             continue
+        counts = values.value_counts()
         merges = [
-            f"{_quote_list(sorted(set(sp)))} became '{_case_winner(sp, values.value_counts())}'"
+            f"{_quote_list(sorted(set(sp)))} became '{_case_winner(sp, counts)}'"
             for sp in col.case_variants.values()
         ]
         reason = (
@@ -502,9 +629,9 @@ def _label(value: Any) -> Any:
 
 def to_labels(values: pd.Series) -> pd.Series:
     """Text labels for codes stored as numbers (2.0 -> "2"). Missing stays missing."""
-    return pd.Series([_label(v) for v in values], index=values.index, dtype=object).rename(
-        values.name
-    )
+    codes, uniques = factorize(values)
+    d = Distinct(values.index, codes, pd.Series(dtype=object), np.zeros(0))
+    return d.to_rows([_label(u) for u in uniques], np.nan).rename(values.name)
 
 
 def _labels_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planned]:
@@ -711,13 +838,12 @@ def _future_allowed(name: str) -> bool:
 _YEAR_9999_RE = r"(?<!\d)9999(?!\d)"
 
 
-def bad_dates(values: pd.Series, name: str, ref: pd.Timestamp) -> tuple[pd.Series, list[str]]:
-    """(rows to blank, one phrase per reason) for real dates that can't be right.
+def bad_dates(parsed: pd.Series, name: str, ref: pd.Timestamp) -> tuple[pd.Series, list[str]]:
+    """(rows to blank, one phrase per reason) for parsed dates that can't be right.
 
     Only covers dates that parsed, so switching the step off really brings them
     back. Each row is counted under one reason only, in the order listed.
     """
-    parsed = to_datetimes(values)
     placeholder = parsed.dt.normalize().isin(PLACEHOLDER_DATES)
     too_old = (parsed < OLDEST_DATE) & ~placeholder
     future = (parsed.dt.normalize() > ref) & (not _future_allowed(name))
@@ -730,13 +856,9 @@ def bad_dates(values: pd.Series, name: str, ref: pd.Timestamp) -> tuple[pd.Serie
     return placeholder | too_old | future, phrases
 
 
-def unparseable_dates(values: pd.Series) -> pd.Series:
-    """Present values that aren't real dates, or won't fit in one (like 9999-12-31)."""
-    return to_clean_strings(values).notna() & to_datetimes(values).isna()
-
-
-def _unparseable_reason(values: pd.Series, rows: pd.Series) -> str:
-    text = to_clean_strings(values)[rows]
+def _unparseable_reason(text: pd.Series, rows: pd.Series) -> str:
+    """text is the trimmed text of the column, rows the values that aren't dates."""
+    text = text[rows]
     year_9999 = text[text.str.contains(_YEAR_9999_RE, regex=True)]
     example = (year_9999 if len(year_9999) else text).iloc[0]
     n = int(rows.sum())
@@ -745,7 +867,9 @@ def _unparseable_reason(values: pd.Series, rows: pd.Series) -> str:
     return f"{n} values aren't real dates (like '{example}'), so they're missing."
 
 
-def _dates_stage(frame: pd.DataFrame, prof: DatasetProfile, ref: pd.Timestamp) -> list[_Planned]:
+def _dates_stage(
+    frame: pd.DataFrame, prof: DatasetProfile, ref: pd.Timestamp, ctx: _Parsed
+) -> list[_Planned]:
     """Parse dates (silent, always on), then blank the ones that can't be right.
 
     Values that don't parse (or won't fit, like 9999-12-31) are missing either
@@ -757,29 +881,32 @@ def _dates_stage(frame: pd.DataFrame, prof: DatasetProfile, ref: pd.Timestamp) -
         if col.dtype != "datetime":
             continue
         values = frame[col.name]
-        fixes.append(_Planned(None, _set_column(col.name, to_datetimes)))
-        bad, phrases = bad_dates(values, col.name, ref)
+        apply = _set_column(col.name, lambda v, n=col.name: _datetimes(ctx, n, v))
+        fixes.append(_Planned(None, apply))
+        parsed = _datetimes(ctx, col.name, values)
+        bad, phrases = bad_dates(parsed, col.name, ref)
         if phrases:
             reason = f"Some dates can't be right, so they're now missing: {', '.join(phrases)}."
             step = _step(col.name, "invalid_dates", reason, int(bad.sum()))
             fixes.append(_Planned(step, blank=_Blank(col.name, values.index[bad], _is_datetime)))
-        junk = unparseable_dates(values)
+        text = _clean_text(ctx, col.name, values)
+        junk = text.notna() & parsed.isna()
         if junk.any():
-            reason = _unparseable_reason(values, junk)
+            reason = _unparseable_reason(text, junk)
             step = _step(col.name, "unparseable_dates", reason, int(junk.sum()), kind="flag")
             flags.append(_Planned(step))
     return fixes + flags
 
 
-def _times_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Planned]:
+def _times_stage(frame: pd.DataFrame, prof: DatasetProfile, ctx: _Parsed) -> list[_Planned]:
     """Times of day become "HH:MM:SS" (silent), then ones that aren't real times are blanked."""
     out: list[_Planned] = []
     for col in prof.columns:
         if col.dtype != "time":
             continue
         values = frame[col.name]
-        out.append(_Planned(None, _set_column(col.name, to_times)))
-        bad = to_clean_strings(values).notna() & parse_times(values).isna()
+        out.append(_Planned(None, _set_column(col.name, lambda v, n=col.name: _times(ctx, n, v))))
+        bad = _clean_text(ctx, col.name, values).notna() & _time_rows(ctx, col.name, values).isna()
         n = int(bad.sum())
         if n == 0:
             continue
@@ -848,21 +975,21 @@ def _high_missing_stage(frame: pd.DataFrame, prof: DatasetProfile) -> list[_Plan
 Stage = Callable[[pd.DataFrame, DatasetProfile], list[_Planned]]
 
 
-def _stages(ref: pd.Timestamp) -> list[Stage]:
+def _stages(ref: pd.Timestamp, ctx: _Parsed) -> list[Stage]:
     """Every stage in log order. Placeholder codes go before impossible values on purpose,
     so a 999 age is reported as a code, not as an age over 120."""
     return [
         _dedupe_stage,
-        _normalize_stage,
-        _to_numeric_stage,
-        _to_bool_stage,
+        lambda frame, prof: _normalize_stage(frame, prof, ctx),
+        lambda frame, prof: _to_numeric_stage(frame, prof, ctx),
+        lambda frame, prof: _to_bool_stage(frame, prof, ctx),
         _merge_case_stage,
         _presence_stage,
         _labels_stage,
         _placeholder_stage,
         _impossible_stage,
-        lambda frame, prof: _dates_stage(frame, prof, ref),
-        _times_stage,
+        lambda frame, prof: _dates_stage(frame, prof, ref, ctx),
+        lambda frame, prof: _times_stage(frame, prof, ctx),
         _drop_id_stage,
         _drop_constant_stage,
         _high_missing_stage,
@@ -887,11 +1014,13 @@ def _working_copy(df: pd.DataFrame, prof: DatasetProfile) -> pd.DataFrame:
     return df.copy(deep=True).set_axis(names, axis=1)
 
 
-def _row_ids(work: pd.DataFrame, prof: DatasetProfile, deduped: bool) -> pd.Series | None:
+def _row_ids(
+    work: pd.DataFrame, prof: DatasetProfile, deduped: bool, ctx: _Parsed
+) -> pd.Series | None:
     id_col = next((c.name for c in prof.columns if c.dtype == "id"), None)
     if id_col is None:
         return None
-    ids = to_clean_strings(work[id_col]).rename(id_col)
+    ids = _clean_text(ctx, id_col, work[id_col]).rename(id_col)
     return ids[~_duplicate_mask(work)] if deduped else ids
 
 
@@ -908,10 +1037,11 @@ def clean(
     """
     disabled = disabled or set()
     work = _working_copy(df, profile)
-    groups = duplicate_groups(work)
+    ctx = _Parsed(work, profile)
+    groups = duplicate_groups(work, ctx.row_codes())
     planned, actual = work, work
     log = CleaningLog()
-    for stage in _stages(_reference_day(reference_date)):
+    for stage in _stages(_reference_day(reference_date), ctx):
         for item in stage(planned, profile):
             step, apply = item.step, item.apply
             if item.blank is not None:
@@ -928,5 +1058,5 @@ def clean(
                     actual = apply(actual)
             log.steps.append(step)
     deduped = any(s.action == "dedupe" and s.enabled for s in log.steps)
-    log.row_ids = _row_ids(work, profile, deduped)
+    log.row_ids = _row_ids(work, profile, deduped, ctx)
     return actual.copy(), log

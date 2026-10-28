@@ -59,6 +59,37 @@ def test_error_shows_friendly_message_not_traceback() -> None:
     assert any("ValueError" in e.value for e in at.error)
 
 
+def test_cleaning_is_cached_between_reruns() -> None:
+    at = _app()
+    at.selectbox[0].select("messy.csv").run()
+    first = at.session_state["clean_df"]
+    at.run()
+    assert at.session_state["clean_df"] is first  # nothing changed, nothing redone
+    assert len(at.session_state["clean_cache"]) == 1
+
+
+def test_cache_is_keyed_on_cleaning_settings() -> None:
+    at = _app()
+    at.selectbox[0].select("messy.csv").run()
+    first = at.session_state["clean_df"]
+    at.session_state["disabled_steps"] = {"merge_case:state"}
+    at.run()
+    assert at.session_state["clean_df"] is not first
+    assert len(at.session_state["clean_cache"]) == 2
+    at.session_state["disabled_steps"] = set()
+    at.run()
+    assert at.session_state["clean_df"] is first  # back to the first settings: from the cache
+
+
+def test_cache_is_dropped_with_the_dataset() -> None:
+    at = _app()
+    at.selectbox[0].select("messy.csv").run()
+    at.selectbox[0].select("iris.csv").run()
+    assert len(at.session_state["clean_cache"]) == 1
+    at.selectbox[0].select("(none)").run()
+    assert "clean_cache" not in at.session_state
+
+
 def test_same_source_is_not_read_again() -> None:
     at = _app()
     at.selectbox[0].select("iris.csv").run()

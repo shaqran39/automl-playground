@@ -1,0 +1,994 @@
+{
+ "profile": {
+  "n_rows": 442,
+  "n_cols": 11,
+  "n_duplicate_rows": 0,
+  "columns": [
+   {
+    "name": "age",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 58,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "59.0",
+     "48.0",
+     "72.0",
+     "24.0",
+     "50.0"
+    ],
+    "stats": {
+     "min": 19.0,
+     "max": 79.0,
+     "mean": 48.51809954751131,
+     "median": 50.0,
+     "std": 13.109027822041092,
+     "skew": -0.23138153297088335
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     7.125,
+     90.125
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "sex",
+    "dtype": "categorical",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Only two values (1 / 2), so these are labels, not amounts."
+    ],
+    "sample_values": [
+     "2.0",
+     "1.0"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "1.0": 235,
+     "2.0": 207
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "bmi",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 163,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "3 values (0.7%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "32.1",
+     "21.6",
+     "30.5",
+     "25.3",
+     "23.0"
+    ],
+    "stats": {
+     "min": 18.0,
+     "max": 42.2,
+     "mean": 26.37579185520362,
+     "median": 25.7,
+     "std": 4.4181215606157735,
+     "skew": 0.5981484879110461
+    },
+    "n_outliers": 3,
+    "outlier_pct": 0.6787330316742082,
+    "outlier_bounds": [
+     14.0875,
+     38.387499999999996
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "bp",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 100,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "101.0",
+     "87.0",
+     "93.0",
+     "84.0",
+     "89.0"
+    ],
+    "stats": {
+     "min": 62.0,
+     "max": 133.0,
+     "mean": 94.64701357466062,
+     "median": 93.0,
+     "std": 13.831283419782999,
+     "skew": 0.29065836678515444
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     52.5,
+     136.5
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s1",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 141,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "8 values (1.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "157.0",
+     "183.0",
+     "156.0",
+     "198.0",
+     "192.0"
+    ],
+    "stats": {
+     "min": 97.0,
+     "max": 301.0,
+     "mean": 189.14027149321268,
+     "median": 186.0,
+     "std": 34.60805167504306,
+     "skew": 0.3781082069225203
+    },
+    "n_outliers": 8,
+    "outlier_pct": 1.8099547511312217,
+    "outlier_bounds": [
+     96.0,
+     278.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s2",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 302,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7 values (1.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "93.2",
+     "103.2",
+     "93.6",
+     "131.4",
+     "125.4"
+    ],
+    "stats": {
+     "min": 41.6,
+     "max": 242.4,
+     "mean": 115.43914027149322,
+     "median": 113.0,
+     "std": 30.413080969276546,
+     "skew": 0.4365918036911585
+    },
+    "n_outliers": 7,
+    "outlier_pct": 1.583710407239819,
+    "outlier_bounds": [
+     38.37499999999999,
+     192.175
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s3",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 63,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7 values (1.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "38.0",
+     "70.0",
+     "41.0",
+     "40.0",
+     "52.0"
+    ],
+    "stats": {
+     "min": 22.0,
+     "max": 99.0,
+     "mean": 49.78846153846154,
+     "median": 48.0,
+     "std": 12.934202154863327,
+     "skew": 0.7992551183440654
+    },
+    "n_outliers": 7,
+    "outlier_pct": 1.583710407239819,
+    "outlier_bounds": [
+     14.0,
+     84.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s4",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 66,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "2 values (0.5%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "4.0",
+     "3.0",
+     "5.0",
+     "2.0",
+     "4.55"
+    ],
+    "stats": {
+     "min": 2.0,
+     "max": 9.09,
+     "mean": 4.070248868778281,
+     "median": 4.0,
+     "std": 1.2904498966082774,
+     "skew": 0.7353736478924995
+    },
+    "n_outliers": 2,
+    "outlier_pct": 0.45248868778280543,
+    "outlier_bounds": [
+     0.0,
+     8.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s5",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 184,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "4 values (0.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "4.8598",
+     "3.8918",
+     "4.6728",
+     "4.8903",
+     "4.2905"
+    ],
+    "stats": {
+     "min": 3.2581,
+     "max": 6.107,
+     "mean": 4.641410859728507,
+     "median": 4.62005,
+     "std": 0.5223905610694907,
+     "skew": 0.2917537292779148
+    },
+    "n_outliers": 4,
+    "outlier_pct": 0.9049773755656109,
+    "outlier_bounds": [
+     3.1959499999999994,
+     6.077950000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s6",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 56,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "9 values (2.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "87.0",
+     "69.0",
+     "85.0",
+     "89.0",
+     "80.0"
+    ],
+    "stats": {
+     "min": 58.0,
+     "max": 124.0,
+     "mean": 91.26018099547511,
+     "median": 91.0,
+     "std": 11.496334739334172,
+     "skew": 0.20791661615070745
+    },
+    "n_outliers": 9,
+    "outlier_pct": 2.0361990950226243,
+    "outlier_bounds": [
+     61.125,
+     120.125
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "disease_progression",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 214,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "151.0",
+     "75.0",
+     "141.0",
+     "206.0",
+     "135.0"
+    ],
+    "stats": {
+     "min": 25.0,
+     "max": 346.0,
+     "mean": 152.13348416289594,
+     "median": 140.5,
+     "std": 77.09300453299109,
+     "skew": 0.44056293407014097
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -99.75,
+     398.25
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   }
+  ]
+ },
+ "clean": {
+  "log": {
+   "steps": [],
+   "row_ids": null
+  },
+  "frame": {
+   "shape": [
+    442,
+    11
+   ],
+   "columns": [
+    "age",
+    "sex",
+    "bmi",
+    "bp",
+    "s1",
+    "s2",
+    "s3",
+    "s4",
+    "s5",
+    "s6",
+    "disease_progression"
+   ],
+   "dtypes": [
+    "float64",
+    "str",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "index": "6a79c3abd05da65b3e3a91c9ead22dc66317f602",
+   "values": {
+    "age": "a5a779ce6e11e079fe9d8ab8b1ad05afd96b934a",
+    "sex": "4add2bb6260260a4a86b76c8691c94a006cbadd4",
+    "bmi": "4726ea7fc85a891ef971486ad0ccdbf69be5359b",
+    "bp": "898f771f798c9bf986875b682d76117929f6ac60",
+    "s1": "5d31dad05c2adf913704af4c9371d096d4c14b97",
+    "s2": "86998848ff08bd58280da7985100f9a82c4b6302",
+    "s3": "5b05f097fe2c4d3fbe3e129abf2a95eff9ef3aa1",
+    "s4": "5edce095bbe776e32130ba00c74ba76cf2517c71",
+    "s5": "2f082ccb743b652a3958029702eac5c11951d7f4",
+    "s6": "f8e58bdae0d16f57794e535fd9d259053d21f599",
+    "disease_progression": "18db6394fde1253b6c1d1f6e1b1a2385dcdb9bc7"
+   }
+  }
+ },
+ "clean_profile": {
+  "n_rows": 442,
+  "n_cols": 11,
+  "n_duplicate_rows": 0,
+  "columns": [
+   {
+    "name": "age",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 58,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "59.0",
+     "48.0",
+     "72.0",
+     "24.0",
+     "50.0"
+    ],
+    "stats": {
+     "min": 19.0,
+     "max": 79.0,
+     "mean": 48.51809954751131,
+     "median": 50.0,
+     "std": 13.109027822041092,
+     "skew": -0.23138153297088335
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     7.125,
+     90.125
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "sex",
+    "dtype": "categorical",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Only two values (1 / 2), so these are labels, not amounts."
+    ],
+    "sample_values": [
+     "2.0",
+     "1.0"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "1.0": 235,
+     "2.0": 207
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "bmi",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 163,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "3 values (0.7%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "32.1",
+     "21.6",
+     "30.5",
+     "25.3",
+     "23.0"
+    ],
+    "stats": {
+     "min": 18.0,
+     "max": 42.2,
+     "mean": 26.37579185520362,
+     "median": 25.7,
+     "std": 4.4181215606157735,
+     "skew": 0.5981484879110461
+    },
+    "n_outliers": 3,
+    "outlier_pct": 0.6787330316742082,
+    "outlier_bounds": [
+     14.0875,
+     38.387499999999996
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "bp",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 100,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "101.0",
+     "87.0",
+     "93.0",
+     "84.0",
+     "89.0"
+    ],
+    "stats": {
+     "min": 62.0,
+     "max": 133.0,
+     "mean": 94.64701357466062,
+     "median": 93.0,
+     "std": 13.831283419782999,
+     "skew": 0.29065836678515444
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     52.5,
+     136.5
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s1",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 141,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "8 values (1.8%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "157.0",
+     "183.0",
+     "156.0",
+     "198.0",
+     "192.0"
+    ],
+    "stats": {
+     "min": 97.0,
+     "max": 301.0,
+     "mean": 189.14027149321268,
+     "median": 186.0,
+     "std": 34.60805167504306,
+     "skew": 0.3781082069225203
+    },
+    "n_outliers": 8,
+    "outlier_pct": 1.8099547511312217,
+    "outlier_bounds": [
+     96.0,
+     278.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s2",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 302,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7 values (1.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "93.2",
+     "103.2",
+     "93.6",
+     "131.4",
+     "125.4"
+    ],
+    "stats": {
+     "min": 41.6,
+     "max": 242.4,
+     "mean": 115.43914027149322,
+     "median": 113.0,
+     "std": 30.413080969276546,
+     "skew": 0.4365918036911585
+    },
+    "n_outliers": 7,
+    "outlier_pct": 1.583710407239819,
+    "outlier_bounds": [
+     38.37499999999999,
+     192.175
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s3",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 63,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "7 values (1.6%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "38.0",
+     "70.0",
+     "41.0",
+     "40.0",
+     "52.0"
+    ],
+    "stats": {
+     "min": 22.0,
+     "max": 99.0,
+     "mean": 49.78846153846154,
+     "median": 48.0,
+     "std": 12.934202154863327,
+     "skew": 0.7992551183440654
+    },
+    "n_outliers": 7,
+    "outlier_pct": 1.583710407239819,
+    "outlier_bounds": [
+     14.0,
+     84.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s4",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 66,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "2 values (0.5%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "4.0",
+     "3.0",
+     "5.0",
+     "2.0",
+     "4.55"
+    ],
+    "stats": {
+     "min": 2.0,
+     "max": 9.09,
+     "mean": 4.070248868778281,
+     "median": 4.0,
+     "std": 1.2904498966082774,
+     "skew": 0.7353736478924995
+    },
+    "n_outliers": 2,
+    "outlier_pct": 0.45248868778280543,
+    "outlier_bounds": [
+     0.0,
+     8.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s5",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 184,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "4 values (0.9%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "4.8598",
+     "3.8918",
+     "4.6728",
+     "4.8903",
+     "4.2905"
+    ],
+    "stats": {
+     "min": 3.2581,
+     "max": 6.107,
+     "mean": 4.641410859728507,
+     "median": 4.62005,
+     "std": 0.5223905610694907,
+     "skew": 0.2917537292779148
+    },
+    "n_outliers": 4,
+    "outlier_pct": 0.9049773755656109,
+    "outlier_bounds": [
+     3.1959499999999994,
+     6.077950000000001
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "s6",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 56,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "9 values (2.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "87.0",
+     "69.0",
+     "85.0",
+     "89.0",
+     "80.0"
+    ],
+    "stats": {
+     "min": 58.0,
+     "max": 124.0,
+     "mean": 91.26018099547511,
+     "median": 91.0,
+     "std": 11.496334739334172,
+     "skew": 0.20791661615070745
+    },
+    "n_outliers": 9,
+    "outlier_pct": 2.0361990950226243,
+    "outlier_bounds": [
+     61.125,
+     120.125
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "disease_progression",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 214,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers."
+    ],
+    "sample_values": [
+     "151.0",
+     "75.0",
+     "141.0",
+     "206.0",
+     "135.0"
+    ],
+    "stats": {
+     "min": 25.0,
+     "max": 346.0,
+     "mean": 152.13348416289594,
+     "median": 140.5,
+     "std": 77.09300453299109,
+     "skew": 0.44056293407014097
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -99.75,
+     398.25
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   }
+  ]
+ },
+ "all_off": {
+  "log": {
+   "steps": [],
+   "row_ids": null
+  },
+  "frame": {
+   "shape": [
+    442,
+    11
+   ],
+   "columns": [
+    "age",
+    "sex",
+    "bmi",
+    "bp",
+    "s1",
+    "s2",
+    "s3",
+    "s4",
+    "s5",
+    "s6",
+    "disease_progression"
+   ],
+   "dtypes": [
+    "float64",
+    "str",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "index": "6a79c3abd05da65b3e3a91c9ead22dc66317f602",
+   "values": {
+    "age": "a5a779ce6e11e079fe9d8ab8b1ad05afd96b934a",
+    "sex": "4add2bb6260260a4a86b76c8691c94a006cbadd4",
+    "bmi": "4726ea7fc85a891ef971486ad0ccdbf69be5359b",
+    "bp": "898f771f798c9bf986875b682d76117929f6ac60",
+    "s1": "5d31dad05c2adf913704af4c9371d096d4c14b97",
+    "s2": "86998848ff08bd58280da7985100f9a82c4b6302",
+    "s3": "5b05f097fe2c4d3fbe3e129abf2a95eff9ef3aa1",
+    "s4": "5edce095bbe776e32130ba00c74ba76cf2517c71",
+    "s5": "2f082ccb743b652a3958029702eac5c11951d7f4",
+    "s6": "f8e58bdae0d16f57794e535fd9d259053d21f599",
+    "disease_progression": "18db6394fde1253b6c1d1f6e1b1a2385dcdb9bc7"
+   }
+  }
+ }
+}

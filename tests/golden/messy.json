@@ -1,0 +1,847 @@
+{
+ "profile": {
+  "n_rows": 300,
+  "n_cols": 9,
+  "n_duplicate_rows": 0,
+  "columns": [
+   {
+    "name": "customer_id",
+    "dtype": "id",
+    "missing_pct": 0.0,
+    "n_unique": 300,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values are unique short codes like 'C1000', so this looks like an ID."
+    ],
+    "sample_values": [
+     "C1000",
+     "C1001",
+     "C1002",
+     "C1003",
+     "C1004"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "signup_date",
+    "dtype": "datetime",
+    "missing_pct": 0.0,
+    "n_unique": 263,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as dates.",
+     "Dates are written in more than one format.",
+     "Some dates have a day above 12 up front, so they read as day/month."
+    ],
+    "sample_values": [
+     "2023-02-23",
+     "09/04/2024",
+     "2024-01-28",
+     "21/09/2023",
+     "17/09/2023"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": "mixed",
+    "dayfirst": true,
+    "date_ambiguous": false,
+    "date_range": [
+     "2023-01-05",
+     "2024-08-20"
+    ],
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "monthly_spend",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 297,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as money after removing currency symbols.",
+     "6 values (2.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "$79.03",
+     "$81.72",
+     "$262.77",
+     "$82.75",
+     "$124.72"
+    ],
+    "stats": {
+     "min": 5.57,
+     "max": 603.63,
+     "mean": 120.91280000000002,
+     "median": 103.735,
+     "std": 87.10072508228352,
+     "skew": 1.4890756929430147
+    },
+    "n_outliers": 6,
+    "outlier_pct": 2.0,
+    "outlier_bounds": [
+     -111.69749999999999,
+     333.3225
+    ],
+    "disguise": [
+     "currency"
+    ],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "state",
+    "dtype": "categorical",
+    "missing_pct": 16.333333333333332,
+    "n_unique": 5,
+    "parse_rate": 1.0,
+    "reasons": [
+     "5 distinct values, so it's treated as categories.",
+     "Some values differ only by case ('NSW', 'nsw'). They're probably the same thing.",
+     "16.3% of values are missing."
+    ],
+    "sample_values": [
+     "nsw",
+     "QLD",
+     "VIC",
+     "NSW",
+     "WA"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "nsw": 51,
+     "WA": 51,
+     "QLD": 50,
+     "VIC": 50,
+     "NSW": 49
+    },
+    "case_variants": {
+     "nsw": [
+      "NSW",
+      "nsw"
+     ]
+    },
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "age",
+    "dtype": "numeric",
+    "missing_pct": 15.333333333333334,
+    "n_unique": 56,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "15.3% of values are missing."
+    ],
+    "sample_values": [
+     "28.0",
+     "46.0",
+     "37.0",
+     "23.0",
+     "47.0"
+    ],
+    "stats": {
+     "min": 18.0,
+     "max": 74.0,
+     "mean": 46.68503937007874,
+     "median": 46.0,
+     "std": 16.506652527584997,
+     "skew": 0.010198376423622023
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -13.0,
+     105.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "notes",
+    "dtype": "categorical",
+    "missing_pct": 62.666666666666664,
+    "n_unique": 1,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Only one value ('called support') shows up, but 63% of rows are missing, so present vs missing is the signal.",
+     "62.7% of values are missing."
+    ],
+    "sample_values": [
+     "called support"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "called support": 112
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "country",
+    "dtype": "constant",
+    "missing_pct": 0.0,
+    "n_unique": 1,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Only one value ('Australia') shows up, so it can't help a model."
+    ],
+    "sample_values": [
+     "Australia"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "plan",
+    "dtype": "categorical",
+    "missing_pct": 0.0,
+    "n_unique": 3,
+    "parse_rate": 1.0,
+    "reasons": [
+     "3 distinct values, so it's treated as categories."
+    ],
+    "sample_values": [
+     "pro",
+     "basic",
+     "premium"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "pro": 109,
+     "basic": 97,
+     "premium": 94
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "churned",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (yes / no), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "no",
+     "yes"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "no": 198,
+     "yes": 102
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   }
+  ]
+ },
+ "clean": {
+  "log": {
+   "steps": [
+    {
+     "step_id": "normalize:state",
+     "column": "state",
+     "action": "normalize",
+     "reason": "Turned 49 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 49
+    },
+    {
+     "step_id": "normalize:age",
+     "column": "age",
+     "action": "normalize",
+     "reason": "Turned 46 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 46
+    },
+    {
+     "step_id": "normalize:notes",
+     "column": "notes",
+     "action": "normalize",
+     "reason": "Turned 188 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 188
+    },
+    {
+     "step_id": "to_numeric:monthly_spend",
+     "column": "monthly_spend",
+     "action": "to_numeric",
+     "reason": "Stored 300 values as plain numbers after removing currency symbols.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 300
+    },
+    {
+     "step_id": "to_bool:churned",
+     "column": "churned",
+     "action": "to_bool",
+     "reason": "It's a yes/no column, so 'yes' became 1 and 'no' became 0. Missing stays missing.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 300
+    },
+    {
+     "step_id": "merge_case:state",
+     "column": "state",
+     "action": "merge_case",
+     "reason": "Some values only differ by case, so they were merged: 'NSW', 'nsw' became 'NSW'. All-caps spellings win, otherwise the most common one does.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 51
+    },
+    {
+     "step_id": "presence_flag:notes",
+     "column": "notes",
+     "action": "presence_flag",
+     "reason": "Only one value ('called support') shows up, so the useful part is whether it's there or not. Swapped for notes_present (1 = present, 0 = missing).",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 300
+    },
+    {
+     "step_id": "drop_id:customer_id",
+     "column": "customer_id",
+     "action": "drop_id",
+     "reason": "100% of values are unique short codes like 'C1000', so this looks like an ID. IDs don't carry over to new rows, so it's left out of the features (it's still kept to label rows).",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 300
+    },
+    {
+     "step_id": "drop_constant:country",
+     "column": "country",
+     "action": "drop_constant",
+     "reason": "Only one value ('Australia') shows up, so it can't help a model.",
+     "kind": "fix",
+     "enabled": true,
+     "rows_affected": 300
+    }
+   ],
+   "row_ids": {
+    "shape": [
+     300,
+     1
+    ],
+    "columns": [
+     "customer_id"
+    ],
+    "dtypes": [
+     "object"
+    ],
+    "index": "801cd49422de2367e3be6fa5d06c8d1123ab42f5",
+    "values": {
+     "customer_id": "8a6da4261686ad2f4b675db4370bd798b4ed062b"
+    }
+   }
+  },
+  "frame": {
+   "shape": [
+    300,
+    7
+   ],
+   "columns": [
+    "signup_date",
+    "monthly_spend",
+    "state",
+    "age",
+    "notes_present",
+    "plan",
+    "churned"
+   ],
+   "dtypes": [
+    "datetime64[ns]",
+    "float64",
+    "str",
+    "float64",
+    "int64",
+    "str",
+    "float64"
+   ],
+   "index": "801cd49422de2367e3be6fa5d06c8d1123ab42f5",
+   "values": {
+    "signup_date": "5f7bcddf31fb953d00b4317cee968726baa2c655",
+    "monthly_spend": "f99b35030deaae06a78dac93da360f00974e1a50",
+    "state": "0a20a7497c566a00b2d51ee116584df27feef991",
+    "age": "6765ab83d77197054317fff86883dfa0939d0e5e",
+    "notes_present": "1bf7d523fdf894e8679d158a76d5b35391b4ed83",
+    "plan": "0ca19210046a148e5a749ea1cd176209fb90cb98",
+    "churned": "668cffbc9c1688d35b9fb812b4188f967162c8c6"
+   }
+  }
+ },
+ "clean_profile": {
+  "n_rows": 300,
+  "n_cols": 7,
+  "n_duplicate_rows": 0,
+  "columns": [
+   {
+    "name": "signup_date",
+    "dtype": "datetime",
+    "missing_pct": 0.0,
+    "n_unique": 231,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as dates."
+    ],
+    "sample_values": [
+     "2023-02-23 00:00:00",
+     "2024-04-09 00:00:00",
+     "2024-01-28 00:00:00",
+     "2023-09-21 00:00:00",
+     "2023-09-17 00:00:00"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": "ISO8601",
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": [
+     "2023-01-05",
+     "2024-08-20"
+    ],
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "monthly_spend",
+    "dtype": "numeric",
+    "missing_pct": 0.0,
+    "n_unique": 297,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "6 values (2.0%) sit outside the usual range (1.5x IQR rule)."
+    ],
+    "sample_values": [
+     "79.03",
+     "81.72",
+     "262.77",
+     "82.75",
+     "124.72"
+    ],
+    "stats": {
+     "min": 5.57,
+     "max": 603.63,
+     "mean": 120.91280000000002,
+     "median": 103.735,
+     "std": 87.10072508228352,
+     "skew": 1.4890756929430147
+    },
+    "n_outliers": 6,
+    "outlier_pct": 2.0,
+    "outlier_bounds": [
+     -111.69749999999999,
+     333.3225
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "state",
+    "dtype": "categorical",
+    "missing_pct": 16.333333333333332,
+    "n_unique": 4,
+    "parse_rate": 1.0,
+    "reasons": [
+     "4 distinct values, so it's treated as categories.",
+     "16.3% of values are missing."
+    ],
+    "sample_values": [
+     "NSW",
+     "QLD",
+     "VIC",
+     "WA"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "NSW": 100,
+     "WA": 51,
+     "QLD": 50,
+     "VIC": 50
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "age",
+    "dtype": "numeric",
+    "missing_pct": 15.333333333333334,
+    "n_unique": 56,
+    "parse_rate": 1.0,
+    "reasons": [
+     "100% of values parse as numbers.",
+     "15.3% of values are missing."
+    ],
+    "sample_values": [
+     "28.0",
+     "46.0",
+     "37.0",
+     "23.0",
+     "47.0"
+    ],
+    "stats": {
+     "min": 18.0,
+     "max": 74.0,
+     "mean": 46.68503937007874,
+     "median": 46.0,
+     "std": 16.506652527584997,
+     "skew": 0.010198376423622023
+    },
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": [
+     -13.0,
+     105.0
+    ],
+    "disguise": [],
+    "top_values": {},
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "notes_present",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (1 / 0), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "0",
+     "1"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "0": 188,
+     "1": 112
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "plan",
+    "dtype": "categorical",
+    "missing_pct": 0.0,
+    "n_unique": 3,
+    "parse_rate": 1.0,
+    "reasons": [
+     "3 distinct values, so it's treated as categories."
+    ],
+    "sample_values": [
+     "pro",
+     "basic",
+     "premium"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "pro": 109,
+     "basic": 97,
+     "premium": 94
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   },
+   {
+    "name": "churned",
+    "dtype": "boolean",
+    "missing_pct": 0.0,
+    "n_unique": 2,
+    "parse_rate": 1.0,
+    "reasons": [
+     "Has exactly two values (1.0 / 0.0), which looks like a yes/no flag."
+    ],
+    "sample_values": [
+     "0.0",
+     "1.0"
+    ],
+    "stats": null,
+    "n_outliers": 0,
+    "outlier_pct": 0.0,
+    "outlier_bounds": null,
+    "disguise": [],
+    "top_values": {
+     "0.0": 198,
+     "1.0": 102
+    },
+    "case_variants": {},
+    "date_format": null,
+    "dayfirst": null,
+    "date_ambiguous": false,
+    "date_range": null,
+    "has_time": false,
+    "all_missing": false
+   }
+  ]
+ },
+ "all_off": {
+  "log": {
+   "steps": [
+    {
+     "step_id": "normalize:state",
+     "column": "state",
+     "action": "normalize",
+     "reason": "Turned 49 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 49
+    },
+    {
+     "step_id": "normalize:age",
+     "column": "age",
+     "action": "normalize",
+     "reason": "Turned 46 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 46
+    },
+    {
+     "step_id": "normalize:notes",
+     "column": "notes",
+     "action": "normalize",
+     "reason": "Turned 188 blank or placeholder values (like '' or 'N/A') into proper missing values.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 188
+    },
+    {
+     "step_id": "to_numeric:monthly_spend",
+     "column": "monthly_spend",
+     "action": "to_numeric",
+     "reason": "Stored 300 values as plain numbers after removing currency symbols.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 300
+    },
+    {
+     "step_id": "to_bool:churned",
+     "column": "churned",
+     "action": "to_bool",
+     "reason": "It's a yes/no column, so 'yes' became 1 and 'no' became 0. Missing stays missing.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 300
+    },
+    {
+     "step_id": "merge_case:state",
+     "column": "state",
+     "action": "merge_case",
+     "reason": "Some values only differ by case, so they were merged: 'NSW', 'nsw' became 'NSW'. All-caps spellings win, otherwise the most common one does.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 51
+    },
+    {
+     "step_id": "presence_flag:notes",
+     "column": "notes",
+     "action": "presence_flag",
+     "reason": "Only one value ('called support') shows up, so the useful part is whether it's there or not. Swapped for notes_present (1 = present, 0 = missing).",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 300
+    },
+    {
+     "step_id": "drop_id:customer_id",
+     "column": "customer_id",
+     "action": "drop_id",
+     "reason": "100% of values are unique short codes like 'C1000', so this looks like an ID. IDs don't carry over to new rows, so it's left out of the features (it's still kept to label rows).",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 300
+    },
+    {
+     "step_id": "drop_constant:country",
+     "column": "country",
+     "action": "drop_constant",
+     "reason": "Only one value ('Australia') shows up, so it can't help a model.",
+     "kind": "fix",
+     "enabled": false,
+     "rows_affected": 300
+    }
+   ],
+   "row_ids": {
+    "shape": [
+     300,
+     1
+    ],
+    "columns": [
+     "customer_id"
+    ],
+    "dtypes": [
+     "object"
+    ],
+    "index": "801cd49422de2367e3be6fa5d06c8d1123ab42f5",
+    "values": {
+     "customer_id": "8a6da4261686ad2f4b675db4370bd798b4ed062b"
+    }
+   }
+  },
+  "frame": {
+   "shape": [
+    300,
+    9
+   ],
+   "columns": [
+    "customer_id",
+    "signup_date",
+    "monthly_spend",
+    "state",
+    "age",
+    "notes",
+    "country",
+    "plan",
+    "churned"
+   ],
+   "dtypes": [
+    "str",
+    "datetime64[ns]",
+    "str",
+    "str",
+    "float64",
+    "str",
+    "str",
+    "str",
+    "str"
+   ],
+   "index": "801cd49422de2367e3be6fa5d06c8d1123ab42f5",
+   "values": {
+    "customer_id": "8a6da4261686ad2f4b675db4370bd798b4ed062b",
+    "signup_date": "5f7bcddf31fb953d00b4317cee968726baa2c655",
+    "monthly_spend": "395bb2b819122a621afeae3c66f65a6735b94f36",
+    "state": "469fd75cef6c9b2bee2c3a39780ca058dd2f7129",
+    "age": "6765ab83d77197054317fff86883dfa0939d0e5e",
+    "notes": "69457aa4672abd8e4911625ea23e668e1439397d",
+    "country": "8c975f5ec11519d85ff5f2f195df28f49f064440",
+    "plan": "0ca19210046a148e5a749ea1cd176209fb90cb98",
+    "churned": "bce16345fd8ac9bc62a495429623ebd1e96dd8cd"
+   }
+  }
+ }
+}

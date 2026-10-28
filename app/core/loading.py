@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import codecs
 import csv
+import hashlib
 import io
 import warnings
 from dataclasses import dataclass
@@ -40,6 +41,7 @@ class CsvReport:
     junk_lines: int = 0  # lines above the real header that were skipped
     skipped_rows: int = 0  # rows with too many fields, dropped
     padded_rows: int = 0  # rows with too few fields, filled with blanks
+    digest: str = ""  # sha1 of the file contents, to tell files apart cheaply
 
     def notes(self) -> list[str]:
         """Things worth knowing that didn't lose any data."""
@@ -243,8 +245,52 @@ def _parse(text: str, sep: str) -> tuple[pd.DataFrame, int]:
     return frame, len(skipped)
 
 
+def _short_rows_arrow(text: str, sep: str, width: int) -> int | None:
+    """The short-row count from pyarrow's multithreaded reader, or None if it can't tell.
+
+    Only one column is converted, and only rows that don't fit reach Python.
+    """
+    try:
+        import pyarrow as pa
+        import pyarrow.csv as pacsv
+    except ImportError:
+        return None
+    short = [0]
+
+    def on_bad(row: pacsv.InvalidRow) -> str:
+        if row.actual_columns < row.expected_columns and (row.text or "").strip():
+            short[0] += 1
+        return "skip"
+
+    names = [f"c{i}" for i in range(width)]
+    try:
+        pacsv.read_csv(
+            pa.py_buffer(text.encode("utf-8")),
+            read_options=pacsv.ReadOptions(column_names=names, skip_rows=1),
+            parse_options=pacsv.ParseOptions(
+                delimiter=sep, quote_char='"', newlines_in_values=True, invalid_row_handler=on_bad
+            ),
+            convert_options=pacsv.ConvertOptions(
+                include_columns=names[:1], column_types={names[0]: pa.string()}
+            ),
+        )
+    except (pa.ArrowException, ValueError):
+        return None
+    return short[0]
+
+
 def _short_rows(text: str, sep: str, width: int) -> int:
-    """Rows with fewer fields than the header. pandas pads them with "" without saying so."""
+    """Rows with fewer fields than the header. pandas pads them with "" without saying so.
+
+    Quoted separators only ever add to a line's count, so when no line has fewer
+    separators than the header needs, no row can be short and the slow scan is skipped.
+    """
+    lines = text.split("\n")[1:]  # only \n ends a line here, like csv and pandas
+    if all(line.count(sep) >= width - 1 or not line.strip() for line in lines):
+        return 0
+    fast = _short_rows_arrow(text, sep, width)
+    if fast is not None:
+        return fast
     reader = csv.reader(io.StringIO(text), delimiter=sep, quotechar='"')
     try:
         next(reader, None)  # the header
@@ -267,6 +313,7 @@ def read_csv_report(source: Source) -> tuple[pd.DataFrame, CsvReport]:
     Raises CsvLoadError only when the file can't be read as a table at all.
     """
     data = _read_source(source)
+    digest = hashlib.sha1(data.encode("utf-8") if isinstance(data, str) else data).hexdigest()
     text, encoding = (data, "text") if isinstance(data, str) else _decode(data)
     text = text.removeprefix("﻿")
     if not text.strip():
@@ -280,7 +327,7 @@ def read_csv_report(source: Source) -> tuple[pd.DataFrame, CsvReport]:
     except pd.errors.EmptyDataError as e:
         raise CsvLoadError("The file has no columns to read.") from e
     padded = _short_rows(body, sep, frame.shape[1])
-    return _tidy(frame), CsvReport(encoding, sep, junk, skipped, padded)
+    return _tidy(frame), CsvReport(encoding, sep, junk, skipped, padded, digest)
 
 
 def read_csv_raw(source: Source) -> pd.DataFrame:
